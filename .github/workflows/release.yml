@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+        check-latest: false
+    - name: Build with Maven
+      run: mvn -B install -DskipTests
+    - name: Create Tag
+      run: |
+        echo "RELEASE_TAG=`cat ./src/main/resources/.version`" >> $GITHUB_ENV
+    - name: Create Release
+      id: create_release
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: ./target/miz-translator-release.tar.gz,./target/miz-translator-release.zip
+        tag: ${{ env.RELEASE_TAG }}
+        name: ${{ env.RELEASE_TAG }}
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}

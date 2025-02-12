@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+    <Properties>
+        <Property name="pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %p %c{1.}:%L - %m%n</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="ROLLING" fileName="${sys:cli.log.path:-/var/log/trans}/trans.log"
+                     filePattern="${sys:cli.log.path:-/var/log/trans}/$${date:yyyy-MM}/trans-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="128 MB"/>
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name="HTTP" fileName="${sys:cli.log.path:-/var/log/trans}/http.log"
+                     filePattern="${sys:cli.log.path:-/var/log/trans}/$${date:yyyy-MM}/http-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="128 MB"/>
+            </Policies>
+        </RollingFile>
+    
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}"/>
+        </Console>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="HTTP_LOGGER" level="debug" additivity="false">
+            <AppenderRef ref="HTTP"/>
+        </Logger>
+        
+        <Logger name="org.example" level="debug" additivity="false">
+            <AppenderRef ref="ROLLING"/>
+        </Logger>
+        <Root level="warn">
+            <AppenderRef ref="ROLLING"/>
+        </Root>
+    </Loggers>
+</configuration>
