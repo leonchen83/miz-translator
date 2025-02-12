@@ -10,7 +10,7 @@ DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中文的工具�
 
 首先，你需要安装Java 17。你可以在[这里](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)下载Java 17并安装。
 
-然后，你需要下载任务翻译器的最新版本。你可以在[这里]()下载最新版本。并解压到`/path/to/miz-translator`
+然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/download/v1.0.0/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
 
 ### 配置
 
