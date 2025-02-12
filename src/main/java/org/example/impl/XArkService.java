@@ -52,7 +52,6 @@ import com.volcengine.ark.runtime.model.tokenization.TokenizationResult;
 import com.volcengine.ark.runtime.service.ArkApi;
 import com.volcengine.ark.runtime.service.ArkBaseService;
 import com.volcengine.ark.runtime.service.ArkBaseServiceImpl;
-import com.volcengine.ark.runtime.service.ArkService;
 import com.volcengine.ark.runtime.utils.ResponseBodyCallback;
 import com.volcengine.ark.runtime.utils.SSE;
 

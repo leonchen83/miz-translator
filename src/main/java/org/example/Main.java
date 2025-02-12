@@ -28,9 +28,6 @@ import picocli.CommandLine;
 				"  trans -f /path/to -c"})
 public class Main implements Callable<Integer> {
 	
-	@CommandLine.Spec
-	private CommandLine.Model.CommandSpec spec;
-	
 	@CommandLine.Option(names = {"-f", "--folder"}, required = true, paramLabel = "<folder>", description = "miz mission folder", type = File.class)
 	private File folder;
 	
