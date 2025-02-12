@@ -3,10 +3,8 @@ package org.example;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.concurrent.Callable;
-import java.util.logging.LogManager;
 
 import org.example.version.XVersionProvider;
-import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import picocli.CommandLine;
 
@@ -68,10 +66,6 @@ public class Main implements Callable<Integer> {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		LogManager.getLogManager().reset();
-		SLF4JBridgeHandler.removeHandlersForRootLogger();
-		SLF4JBridgeHandler.install();
-		
 		int r = new CommandLine(new Main()).execute(args);
 		if (r != 0) System.exit(r);
 	}
