@@ -151,7 +151,7 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
-			if (value.length() < 15) {
+			if (value.length() < 12) {
 				continue;
 			}
 			
