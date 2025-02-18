@@ -33,11 +33,9 @@ baseurl=https://ark.cn-beijing.volces.com/api/v3
 model=your-model
 
 # 使用的AI的temperature, 如果为负数则使用默认值
-
 temperature=0.5
 
 # 使用AI的max_tokens, 默认4096
-
 maxTokens=4096
 ```
 
