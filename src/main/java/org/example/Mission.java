@@ -163,6 +163,10 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
+			if (value.equals(key)) {
+				continue;
+			}
+			
 			if (isLikelyLua(value)) {
 				try {
 					globals.load(value);
