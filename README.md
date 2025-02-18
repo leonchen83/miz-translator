@@ -27,7 +27,7 @@ translator=deepseek
 apikey=your-api-key
 
 # Open API的baseurl
-baseurl=https://api.deepseek.ai/v1/translate
+baseurl=https://ark.cn-beijing.volces.com/api/v3
 
 # 使用的AI模型
 model=your-model
@@ -45,10 +45,10 @@ maxTokens=4096
 
 ```shell
 cd /path/to/miz-translator/bin
-./trans -f /path/to/mission.miz
+./trans -f /path/to/missions
 ```
 
-`/path/to/miz-translator/bin`是你解压后的文件夹路径，`/path/to/mission.miz`是你要翻译的任务文件路径。
+`/path/to/miz-translator/bin`是你解压后的文件夹路径，`/path/to/missions`是你要翻译的任务文件路径。
 
 ### 分步运行
 
@@ -57,12 +57,12 @@ cd /path/to/miz-translator/bin
 cd /path/to/miz-translator/bin
 
 # 解压出任务文件中的文本为一个json文件
-./trans -f /path/to/mission.miz -d
+./trans -f /path/to/missions -d
 
 # 翻译json文件
-./trans -f /path/to/mission.miz -t
+./trans -f /path/to/missions -t
 
 # 将翻译后的文本压缩成miz任务
-./trans -f /path/to/mission.miz -c
+./trans -f /path/to/missions -c
 ```
 
