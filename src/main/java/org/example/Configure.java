@@ -57,6 +57,7 @@ public class Configure {
     private String translator = null;
     private double temperature = 0d;
     private int maxTokens = 4096;
+    private int minimumLength = 12;
     
     public String getHint() {
         return hint;
@@ -114,6 +115,14 @@ public class Configure {
         this.maxTokens = maxTokens;
     }
     
+    public int getMinimumLength() {
+        return minimumLength;
+    }
+    
+    public void setMinimumLength(int minimumLength) {
+        this.minimumLength = minimumLength;
+    }
+    
     public static Configure bind() {
         return bind(null);
     }
@@ -126,7 +135,8 @@ public class Configure {
         conf.apiKey = getString(conf, "apiKey", null, false);
         conf.model = getString(conf, "model", null, false);
         conf.temperature = getDouble(conf, "temperature", 0.3d, true);
-        conf.maxTokens = getInt(conf, "migrate_flush", 4096, true);
+        conf.maxTokens = getInt(conf, "maxTokens", 4096, true);
+        conf.minimumLength = getInt(conf, "minimumLength", 12, true);
         return conf;
     }
 
@@ -232,6 +242,7 @@ public class Configure {
                 ", model='" + model + '\'' +
                 ", temperature=" + temperature +
                 ", maxTokens=" + maxTokens +
+                ", minimumLength=" + minimumLength +
                 '}';
     }
 }

@@ -48,14 +48,11 @@ public class Mission implements AutoCloseable {
 	
 	private static Globals globals = JsePlatform.standardGlobals();
 	private Translator translator;
+	private Configure configure;
 	
 	public Mission(Configure configure) {
-		logger.info("hint: {}", configure.getHint());
-		logger.info("model: {}", configure.getModel());
-		logger.info("maxTokens: {}", configure.getMaxTokens());
-		logger.info("temperature: {}", configure.getTemperature());
-		logger.info("baseUrl: {}", configure.getBaseURL());
-		logger.info("apiKey: {}", configure.getApiKey());
+		this.configure = configure;
+		logger.info("configure: {}", configure);
 		this.translator = new Translators(configure).getTranslator();
 		this.translator.start();
 	}
@@ -151,7 +148,7 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
-			if (value.length() < 12) {
+			if (value.length() < configure.getMinimumLength()) {
 				continue;
 			}
 			
