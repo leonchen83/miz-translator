@@ -207,7 +207,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public static boolean isLikelyLua(String code) {
-		return code.matches(".*\\b(function|local|if|then|end|return|print|for|while|do)\\b.*") || code.matches(".*[=(){};].*");
+		return code.matches("(?s).*\\b(function|local|if|then|end|return|print|for|while|do)\\b.*") || code.matches("(?s).*[=(){};].*");
 	}
 	
 	public void saveToFile(Map<String, String> map, Path tempDir) throws IOException {
