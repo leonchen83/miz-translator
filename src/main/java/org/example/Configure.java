@@ -60,6 +60,7 @@ public class Configure {
     private int maxTokens = 4096;
     private int minimumLength = 12;
     private String[] filters = new String[0];
+    private String[] keyFilters = new String[0];
     
     public String getHint() {
         return hint;
@@ -133,6 +134,14 @@ public class Configure {
         this.filters = filters;
     }
     
+    public String[] getKeyFilters() {
+        return keyFilters;
+    }
+    
+    public void setKeyFilters(String[] keyFilters) {
+        this.keyFilters = keyFilters;
+    }
+    
     public static Configure bind() {
         return bind(null);
     }
@@ -147,7 +156,8 @@ public class Configure {
         conf.temperature = getDouble(conf, "temperature", 0.3d, true);
         conf.maxTokens = getInt(conf, "maxTokens", 4096, true);
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
-        conf.filters = getStrings(conf, "filter");
+        conf.filters = getStrings(conf, "filters");
+        conf.keyFilters = getStrings(conf, "keyFilters");
         return conf;
     }
 
@@ -266,6 +276,7 @@ public class Configure {
                 ", maxTokens=" + maxTokens +
                 ", minimumLength=" + minimumLength +
                 ", filters=" + Arrays.toString(filters) +
+                ", keyFilters=" + Arrays.toString(keyFilters) +
                 '}';
     }
 }

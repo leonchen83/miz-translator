@@ -171,6 +171,12 @@ public class Mission implements AutoCloseable {
 				}
 			}
 			
+			for (String keyFilter : configure.getKeyFilters()) {
+				if (keyFilter != null && key.startsWith(keyFilter)) {
+					continue loop;
+				}
+			}
+			
 			if (isLikelyLua(value)) {
 				try {
 					globals.load(value);
@@ -197,8 +203,6 @@ public class Mission implements AutoCloseable {
 				entry.setValue(translator.translate(value));
 			} else if (key.startsWith("DictKey_ActionRadioText_")) {
 				entry.setValue(translator.translate(value));
-			} else if (key.startsWith("DictKey_UnitName_") || key.startsWith("DictKey_WptName_") || key.startsWith("DictKey_GroupName_")) {
-				// do nothing
 			} else if (key.startsWith("DictKey_")) {
 				try {
 					Long.parseLong(key.substring("DictKey_".length()));
