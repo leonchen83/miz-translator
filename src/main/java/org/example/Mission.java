@@ -84,7 +84,7 @@ public class Mission implements AutoCloseable {
 		Path json = file.toPath().getParent().resolve(file.getName() + ".json");
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
-		Path dest = file.toPath().getParent().resolve(file.getName() + ".cn");
+		Path dest = file.toPath().getParent().resolve(file.getName());
 		zip(tempDir, dest);
 		deleteDirectory(tempDir);
 	}
@@ -141,6 +141,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public Map<String, String> translate(Map<String, String> map) {
+		loop:
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
@@ -162,6 +163,12 @@ public class Mission implements AutoCloseable {
 			
 			if (value.equals(key)) {
 				continue;
+			}
+			
+			for (String filter : configure.getFilters()) {
+				if (filter != null && value.equals(filter)) {
+					continue loop;
+				}
 			}
 			
 			if (isLikelyLua(value)) {
@@ -187,6 +194,8 @@ public class Mission implements AutoCloseable {
 			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
 				entry.setValue(translator.translate(value));
 			} else if (key.startsWith("DictKey_subtitle_")) {
+				entry.setValue(translator.translate(value));
+			} else if (key.startsWith("DictKey_ActionRadioText_")) {
 				entry.setValue(translator.translate(value));
 			} else if (key.startsWith("DictKey_UnitName_") || key.startsWith("DictKey_WptName_") || key.startsWith("DictKey_GroupName_")) {
 				// do nothing

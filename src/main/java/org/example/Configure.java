@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -58,6 +59,7 @@ public class Configure {
     private double temperature = 0d;
     private int maxTokens = 4096;
     private int minimumLength = 12;
+    private String[] filters = new String[0];
     
     public String getHint() {
         return hint;
@@ -123,6 +125,14 @@ public class Configure {
         this.minimumLength = minimumLength;
     }
     
+    public String[] getFilters() {
+        return filters;
+    }
+    
+    public void setFilters(String[] filters) {
+        this.filters = filters;
+    }
+    
     public static Configure bind() {
         return bind(null);
     }
@@ -137,6 +147,7 @@ public class Configure {
         conf.temperature = getDouble(conf, "temperature", 0.3d, true);
         conf.maxTokens = getInt(conf, "maxTokens", 4096, true);
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
+        conf.filters = getStrings(conf, "filter");
         return conf;
     }
 
@@ -196,6 +207,17 @@ public class Configure {
         return v;
     }
     
+    public static String[] getStrings(Configure conf, String prefix) {
+        List<String> list = new ArrayList<>();
+        conf.properties.forEach((k, v) -> {
+            if (k instanceof String key && key.startsWith(prefix)) {
+                String value = getString(conf, key, null, true);
+                if (value != null) list.add(value);
+            }
+        });
+        return list.toArray(new String[0]);
+    }
+    
     public static Integer getInt(Configure conf, String key, Integer value, boolean optional) {
         String v = getString(conf, key, value == null ? null : value.toString(), optional);
         try {
@@ -243,6 +265,7 @@ public class Configure {
                 ", temperature=" + temperature +
                 ", maxTokens=" + maxTokens +
                 ", minimumLength=" + minimumLength +
+                ", filters=" + Arrays.toString(filters) +
                 '}';
     }
 }
