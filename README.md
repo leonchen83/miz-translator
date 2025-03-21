@@ -37,6 +37,16 @@ temperature=0.5
 
 # 使用AI的max_tokens, 默认4096
 maxTokens=4096
+
+# 最小翻译长度，小于12个字符不翻译保持原文
+minimumLength=12
+
+# 将想保持原文的话放到filters里，可以指定多个filters，但每个必须以filters作为开头
+filters1=JAMMER COOLING
+filters2=INSERT ON COURSE AUDIO
+
+# 将不想翻译的key放到keyFilters里，可以指定多个keyFilters，但每个必须以keyFilters作为开头
+keyFilters=DictKey_ActionRadioText_
 ```
 
 ### 运行

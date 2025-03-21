@@ -166,7 +166,7 @@ public class Mission implements AutoCloseable {
 			}
 			
 			for (String filter : configure.getFilters()) {
-				if (filter != null && value.equals(filter)) {
+				if (filter != null && (value.startsWith(filter) || value.endsWith(filter))) {
 					continue loop;
 				}
 			}
