@@ -9,7 +9,9 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -61,6 +63,8 @@ public class Configure {
     private int minimumLength = 12;
     private String[] filters = new String[0];
     private String[] keyFilters = new String[0];
+    
+    private Map<String, String> fixed = new HashMap<>();
     
     public String getHint() {
         return hint;
@@ -142,6 +146,14 @@ public class Configure {
         this.keyFilters = keyFilters;
     }
     
+    public Map<String, String> getFixed() {
+        return fixed;
+    }
+    
+    public void setFixed(Map<String, String> fixed) {
+        this.fixed = fixed;
+    }
+    
     public static Configure bind() {
         return bind(null);
     }
@@ -158,6 +170,7 @@ public class Configure {
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
+        conf.fixed = getMap(conf, "source", "target"); 
         return conf;
     }
 
@@ -226,6 +239,23 @@ public class Configure {
             }
         });
         return list.toArray(new String[0]);
+    }
+    
+    public static Map<String, String> getMap(Configure conf, String prefix1, String prefix2) {
+        final Map<String, String> map = new HashMap<>();
+        conf.properties.forEach((k, v) -> {
+            if (k instanceof String key && key.startsWith(prefix1)) {
+                String value1 = getString(conf, key, null, true);
+                if (value1 != null) {
+                    key = key.replace(prefix1, prefix2);
+                    String value2 = getString(conf, key, null, true);
+                    if (value2 != null) {
+                        map.put(value1, value2);
+                    }
+                }
+            }
+        });
+        return map;
     }
     
     public static Integer getInt(Configure conf, String key, Integer value, boolean optional) {

@@ -177,6 +177,13 @@ public class Mission implements AutoCloseable {
 				}
 			}
 			
+			for (Map.Entry<String, String> e : configure.getFixed().entrySet()) {
+				if (value.equals(e.getKey())) {
+					entry.setValue(e.getValue());
+					continue loop;
+				}
+			}
+			
 			if (isLikelyLua(value)) {
 				try {
 					globals.load(value);
