@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.volcengine.ark.runtime.model.completion.chat.ChatCompletionRequest;
@@ -32,11 +33,16 @@ public class DeepSeekTranslatorImpl extends AbstractTranslator {
 	}
 	
 	@Override
-	public String translate(String text) {
+	public String translate(String text, Map<String, String> options) {
 		final List<ChatMessage> messages = new ArrayList<>();
 		final ChatMessage hint = ChatMessage.builder().role(ChatMessageRole.SYSTEM).content(hints).build();
+		final ChatMessage splitHint = ChatMessage.builder()
+				.role(ChatMessageRole.SYSTEM)
+				.content("这里包含多个文本片段，请将它们分割开来，使用" + SPLITER + "作为分隔符。返回时请确保每个片段都被正确翻译，并且使用相同的分隔符。")
+				.build();
 		final ChatMessage chat = ChatMessage.builder().role(ChatMessageRole.USER).content(text).build();
 		messages.add(hint);
+		messages.add(splitHint);
 		messages.add(chat);
 		
 		ChatCompletionRequest.Builder builder = ChatCompletionRequest.builder()
@@ -48,6 +54,10 @@ public class DeepSeekTranslatorImpl extends AbstractTranslator {
 		}
 		
 		ChatCompletionRequest request = builder.build();
-		return client.createChatCompletion(request).getChoices().get(0).getMessage().getContent().toString();
+		String r = client.createChatCompletion(request).getChoices().get(0).getMessage().getContent().toString();
+		if (options != null) {
+			options.put(text, r);
+		}
+		return r;
 	}
 }

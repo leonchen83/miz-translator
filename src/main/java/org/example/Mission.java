@@ -15,7 +15,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -45,6 +48,8 @@ public class Mission implements AutoCloseable {
 	static {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	}
+	
+	private final Map<String, String> translatedMap = new LinkedHashMap<>(4096);
 	
 	private static Globals globals = JsePlatform.standardGlobals();
 	private Translator translator;
@@ -141,6 +146,8 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public Map<String, String> translate(Map<String, String> map) {
+		List<Map.Entry<String, String>> entries = new ArrayList<>(32);
+		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
 		loop:
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			String key = entry.getKey();
@@ -194,30 +201,55 @@ public class Mission implements AutoCloseable {
 			}
 			
 			value = convertToAscii(value);
+			boolean translated = false;
 			if (key.startsWith("DictKey_ActionText_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_descriptionText_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_sortie_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_subtitle_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_ActionRadioText_")) {
-				entry.setValue(translator.translate(value));
+				translated = true;
 			} else if (key.startsWith("DictKey_")) {
 				try {
 					Long.parseLong(key.substring("DictKey_".length()));
-					entry.setValue(translator.translate(value));
+					translated = true;
 				} catch (NumberFormatException e) {
 					// do nothing
 				}
 			}
+			if (translated) {
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entries.add(new AbstractMap.SimpleEntry<>(key, value));
+					if (entries.size() >= 32) {
+						List<Map.Entry<String, String>> v = translator.translates(entries, translatedMap);
+						r.addAll(v);
+						entries.clear();
+					}
+				}
+			}
+		}
+		
+		if (!entries.isEmpty()) {
+			List<Map.Entry<String, String>> v = translator.translates(entries, translatedMap);
+			r.addAll(v);
+			entries.clear();
+		}
+		
+		for (Map.Entry<String, String> entry : r) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			map.replace(key, value);
 		}
 		
 		return map;

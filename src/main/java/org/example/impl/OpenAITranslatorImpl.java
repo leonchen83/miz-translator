@@ -2,6 +2,7 @@ package org.example.impl;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
@@ -25,9 +26,10 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	}
 	
 	@Override
-	public String translate(String text) {
+	public String translate(String text, Map<String, String> options) {
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
 				.addSystemMessage(hints)
+				.addSystemMessage("这里包含多个文本片段，请将它们分割开来，使用" + SPLITER + "作为分隔符。返回时请确保每个片段都被正确翻译，并且使用相同的分隔符。")
 				.addUserMessage(text)
 				.model(model)
 				.maxCompletionTokens(maxTokens);
@@ -36,6 +38,10 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 		}
 		ChatCompletionCreateParams params = builder.build();
 		ChatCompletion response = client.chat().completions().create(params);
-		return response.choices().get(0).message().content().orElseThrow();
+		String r = response.choices().get(0).message().content().orElseThrow();
+		if (options != null) {
+			options.put(text, r);
+		}
+		return r;
 	}
 }

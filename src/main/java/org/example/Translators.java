@@ -2,6 +2,9 @@ package org.example;
 
 import static org.example.Strings.trim;
 
+import java.util.List;
+import java.util.Map;
+
 import org.example.impl.DeepSeekTranslatorImpl;
 import org.example.impl.OpenAITranslatorImpl;
 import org.slf4j.Logger;
@@ -66,17 +69,21 @@ public class Translators {
 		}
 		
 		@Override
-		public String translate(String text) {
+		public String translate(String text, Map<String, String> options) {
 			logger.info("[TRANSLATING] {}", text);
 			String r = null;
 			try {
-				r = translator.translate(text);
+				r = translator.translate(text, null);
 			} catch (Exception e) {
 				logger.error("[FAILED] translate: {}, cause :{}", text, e.getMessage());
 				r = text;
 			}
 			logger.info("[TRANSLATED] {}", r);
-			return trim(r, '\n');
+			r = trim(r, '\n');
+			if (options != null) {
+				options.put(text, r);
+			}
+			return r;
 		}
 		
 		@Override
@@ -102,6 +109,21 @@ public class Translators {
 		@Override
 		public void setTemperature(double temperature) {
 			translator.setTemperature(temperature);
+		}
+		
+		@Override
+		public List<Map.Entry<String, String>> translates(List<Map.Entry<String, String>> texts, Map<String, String> options) {
+			logger.info("[TRANSLATING] {}", texts);
+			for(int i = 0; i < 5; i++) {
+				try {
+					List<Map.Entry<String, String>> r = translator.translates(texts, options);
+					logger.info("[TRANSLATED] {}", r);
+					return r;
+				} catch (Exception e) {
+					logger.error("[FAILED] retry: {}, translate: {}, cause :{}", i, texts, e.getMessage());
+				}
+			}
+			throw new IllegalStateException("Failed to translate after 5 retries: " + texts);
 		}
 	}
 }
