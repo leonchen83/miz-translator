@@ -225,9 +225,17 @@ public class Mission implements AutoCloseable {
 					// do nothing
 				}
 			}
+			// formatted value
+			entry.setValue(value);
+			
+			//
 			if (translated) {
 				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
+					if (configure.getOriginal() && entry.getValue().length() <= 1024) {
+						entry.setValue(entry.getValue() + "\n" + translatedMap.get(value));
+					} else {
+						entry.setValue(translatedMap.get(value));
+					}
 				} else {
 					entries.add(Map.entry(key, value));
 					if (entries.size() >= 32) {
@@ -247,7 +255,16 @@ public class Mission implements AutoCloseable {
 		for (Map.Entry<String, String> entry : r) {
 			String key = entry.getKey();
 			String value = entry.getValue();
-			map.replace(key, value);
+			String raw = map.get(key);
+			if (containsChinese(raw)) {
+				// already translated, skip
+				continue;
+			}
+			if (configure.getOriginal() && raw.length() <= 1024) {
+				map.replace(key, raw + "\n" + value);
+			} else {
+				map.replace(key, value);
+			}
 		}
 		
 		return map;

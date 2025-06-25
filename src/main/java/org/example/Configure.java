@@ -58,6 +58,7 @@ public class Configure {
     private String apiKey = null;
     private String model = null;
     private String translator = null;
+    private boolean original = false;
     private double temperature = 0d;
     private int maxTokens = 4096;
     private int minimumLength = 12;
@@ -80,6 +81,14 @@ public class Configure {
     
     public void setTranslator(String translator) {
         this.translator = translator;
+    }
+    
+    public boolean getOriginal() {
+        return original;
+    }
+    
+    public void setOriginal(boolean original) {
+        this.original = original;
     }
     
     public String getBaseURL() {
@@ -162,6 +171,7 @@ public class Configure {
         Configure conf = new Configure(properties);
         conf.hint = getString(conf, "hint", null, false);
         conf.translator = getString(conf, "translator", null, false);
+        conf.original = getBool(conf, "original", false, false);
         conf.baseURL = getString(conf, "baseURL", null, false);
         conf.apiKey = getString(conf, "apiKey", null, false);
         conf.model = getString(conf, "model", null, false);
@@ -297,16 +307,18 @@ public class Configure {
     @Override
     public String toString() {
         return "Configure{" +
-                ", hint='" + hint + '\'' +
-                ", translator='" + translator + '\'' +
+                "hint='" + hint + '\'' +
                 ", baseURL='" + baseURL + '\'' +
                 ", apiKey='" + apiKey + '\'' +
                 ", model='" + model + '\'' +
+                ", translator='" + translator + '\'' +
+                ", original=" + original +
                 ", temperature=" + temperature +
                 ", maxTokens=" + maxTokens +
                 ", minimumLength=" + minimumLength +
                 ", filters=" + Arrays.toString(filters) +
                 ", keyFilters=" + Arrays.toString(keyFilters) +
+                ", fixed=" + fixed +
                 '}';
     }
 }
