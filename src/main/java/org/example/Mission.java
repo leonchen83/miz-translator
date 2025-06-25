@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -230,10 +229,9 @@ public class Mission implements AutoCloseable {
 				if (translatedMap.containsKey(value)) {
 					entry.setValue(translatedMap.get(value));
 				} else {
-					entries.add(new AbstractMap.SimpleEntry<>(key, value));
+					entries.add(Map.entry(key, value));
 					if (entries.size() >= 32) {
-						List<Map.Entry<String, String>> v = translator.translates(entries, translatedMap);
-						r.addAll(v);
+						r.addAll(translator.translates(entries, translatedMap));
 						entries.clear();
 					}
 				}
@@ -241,11 +239,11 @@ public class Mission implements AutoCloseable {
 		}
 		
 		if (!entries.isEmpty()) {
-			List<Map.Entry<String, String>> v = translator.translates(entries, translatedMap);
-			r.addAll(v);
+			r.addAll(translator.translates(entries, translatedMap));
 			entries.clear();
 		}
 		
+		// merge the results back into the original map
 		for (Map.Entry<String, String> entry : r) {
 			String key = entry.getKey();
 			String value = entry.getValue();
