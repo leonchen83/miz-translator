@@ -200,49 +200,36 @@ public class Mission implements AutoCloseable {
 			}
 			
 			value = convertToAscii(value);
-			boolean translated = false;
+			// formatted value
+			entry.setValue(value);
+			boolean needTranslate = false;
 			if (key.startsWith("DictKey_ActionText_")) {
-				translated = true;
+				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionText_")) {
-				translated = true;
+				entry.setValue(translator.translate(value, null));
 			} else if (key.startsWith("DictKey_sortie_")) {
-				translated = true;
+				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
-				translated = true;
+				entry.setValue(translator.translate(value, null));
 			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
-				translated = true;
+				entry.setValue(translator.translate(value, null));
 			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
-				translated = true;
+				entry.setValue(translator.translate(value, null));
 			} else if (key.startsWith("DictKey_subtitle_")) {
-				translated = true;
+				needTranslate = true;
 			} else if (key.startsWith("DictKey_ActionRadioText_")) {
-				translated = true;
+				needTranslate = true;
 			} else if (key.startsWith("DictKey_")) {
 				try {
 					Long.parseLong(key.substring("DictKey_".length()));
-					translated = true;
+					needTranslate = true;
 				} catch (NumberFormatException e) {
 					// do nothing
 				}
 			}
-			// formatted value
-			entry.setValue(value);
 			
-			//
-			if (translated) {
-				if (translatedMap.containsKey(value)) {
-					if (configure.getOriginal() && entry.getValue().length() <= 1024) {
-						entry.setValue(entry.getValue() + "\n" + translatedMap.get(value));
-					} else {
-						entry.setValue(translatedMap.get(value));
-					}
-				} else {
-					entries.add(Map.entry(key, value));
-					if (entries.size() >= 32) {
-						r.addAll(translator.translates(entries, translatedMap));
-						entries.clear();
-					}
-				}
+			if (needTranslate) {
+				translates(entry, value, entries, key, r);
 			}
 		}
 		
@@ -268,6 +255,22 @@ public class Mission implements AutoCloseable {
 		}
 		
 		return map;
+	}
+	
+	private void translates(Map.Entry<String, String> entry, String value, List<Map.Entry<String, String>> entries, String key, List<Map.Entry<String, String>> r) {
+		if (translatedMap.containsKey(value)) {
+			if (configure.getOriginal() && entry.getValue().length() <= 1024) {
+				entry.setValue(entry.getValue() + "\n" + translatedMap.get(value));
+			} else {
+				entry.setValue(translatedMap.get(value));
+			}
+		} else {
+			entries.add(Map.entry(key, value));
+			if (entries.size() >= 32) {
+				r.addAll(translator.translates(entries, translatedMap));
+				entries.clear();
+			}
+		}
 	}
 	
 	public static boolean isLikelyLua(String code) {
