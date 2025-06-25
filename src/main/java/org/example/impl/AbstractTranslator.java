@@ -1,9 +1,12 @@
 package org.example.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.example.Translator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Baoyi Chen
@@ -11,6 +14,7 @@ import org.example.Translator;
 public abstract class AbstractTranslator implements Translator {
 	
 	public static final String SPLITER = "%%%%%%";
+	private static final Logger logger = LoggerFactory.getLogger(AbstractTranslator.class);
 	
 	protected String hints;
 	protected String apiKey;
@@ -56,7 +60,12 @@ public abstract class AbstractTranslator implements Translator {
 		String translatedText = translate(joinedText, null);
 		String[] parts = translatedText.split(SPLITER);
 		if (parts.length != values.size()) {
-			throw new IllegalStateException("The number of translated parts does not match the number of input texts.");
+			logger.warn("Translated text parts count {} does not match original values count {}. fallback to individual translation.", parts.length, values.size());
+			List<Map.Entry<String, String>> r = new ArrayList<>(texts.size());
+			for (Map.Entry<String, String> entry : texts) {
+				r.add(Map.entry(entry.getKey(), translate(entry.getValue(), options)));
+			}
+			return r;
 		}
 		return texts.stream()
 				.map(entry -> {
