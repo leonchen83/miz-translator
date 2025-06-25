@@ -229,7 +229,7 @@ public class Mission implements AutoCloseable {
 			}
 			
 			if (needTranslate) {
-				translates(entry, value, entries, key, r);
+				translates(entry, entries, r);
 			}
 		}
 		
@@ -257,17 +257,19 @@ public class Mission implements AutoCloseable {
 		return map;
 	}
 	
-	private void translates(Map.Entry<String, String> entry, String value, List<Map.Entry<String, String>> entries, String key, List<Map.Entry<String, String>> r) {
+	private void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
+		String key = entry.getKey();
+		String value = entry.getValue();
 		if (translatedMap.containsKey(value)) {
-			if (configure.getOriginal() && entry.getValue().length() <= 1024) {
-				entry.setValue(entry.getValue() + "\n" + translatedMap.get(value));
+			if (configure.getOriginal() && value.length() <= 1024) {
+				entry.setValue(value + "\n" + translatedMap.get(value));
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}
 		} else {
 			entries.add(Map.entry(key, value));
 			if (entries.size() >= 32) {
-				r.addAll(translator.translates(entries, translatedMap));
+				list.addAll(translator.translates(entries, translatedMap));
 				entries.clear();
 			}
 		}
