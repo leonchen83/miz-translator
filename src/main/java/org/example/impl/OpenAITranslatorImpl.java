@@ -39,6 +39,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 		ChatCompletionCreateParams params = builder.build();
 		ChatCompletion response = client.chat().completions().create(params);
 		String r = response.choices().get(0).message().content().orElseThrow();
+		r = r.replaceAll(SPLITER, "");
 		if (options != null) {
 			options.put(text, r);
 		}
