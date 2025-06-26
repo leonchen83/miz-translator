@@ -5,7 +5,6 @@ import static org.example.Strings.trim;
 import java.util.List;
 import java.util.Map;
 
-import org.example.impl.DeepSeekTranslatorImpl;
 import org.example.impl.OpenAITranslatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +27,6 @@ public class Translators {
 		switch (configure.getTranslator()) {
 			case "deepseek":
 			case "doubao":
-				r = new DeepSeekTranslatorImpl();
-				break;
 			case "openai":
 				r = new OpenAITranslatorImpl();
 				break;
