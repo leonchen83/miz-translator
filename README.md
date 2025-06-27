@@ -1,5 +1,12 @@
 # DCS 任务翻译器
 
+### 🌐 Language | 语言 | 言語 | 언어
+
+- 🇨🇳 [简体中文说明](./README.md)
+- 🇺🇸 [English README](./README.en.md)
+- 🇯🇵 [日本語の説明](./README.ja.md)
+- 🇰🇷 [한국어 설명](./README.ko.md)
+
 ## 介绍
 
 DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中文的工具。它可以将任务文件中的文本提取出来，然后使用AI将其翻译为中文，最后将翻译后的文本重新写入任务文件中。
@@ -27,10 +34,10 @@ translator=deepseek
 apikey=your-api-key
 
 # Open API的baseurl
-baseurl=deepseek-chat
+baseurl=https://api.deepseek.com/v1
 
 # 使用的AI模型
-model=your-model
+model=deepseek-chat
 
 # 使用的AI的temperature, 如果为负数则使用默认值
 temperature=1.3

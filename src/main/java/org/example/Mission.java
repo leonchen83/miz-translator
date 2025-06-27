@@ -187,7 +187,7 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
-			if (containsChinese(value)) {
+			if (containsChineseOrJapaneseOrKorean(value)) {
 				continue;
 			}
 			
@@ -276,7 +276,7 @@ public class Mission implements AutoCloseable {
 			String key = entry.getKey();
 			String value = entry.getValue();
 			String raw = map.get(key);
-			if (containsChinese(raw)) {
+			if (containsChineseOrJapaneseOrKorean(raw)) {
 				// already translated, skip
 				continue;
 			}
@@ -385,10 +385,12 @@ public class Mission implements AutoCloseable {
 		return true;
 	}
 	
-	public boolean containsChinese(String str) {
+	public boolean containsChineseOrJapaneseOrKorean(String str) {
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
-			if (ch >= '\u4e00' && ch <= '\u9fa5') {
+			if ((ch >= '\u4e00' && ch <= '\u9fa5') || // Chinese
+				(ch >= '\u3040' && ch <= '\u30ff') || // Japanese Hiragana and Katakana
+				(ch >= '\uac00' && ch <= '\ud7af')) { // Korean Hangul
 				return true;
 			}
 		}
