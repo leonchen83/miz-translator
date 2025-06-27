@@ -268,7 +268,6 @@ public class Mission implements AutoCloseable {
 		if (!entries.isEmpty()) {
 			r.addAll(translator.translates(entries, translatedMap));
 			entries.clear();
-			saveTranslatedMap();
 		}
 		
 		// merge the results back into the original map
@@ -286,7 +285,7 @@ public class Mission implements AutoCloseable {
 				map.replace(key, value);
 			}
 		}
-		
+		saveTranslatedMap();
 		return map;
 	}
 	
