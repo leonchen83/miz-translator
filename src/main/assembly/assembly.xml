@@ -57,6 +57,15 @@
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
         </fileSet>
+        <fileSet>
+            <directory>F-16C First in Weasels Over Syria</directory>
+            <outputDirectory>F-16C First in Weasels Over Syria</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>
