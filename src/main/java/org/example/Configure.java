@@ -171,7 +171,6 @@ public class Configure {
         Configure conf = new Configure(properties);
         conf.hint = getString(conf, "hint", null, false);
         conf.translator = getString(conf, "translator", null, false);
-        conf.original = getBool(conf, "original", false, false);
         conf.baseURL = getString(conf, "baseURL", null, false);
         conf.apiKey = getString(conf, "apiKey", null, false);
         conf.model = getString(conf, "model", null, false);

@@ -18,13 +18,14 @@ import picocli.CommandLine;
 		optionListHeading = "%nOptions:%n",
 		versionProvider = XVersionProvider.class,
 		customSynopsis = {
-				"Usage: trans [-hV] -f <folder> [-dtc]"
+				"Usage: trans [-hV] -f <folder> [-dtco]"
 		},
 		description = "%nDescription: Translate DCS world miz mission to chinese.",
 		footer = {"%nExamples:",
 				"  trans -f /path/to",
 				"  trans -f /path/to -d",
 				"  trans -f /path/to -t",
+				"  trans -f /path/to -t -o",
 				"  trans -f /path/to -c"})
 public class Main implements Callable<Integer> {
 	
@@ -37,16 +38,20 @@ public class Main implements Callable<Integer> {
 	@CommandLine.Option(names = {"-t", "--translate"}, description = {"translate json file"})
 	private boolean translate;
 	
+	@CommandLine.Option(names = {"-o", "--original"}, description = {"with original language"})
+	private boolean original;
+	
 	@CommandLine.Option(names = {"-c", "--compress"}, description = {"compress json file to miz file"})
 	private boolean compress;
 	
 	@Override
 	public Integer call() throws Exception {
 		Configure configure = Configure.bind();
-		try(Mission mission = new Mission(configure)) {
+		configure.setOriginal(original);
+		try(Mission mission = new Mission(configure, folder)) {
 			if (decompress) {
 				step1(mission, folder, configure);
-			} 
+			}
 			if (translate) {
 				step2(mission, folder, configure);
 			} 

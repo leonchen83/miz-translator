@@ -53,12 +53,29 @@ public class Mission implements AutoCloseable {
 	private static Globals globals = JsePlatform.standardGlobals();
 	private Translator translator;
 	private Configure configure;
+	private File folder;
 	
-	public Mission(Configure configure) {
+	public Mission(Configure configure, File folder) {
 		this.configure = configure;
+		this.folder = folder;
 		logger.info("configure: {}", configure);
 		this.translator = new Translators(configure).getTranslator();
 		this.translator.start();
+		loadTranslatedMap();
+	}
+	
+	public void loadTranslatedMap() {
+		Path path = folder.toPath().resolve("translated_map.json");
+		if (Files.exists(path)) {
+			try {
+				translatedMap.putAll(mapper.readValue(path.toFile(), new TypeReference<>() {}));
+				logger.info("Loaded translated map from {}", path);
+			} catch (IOException e) {
+				logger.error("Failed to load translated map from {}", path, e);
+			}
+		} else {
+			logger.warn("No translated map found at {}", path);
+		}
 	}
 	
 	public void convertMizToJson(File file) throws Exception {
@@ -236,6 +253,7 @@ public class Mission implements AutoCloseable {
 		if (!entries.isEmpty()) {
 			r.addAll(translator.translates(entries, translatedMap));
 			entries.clear();
+			saveTranslatedMap();
 		}
 		
 		// merge the results back into the original map
@@ -257,6 +275,15 @@ public class Mission implements AutoCloseable {
 		return map;
 	}
 	
+	public void saveTranslatedMap() {
+		Path path = folder.toPath().resolve("translated_map.json");
+		try {
+			mapper.writeValue(path.toFile(), translatedMap);
+		} catch (IOException e) {
+			logger.error("Failed to save translated map to {}", path, e);
+		}
+	}
+	
 	private void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
 		String key = entry.getKey();
 		String value = entry.getValue();
@@ -271,6 +298,7 @@ public class Mission implements AutoCloseable {
 			if (entries.size() >= 32) {
 				list.addAll(translator.translates(entries, translatedMap));
 				entries.clear();
+				saveTranslatedMap();
 			}
 		}
 	}
