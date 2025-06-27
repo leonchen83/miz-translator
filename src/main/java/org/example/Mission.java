@@ -1,6 +1,7 @@
 package org.example;
 
 import static java.util.zip.Deflater.NO_COMPRESSION;
+import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
 import static org.example.AsciiConverter.convertToAscii;
 
 import java.io.BufferedReader;
@@ -54,6 +55,7 @@ public class Mission implements AutoCloseable {
 	private Translator translator;
 	private Configure configure;
 	private File folder;
+	private String translatedMapFileName = "translated_map.json";
 	
 	public Mission(Configure configure, File folder) {
 		this.configure = configure;
@@ -65,7 +67,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public void loadTranslatedMap() {
-		Path path = folder.toPath().resolve("translated_map.json");
+		Path path = folder.toPath().resolve(translatedMapFileName);
 		if (Files.exists(path)) {
 			try {
 				translatedMap.putAll(mapper.readValue(path.toFile(), new TypeReference<>() {}));
@@ -75,6 +77,15 @@ public class Mission implements AutoCloseable {
 			}
 		} else {
 			logger.warn("No translated map found at {}", path);
+		}
+	}
+	
+	public void saveTranslatedMap() {
+		Path path = folder.toPath().resolve(translatedMapFileName);
+		try {
+			mapper.writeValue(path.toFile(), translatedMap);
+		} catch (IOException e) {
+			logger.error("Failed to save translated map to {}", path, e);
 		}
 	}
 	
@@ -184,6 +195,10 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
+			if (isAllUpperCase(value)) {
+				continue;
+			}
+			
 			if (value.equals(key)) {
 				continue;
 			}
@@ -275,15 +290,6 @@ public class Mission implements AutoCloseable {
 		return map;
 	}
 	
-	public void saveTranslatedMap() {
-		Path path = folder.toPath().resolve("translated_map.json");
-		try {
-			mapper.writeValue(path.toFile(), translatedMap);
-		} catch (IOException e) {
-			logger.error("Failed to save translated map to {}", path, e);
-		}
-	}
-	
 	private void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
 		String key = entry.getKey();
 		String value = entry.getValue();
@@ -316,7 +322,6 @@ public class Mission implements AutoCloseable {
 			builder.append("    [\"").append(key).append("\"] = ");
 			if (value == null || value.isEmpty() || value.isBlank()) {
 				builder.append("\"\"");
-				
 			} else {
 				value = value.replaceAll("\n", "\\\\\n").replace("\"", "\\\"");
 				builder.append("\"").append(value).append("\"");
