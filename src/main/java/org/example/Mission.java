@@ -314,8 +314,9 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public void saveToFile(Map<String, String> map, Path tempDir) throws IOException {
-		Path cn = tempDir.resolve("l10n").resolve("CN").resolve("dictionary");
-		Files.createDirectories(cn.getParent());
+		String country = System.getProperty("user.country");
+		Path countryPath = tempDir.resolve("l10n").resolve(country).resolve("dictionary");
+		Files.createDirectories(countryPath.getParent());
 		StringBuilder builder = new StringBuilder();
 		builder.append("dictionary = \n{\n");
 		map.forEach((key, value) -> {
@@ -329,7 +330,7 @@ public class Mission implements AutoCloseable {
 			builder.append(",\n");
 		});
 		builder.append("}-- end of dictionary\n");
-		try (FileWriter fileWriter = new FileWriter(cn.toFile())) {
+		try (FileWriter fileWriter = new FileWriter(countryPath.toFile())) {
 			fileWriter.write(builder.toString());
 		}
 	}
