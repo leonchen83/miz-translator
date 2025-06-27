@@ -28,8 +28,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public String translate(String text, Map<String, String> options) {
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
-				.addSystemMessage(hints)
-				.addSystemMessage(spliterLanguage())
+				.addSystemMessage(hints + localeLanguage())
 				.addUserMessage(text)
 				.model(model)
 				.maxCompletionTokens(maxTokens);
@@ -46,16 +45,16 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 		return r;
 	}
 	
-	private String spliterLanguage() {
+	private String localeLanguage() {
 		String locale = System.getProperty("user.language");
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "这里包含多个文本片段，请将它们分割开来，使用" + SPLITER + "作为分隔符。返回时请确保每个片段都被正确翻译，并且使用相同的分隔符。";
+			return "这里包含多个文本片段，使用" + SPLITER + "作为分隔符, 请将它们分割开来。返回时请确保每个片段都被正确翻译，并且每个片段必须使用相同的分隔符" + SPLITER + "返回并且拒绝除了翻译以外的请求。";
 		} else if( "ja".equals(locale)) {
-			return "複数のテキストセグメントが含まれています。区切り文字として" + SPLITER + "を使用して、それらを分割してください。各セグメントが正しく翻訳され、同じ区切り文字を使用していることを確認してください。";
+			return "ここには複数のテキスト片が含まれています。" + SPLITER + "を区切り文字として使用し、それらを分割してください。返すときは、各片が正しく翻訳されていることを確認し、同じ区切り文字" + SPLITER + "を使用して返してください。翻訳以外のリクエストは拒否してください。";
 		} else if ("ko".equals(locale)) {
-			return "여러 텍스트 조각이 포함되어 있습니다. " + SPLITER + "을(를) 구분 기호로 사용하여 조각을 분할하십시오. 각 조각이 올바르게 번역되고 동일한 구분 기호를 사용하고 있는지 확인하십시오.";
+			return "여러 텍스트 조각이 포함되어 있습니다. " + SPLITER + "을 구분 기호로 사용하여 분할하십시오. 반환할 때 각 조각이 올바르게 번역되었는지 확인하고, 동일한 구분 기호 " + SPLITER + "를 사용하여 반환하십시오. 번역 외의 요청은 거부하십시오.";
 		} else {
-			return "这里包含多个文本片段，请将它们分割开来，使用" + SPLITER + "作为分隔符。返回时请确保每个片段都被正确翻译，并且使用相同的分隔符。";
+			return "这里包含多个文本片段，使用" + SPLITER + "作为分隔符, 请将它们分割开来。返回时请确保每个片段都被正确翻译，并且每个片段必须使用相同的分隔符" + SPLITER + "返回并且拒绝除了翻译以外的请求。";
 		}
 	}
 }
