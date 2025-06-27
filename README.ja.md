@@ -9,7 +9,8 @@
 - 🇯🇵 [日本語の説明](./README.ja.md)
 - 🇰🇷 [한국어 설명](./README.ko.md)
 
-DCS ミッション翻訳ツールは、DCS のミッションファイルを中国語に翻訳するためのツールです。ミッションファイル内のテキストを抽出し、AI を使って中国語に翻訳し、翻訳後のテキストをミッションファイルに再書き込みします。
+DCSミッション翻訳ツールは、DCSのミッションファイルを中国語、日本語、または韓国語に翻訳するためのツールです。
+ミッションファイル内のテキストを抽出し、AIを使って翻訳し、その後、翻訳された内容を元のミッションファイルに書き戻します。
 
 ## 使い方
 
@@ -36,10 +37,10 @@ translator=deepseek
 apikey=your-api-key
 
 # Open API のベース URL
-baseurl=deepseek-chat
+baseurl=https://api.deepseek.com/v1
 
 # 使用する AI モデル
-model=your-model
+model=deepseek-chat
 
 # AI の temperature 設定。負の値を設定するとデフォルトが使用されます。
 temperature=1.3

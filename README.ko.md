@@ -9,7 +9,8 @@
 - 🇯🇵 [日本語の説明](./README.ja.md)
 - 🇰🇷 [한국어 설명](./README.ko.md)
 
-DCS 미션 번역기는 DCS 미션 파일을 중국어로 번역하기 위한 도구입니다. 이 도구는 미션 파일에서 텍스트를 추출한 후, AI를 사용하여 번역하고, 번역된 내용을 다시 미션 파일에 작성합니다.
+DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국어로 번역하는 도구입니다.
+미션 파일에서 텍스트를 추출한 후 AI를 사용하여 번역하고, 번역된 내용을 원본 미션 파일에 다시 기록합니다.
 
 ## 사용 방법
 
@@ -37,10 +38,10 @@ translator=deepseek
 apikey=your-api-key
 
 # Open API의 base URL
-baseurl=deepseek-chat
+baseurl=https://api.deepseek.com/v1
 
 # 사용할 AI 모델
-model=your-model
+model=deepseek-chat
 
 # AI의 temperature 설정. 음수를 입력하면 기본값이 사용됩니다.
 temperature=1.3

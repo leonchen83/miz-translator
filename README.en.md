@@ -9,7 +9,8 @@
 - 🇯🇵 [日本語の説明](./README.ja.md)
 - 🇰🇷 [한국어 설명](./README.ko.md)
 
-The DCS Mission Translator is a tool designed to translate DCS mission files into Chinese or Japanese. It extracts text from the mission file, uses AI to translate the content into Chinese or Japanese, and then writes the translated text back into the mission file.
+DCS Mission Translator is a tool designed to translate DCS mission files into Chinese, Japanese, or Korean.
+It extracts text from mission files, uses AI to perform the translation, and then writes the translated content back into the original mission file.
 
 ## Usage
 
