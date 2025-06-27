@@ -14,7 +14,7 @@ public interface Translator {
 	
 	void setHints(String hints);
 	
-	String translate(String text, Map<String, String> options);
+	void setModel(String model);
 	
 	void setApiKey(String apiKey);
 	
@@ -22,9 +22,9 @@ public interface Translator {
 	
 	void setBaseUrl(String baseUrl);
 	
-	void setModel(String model);
-	
 	void setTemperature(double temperature);
+	
+	String translate(String text, Map<String, String> options);
 	
 	List<Map.Entry<String, String>> translates(List<Map.Entry<String, String>> texts, Map<String, String> options);
 }
