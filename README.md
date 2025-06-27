@@ -2,15 +2,15 @@
 
 ## 介绍
 
-DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中文的工具。它可以将任务文件中的文本提取出来，然后将其翻译为中文，最后将翻译后的文本重新写入任务文件中。
+DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中文的工具。它可以将任务文件中的文本提取出来，然后使用AI将其翻译为中文，最后将翻译后的文本重新写入任务文件中。
 
 ## 使用方法
 
 ### 安装
 
-首先，你需要安装Java 17。你可以在[这里](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)下载Java 17并安装。
+首先，你需要安装Java 17。你可以在[这里](https://www.oracle.com/java/technologies/downloads/#java17-windows)下载Java 17并安装。
 
-然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/download/v1.0.3/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
+然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/download/v1.0.4/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
 
 ### 配置
 
@@ -27,13 +27,13 @@ translator=deepseek
 apikey=your-api-key
 
 # Open API的baseurl
-baseurl=https://ark.cn-beijing.volces.com/api/v3
+baseurl=deepseek-chat
 
 # 使用的AI模型
 model=your-model
 
 # 使用的AI的temperature, 如果为负数则使用默认值
-temperature=0.1
+temperature=1.3
 
 # 使用AI的max_tokens, 默认4096
 maxTokens=4096
@@ -46,7 +46,10 @@ filters1=JAMMER COOLING
 filters2=INSERT ON COURSE AUDIO
 
 # 将不想翻译的key放到keyFilters里，可以指定多个keyFilters，但每个必须以keyFilters作为开头
-keyFilters=DictKey_ActionRadioText_
+keyFilters1=DictKey_UnitName_
+keyFilters2=DictKey_WptName_
+keyFilters3=DictKey_GroupName_
+keyFilters4=DictKey_ActionRadioText_
 ```
 
 ### 运行
