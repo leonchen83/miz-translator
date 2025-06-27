@@ -104,13 +104,13 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	private String localeLanguage() {
 		String locale = System.getProperty("user.language");
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
+			return "。保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
 		} else if( "ja".equals(locale)) {
-			return "区切り文字を保持します" + SPLITER + "例：フラグメント1" + SPLITER + "フラグメント2" + SPLITER + "フラグメント3";
+			return "。区切り文字を保持します" + SPLITER + "例：フラグメント1" + SPLITER + "フラグメント2" + SPLITER + "フラグメント3";
 		} else if ("ko".equals(locale)) {
-			return "구분 기호를 유지합니다" + SPLITER + "예: 조각 1" + SPLITER + "조각 2" + SPLITER + "조각 3";
+			return "。구분 기호를 유지합니다" + SPLITER + "예: 조각 1" + SPLITER + "조각 2" + SPLITER + "조각 3";
 		} else {
-			return "保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
+			return "。保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
 		}
 	}
 }
