@@ -91,8 +91,6 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 				.toList();
 	}
 	
-	
-	
 	private List<Map.Entry<String, String>> fallbackTranslates(List<Map.Entry<String, String>> texts, Map<String, String> options) {
 		List<Map.Entry<String, String>> r = new ArrayList<>(texts.size());
 		for (Map.Entry<String, String> entry : texts) {
