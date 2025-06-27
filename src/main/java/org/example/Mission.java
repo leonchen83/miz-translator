@@ -238,15 +238,15 @@ public class Mission implements AutoCloseable {
 			if (key.startsWith("DictKey_ActionText_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionText_")) {
-				entry.setValue(translator.translate(value, null));
+				entry.setValue(translator.translate(value, translatedMap));
 			} else if (key.startsWith("DictKey_sortie_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
-				entry.setValue(translator.translate(value, null));
+				entry.setValue(translator.translate(value, translatedMap));
 			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
-				entry.setValue(translator.translate(value, null));
+				entry.setValue(translator.translate(value, translatedMap));
 			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
-				entry.setValue(translator.translate(value, null));
+				entry.setValue(translator.translate(value, translatedMap));
 			} else if (key.startsWith("DictKey_subtitle_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_ActionRadioText_")) {
