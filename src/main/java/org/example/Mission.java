@@ -44,6 +44,7 @@ public class Mission implements AutoCloseable {
 	static Logger logger = LoggerFactory.getLogger(Mission.class);
 	
 	private static ObjectMapper mapper = new ObjectMapper();
+	private static final int BATCH_SIZE = 48;
 	
 	static {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -173,7 +174,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public Map<String, String> translate(Map<String, String> map) {
-		List<Map.Entry<String, String>> entries = new ArrayList<>(32);
+		List<Map.Entry<String, String>> entries = new ArrayList<>(BATCH_SIZE);
 		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
 		loop:
 		for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -238,15 +239,31 @@ public class Mission implements AutoCloseable {
 			if (key.startsWith("DictKey_ActionText_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionText_")) {
-				entry.setValue(translator.translate(value, translatedMap));
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
 			} else if (key.startsWith("DictKey_sortie_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
-				entry.setValue(translator.translate(value, translatedMap));
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
 			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
-				entry.setValue(translator.translate(value, translatedMap));
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
 			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
-				entry.setValue(translator.translate(value, translatedMap));
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
 			} else if (key.startsWith("DictKey_subtitle_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_ActionRadioText_")) {
@@ -300,7 +317,7 @@ public class Mission implements AutoCloseable {
 			}
 		} else {
 			entries.add(Map.entry(key, value));
-			if (entries.size() >= 32) {
+			if (entries.size() >= BATCH_SIZE) {
 				list.addAll(translator.translates(entries, translatedMap));
 				entries.clear();
 				saveTranslatedMap();
