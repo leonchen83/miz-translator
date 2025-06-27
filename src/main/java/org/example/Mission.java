@@ -351,7 +351,6 @@ public class Mission implements AutoCloseable {
 		}
 	}
 	
-	
 	public void unzip(Path zip, Path destDir) throws IOException {
 		try (ZipFile zipFile = new ZipFile(zip)) {
 			zipFile.getEntries().asIterator().forEachRemaining(entry -> {
@@ -371,7 +370,6 @@ public class Mission implements AutoCloseable {
 			});
 		}
 	}
-	
 	
 	public void zip(Path sourceDir, Path zip) throws IOException {
 		try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zip.toFile()))) {
