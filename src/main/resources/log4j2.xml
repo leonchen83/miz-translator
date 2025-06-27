@@ -15,27 +15,12 @@
             </Policies>
         </RollingFile>
         
-        <RollingFile name="HTTP" fileName="${sys:cli.log.path:-/var/log/trans}/http.log"
-                     filePattern="${sys:cli.log.path:-/var/log/trans}/$${date:yyyy-MM}/http-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout>
-                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-            </PatternLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="128 MB"/>
-            </Policies>
-        </RollingFile>
-    
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="${pattern}"/>
         </Console>
     </Appenders>
     
     <Loggers>
-        <Logger name="HTTP_LOGGER" level="debug" additivity="false">
-            <AppenderRef ref="HTTP"/>
-        </Logger>
-        
         <Logger name="org.example" level="debug" additivity="false">
             <AppenderRef ref="ROLLING"/>
         </Logger>
