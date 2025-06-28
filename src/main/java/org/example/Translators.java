@@ -28,7 +28,7 @@ public class Translators {
 			case "deepseek":
 			case "doubao":
 			case "openai":
-				r = new OpenAITranslatorImpl();
+				r = new OpenAITranslatorImpl(configure);
 				break;
 			default:
 				throw new UnsupportedOperationException();

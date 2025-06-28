@@ -28,6 +28,9 @@ In the `/path/to/miz-translator/conf` directory, there is a file named `trans.co
 # Prompt for the AI; here "F/A 18" is an example. You can modify the aircraft type or campaign as needed.
 hint=You are a translator. The following English texts are related to the F/A 18 fighter jet. Translate them into Simplified Chinese without using markdown formatting. Keep the original line breaks and do not add extra explanations. Preserve acronyms written in uppercase.
 
+# Target language for translation
+language=zh-CN
+
 # AI translators supported: deepseek, doubao, and openai
 translator=deepseek
 

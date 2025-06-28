@@ -1,5 +1,6 @@
 package org.example.impl;
 
+import org.example.Configure;
 import org.example.Translator;
 
 /**
@@ -15,6 +16,11 @@ public abstract class AbstractTranslator implements Translator {
 	protected String model;
 	protected String baseUrl;
 	protected double temperature;
+	protected Configure configure;
+	
+	public AbstractTranslator(Configure configure) {
+		this.configure = configure;
+	}
 	
 	@Override
 	public void setHints(String hints) {

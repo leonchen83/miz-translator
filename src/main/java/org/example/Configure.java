@@ -54,6 +54,9 @@ public class Configure {
     }
 
     private String hint = null;
+    private String language = "zh-CN";
+    private String languageCode = "zh";
+    private String countryCode = "CN";
     private String baseURL = null;
     private String apiKey = null;
     private String model = null;
@@ -73,6 +76,30 @@ public class Configure {
     
     public void setHint(String hint) {
         this.hint = hint;
+    }
+    
+    public String getLanguage() {
+        return language;
+    }
+    
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+    
+    public String getLanguageCode() {
+        return languageCode;
+    }
+    
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
+    
+    public String getCountryCode() {
+        return countryCode;
+    }
+    
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
     
     public String getTranslator() {
@@ -170,6 +197,12 @@ public class Configure {
     public static Configure bind(Properties properties) {
         Configure conf = new Configure(properties);
         conf.hint = getString(conf, "hint", null, false);
+        conf.language = getString(conf, "language", "zh-CN", false);
+        String[] ary = conf.language.split("-");
+        if (ary.length == 2) {
+            conf.languageCode = ary[0].trim();
+            conf.countryCode = ary[1].trim();
+        }
         conf.translator = getString(conf, "translator", null, false);
         conf.baseURL = getString(conf, "baseURL", null, false);
         conf.apiKey = getString(conf, "apiKey", null, false);
@@ -179,7 +212,7 @@ public class Configure {
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
-        conf.fixed = getMap(conf, "source", "target"); 
+        conf.fixed = getMap(conf, "source", "target");
         return conf;
     }
 
@@ -307,6 +340,9 @@ public class Configure {
     public String toString() {
         return "Configure{" +
                 "hint='" + hint + '\'' +
+                ", language='" + language + '\'' +
+                ", languageCode='" + languageCode + '\'' +
+                ", countryCode='" + countryCode + '\'' +
                 ", baseURL='" + baseURL + '\'' +
                 ", apiKey='" + apiKey + '\'' +
                 ", model='" + model + '\'' +

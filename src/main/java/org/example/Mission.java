@@ -330,7 +330,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public void saveToFile(Map<String, String> map, Path tempDir) throws IOException {
-		String country = System.getProperty("user.country");
+		String country = configure.getCountryCode();
 		Path countryPath = tempDir.resolve("l10n").resolve(country).resolve("dictionary");
 		Files.createDirectories(countryPath.getParent());
 		StringBuilder builder = new StringBuilder();

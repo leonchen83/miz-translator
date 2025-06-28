@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.example.Configure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,10 @@ import com.openai.models.ChatCompletionCreateParams;
 public class OpenAITranslatorImpl extends AbstractTranslator {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractTranslator.class);
 	private OpenAIClient client;
+	
+	public OpenAITranslatorImpl(Configure configure) {
+		super(configure);
+	}
 	
 	@Override
 	public void start() {
@@ -100,7 +105,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	}
 	
 	private String localeLanguage() {
-		String locale = System.getProperty("user.language");
+		String locale = configure.getLanguageCode();
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
 			return "。保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
 		} else if( "ja".equals(locale)) {
