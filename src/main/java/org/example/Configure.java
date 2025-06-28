@@ -203,6 +203,12 @@ public class Configure {
             conf.languageCode = ary[0].trim();
             conf.countryCode = ary[1].trim();
         }
+        if (conf.languageCode == null) {
+            conf.languageCode = System.getProperty("user.language");
+        }
+        if (conf.countryCode == null) {
+            conf.countryCode = System.getProperty("user.country");
+        }
         conf.translator = getString(conf, "translator", null, false);
         conf.baseURL = getString(conf, "baseURL", null, false);
         conf.apiKey = getString(conf, "apiKey", null, false);
