@@ -20,7 +20,7 @@ DCSミッション翻訳ツールは、DCSのミッションファイルを中�
 [Java 17 をダウンロード](https://www.oracle.com/java/technologies/downloads/#java17-windows)
 
 次に、ミッション翻訳ツールの最新版をダウンロードします。以下のリンクから最新版を取得し、`/path/to/miz-translator` に解凍してください。  
-[最新バージョンをダウンロード](https://github.com/leonchen83/miz-translator/releases/download/v1.0.4/miz-translator-release.zip)
+[最新バージョンをダウンロード](https://github.com/leonchen83/miz-translator/releases/download/v1.0.5/miz-translator-release.zip)
 
 ### 設定
 
