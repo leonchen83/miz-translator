@@ -103,7 +103,7 @@ public class Mission implements AutoCloseable {
 		System.out.println("translating : " + file);
 		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
 		unzip(file.toPath(), tempDir);
-		Path json = file.toPath().getParent().resolve(file.getName() + ".json");
+		Path json = file.toPath().getParent().resolve(file.getName() + "." + configure.getLanguageCode() + ".json");
 		Map<String, String> map = readToMap(json);
 		map = translate(map);
 		saveToJson(map, file.getName(), file.toPath().getParent());
@@ -114,7 +114,7 @@ public class Mission implements AutoCloseable {
 		System.out.println("compressing : " + file);
 		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
 		unzip(file.toPath(), tempDir);
-		Path json = file.toPath().getParent().resolve(file.getName() + ".json");
+		Path json = file.toPath().getParent().resolve(file.getName() + "." + configure.getLanguageCode() + ".json");
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
 		Path dest = file.toPath().getParent().resolve(file.getName());
@@ -133,7 +133,7 @@ public class Mission implements AutoCloseable {
 	
 	private void saveToJson(Map<String, String> map, String name, Path path) {
 		try {
-			mapper.writeValue(path.resolve(name + ".json").toFile(), map);
+			mapper.writeValue(path.resolve(name + "." + configure.getLanguageCode() + ".json").toFile(), map);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
