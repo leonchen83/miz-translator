@@ -56,7 +56,7 @@ public class Mission implements AutoCloseable {
 	private Translator translator;
 	private Configure configure;
 	private File folder;
-	private String translatedMapFileName = "translated_map.json";
+	private String translatedMapFileName = "translated_map";
 	
 	public Mission(Configure configure, File folder) {
 		this.configure = configure;
@@ -68,7 +68,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public void loadTranslatedMap() {
-		Path path = folder.toPath().resolve(translatedMapFileName);
+		Path path = folder.toPath().resolve(translatedMapFileName + "." + configure.getLanguageCode() + ".json");
 		if (Files.exists(path)) {
 			try {
 				translatedMap.putAll(mapper.readValue(path.toFile(), new TypeReference<>() {}));
@@ -82,7 +82,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public void saveTranslatedMap() {
-		Path path = folder.toPath().resolve(translatedMapFileName);
+		Path path = folder.toPath().resolve(translatedMapFileName + "." + configure.getLanguageCode() + ".json");
 		try {
 			mapper.writeValue(path.toFile(), translatedMap);
 		} catch (IOException e) {
