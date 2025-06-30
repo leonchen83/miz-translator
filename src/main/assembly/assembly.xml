@@ -66,6 +66,15 @@
                 <include>*.json</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>FA-18C Raven One</directory>
+            <outputDirectory>FA-18C Raven One</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>
