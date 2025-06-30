@@ -21,7 +21,7 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 
 그런 다음, 최신 버전의 미션 번역기를 다운로드해야 합니다.  
 아래 링크에서 최신 버전을 다운로드하고 `/path/to/miz-translator` 경로에 압축을 해제하세요.  
-[최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/download/v1.0.5/miz-translator-release.zip)
+[최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/download/v1.0.6/miz-translator-release.zip)
 
 ### 설정
 
@@ -29,10 +29,10 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 
 ```properties
 # AI에게 전달되는 프롬프트입니다. F/A 18은 예시이며, 필요에 따라 항공기나 캠페인 종류를 수정할 수 있습니다.
-hint=당신은 번역가입니다. 아래는 F/A 18 전투기에 관련된 영어 문장입니다. 이를 간체 중국어로 번역하세요. Markdown 형식을 사용하지 말고, 원래의 줄바꿈을 유지하며 불필요한 설명은 추가하지 마세요. 모든 대문자 약어는 그대로 유지하세요.
+hint="당신은 번역가입니다. 아래는 전투기 F/A 18과 관련된 영어 내용입니다. 한국어로 번역해 주세요. 단, markdown을 사용하지 말고 원문의 줄바꿈 형식을 유지하며, 불필요한 설명은 추가하지 마세요. 모두 대문자인 약어는 원래 형태로 유지해 주세요
 
 # 번역할 대상 언어
-language=zh-CN
+language=ko-KR
 
 # 지원되는 AI 번역기: deepseek, doubao, openai
 translator=deepseek

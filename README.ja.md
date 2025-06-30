@@ -20,7 +20,7 @@ DCSミッション翻訳ツールは、DCSのミッションファイルを中�
 [Java 17 をダウンロード](https://www.oracle.com/java/technologies/downloads/#java17-windows)
 
 次に、ミッション翻訳ツールの最新版をダウンロードします。以下のリンクから最新版を取得し、`/path/to/miz-translator` に解凍してください。  
-[最新バージョンをダウンロード](https://github.com/leonchen83/miz-translator/releases/download/v1.0.5/miz-translator-release.zip)
+[最新バージョンをダウンロード](https://github.com/leonchen83/miz-translator/releases/download/v1.0.6/miz-translator-release.zip)
 
 ### 設定
 
@@ -28,10 +28,10 @@ DCSミッション翻訳ツールは、DCSのミッションファイルを中�
 
 ```properties
 # AI へのプロンプト。ここでは「F/A 18」は一例です。必要に応じて航空機の種類や作戦を変更してください。
-hint=あなたは翻訳者です。以下は戦闘機 F/A 18 に関する英語のテキストです。これを簡体字中国語に翻訳してください。Markdown は使用せず、元の改行形式を保ち、不要な解説は加えないでください。すべて大文字の略語はそのまま保持してください。
+hint="あなたは翻訳者です。以下は戦闘機F/A 18に関連する英語です。日本語に翻訳してください。ただし、markdownは使用せず、原文の改行を保持し、余計な説明は追加しないでください。すべて大文字の略語はそのまま保持してください
 
 # 翻訳のターゲット言語
-language=zh-CN
+language=ja-JP
 
 # 利用可能な AI 翻訳エンジン：deepseek、doubao、openai
 translator=deepseek

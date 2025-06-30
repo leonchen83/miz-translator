@@ -17,7 +17,7 @@ DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中日韩文的�
 
 首先，你需要安装Java 17。你可以在[这里](https://www.oracle.com/java/technologies/downloads/#java17-windows)下载Java 17并安装。
 
-然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/download/v1.0.5/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
+然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/download/v1.0.6/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
 
 ### 配置
 
@@ -25,7 +25,7 @@ DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中日韩文的�
 
 ```properties
 # 给AI的提示，这里的F/A 18是一个示例，你可以根据需要修改飞机类型或者战役类型
-hint=你是一个翻译，下面是跟战斗机F/A 18相关的英语，翻译成简体中文，但不要使用markdown输出, 保持原文的换行格式，不要添加多余的解释。遇到全大写的缩略词保持缩略词原样。
+hint=你是一个翻译，下面是跟战斗机F/A 18相关的英语，翻译成简体中文，但不要使用markdown输出, 保持原文的换行格式，不要添加多余的解释。遇到全大写的缩略词保持缩略词原样
 
 # 翻译的目标语言
 language=zh-CN
