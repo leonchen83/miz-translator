@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.example.Configure;
+import org.example.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,7 +57,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			r = r.replaceAll(SPLITER, "");
 		}
 		if (options != null) {
-			options.put(text, r);
+			options.put(text, format(text, r));
 		}
 		return r;
 	}
@@ -91,8 +92,9 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 		}
 		return texts.stream()
 				.map(entry -> {
-					int index = values.indexOf(entry.getValue());
-					options.put(entry.getValue(), parts[index]);
+					String value = entry.getValue();
+					int index = values.indexOf(value);
+					options.put(value, format(value, parts[index]));
 					return Map.entry(entry.getKey(), parts[index]);
 				})
 				.toList();
@@ -104,5 +106,15 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			r.add(Map.entry(entry.getKey(), translate(entry.getValue(), options)));
 		}
 		return r;
+	}
+	
+	private static String format(String before, String after) {
+		if (before.charAt(0) != '\n' && after.charAt(0) == '\n') {
+			after = Strings.ltrim(after, '\n');
+		}
+		if (before.charAt(before.length() - 1) != '\n' && after.charAt(after.length() - 1) == '\n') {
+			after = Strings.rtrim(after, '\n');
+		}
+		return after;
 	}
 }

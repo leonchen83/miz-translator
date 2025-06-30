@@ -1,7 +1,6 @@
 package org.example;
 
 import static java.util.zip.Deflater.NO_COMPRESSION;
-import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
 import static org.example.AsciiConverter.convertToAscii;
 import static org.example.I18N.containsTranslatedLanguage;
 
@@ -200,7 +199,7 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
-			if (isAllUpperCase(value)) {
+			if (!containsLowerCase(value)) {
 				continue;
 			}
 			
@@ -308,6 +307,17 @@ public class Mission implements AutoCloseable {
 		}
 		saveTranslatedMap();
 		return map;
+	}
+	
+	private boolean containsLowerCase(String value) {
+		final int sz = value.length();
+		for (int i = 0; i < sz; i++) {
+			char c = value.charAt(i);
+			if (c >= 'a' && c <= 'z') {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
