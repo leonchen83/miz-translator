@@ -3,6 +3,7 @@ package org.example;
 import static java.util.zip.Deflater.NO_COMPRESSION;
 import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
 import static org.example.AsciiConverter.convertToAscii;
+import static org.example.I18N.containsTranslatedLanguage;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,7 +45,6 @@ public class Mission implements AutoCloseable {
 	static Logger logger = LoggerFactory.getLogger(Mission.class);
 	
 	private static ObjectMapper mapper = new ObjectMapper();
-	private static final int BATCH_SIZE = 48;
 	
 	static {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -178,7 +178,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public Map<String, String> translate(Map<String, String> map) {
-		List<Map.Entry<String, String>> entries = new ArrayList<>(BATCH_SIZE);
+		List<Map.Entry<String, String>> entries = new ArrayList<>(configure.getBatchSize());
 		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
 		loop:
 		for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -192,7 +192,7 @@ public class Mission implements AutoCloseable {
 				continue;
 			}
 			
-			if (containsChineseOrJapaneseOrKorean(value)) {
+			if (containsTranslatedLanguage(configure, value)) {
 				continue;
 			}
 			
@@ -296,7 +296,7 @@ public class Mission implements AutoCloseable {
 			String key = entry.getKey();
 			String value = entry.getValue();
 			String raw = map.get(key);
-			if (containsChineseOrJapaneseOrKorean(raw)) {
+			if (containsTranslatedLanguage(configure, raw)) {
 				// already translated, skip
 				continue;
 			}
@@ -321,7 +321,7 @@ public class Mission implements AutoCloseable {
 			}
 		} else {
 			entries.add(Map.entry(key, value));
-			if (entries.size() >= BATCH_SIZE) {
+			if (entries.size() >= configure.getBatchSize()) {
 				list.addAll(translator.translates(entries, translatedMap));
 				entries.clear();
 				saveTranslatedMap();
@@ -402,18 +402,6 @@ public class Mission implements AutoCloseable {
 			}
 		}
 		return true;
-	}
-	
-	public boolean containsChineseOrJapaneseOrKorean(String str) {
-		for (int i = 0; i < str.length(); i++) {
-			char ch = str.charAt(i);
-			if ((ch >= '\u4e00' && ch <= '\u9fa5') || // Chinese
-				(ch >= '\u3040' && ch <= '\u30ff') || // Japanese Hiragana and Katakana
-				(ch >= '\uac00' && ch <= '\ud7af')) { // Korean Hangul
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public boolean deleteDirectory(Path directory) {

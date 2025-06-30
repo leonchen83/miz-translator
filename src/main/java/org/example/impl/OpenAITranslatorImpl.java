@@ -1,5 +1,7 @@
 package org.example.impl;
 
+import static org.example.I18N.localeLanguage;
+
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public String translate(String text, Map<String, String> options) {
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
-				.addSystemMessage(hints + localeLanguage())
+				.addSystemMessage(hints + localeLanguage(configure, SPLITER))
 				.addUserMessage(text)
 				.model(model)
 				.maxCompletionTokens(maxTokens);
@@ -102,18 +104,5 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			r.add(Map.entry(entry.getKey(), translate(entry.getValue(), options)));
 		}
 		return r;
-	}
-	
-	private String localeLanguage() {
-		String locale = configure.getLanguageCode();
-		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "。保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
-		} else if( "ja".equals(locale)) {
-			return "。区切り文字を保持します" + SPLITER + "例：フラグメント1" + SPLITER + "フラグメント2" + SPLITER + "フラグメント3";
-		} else if ("ko".equals(locale)) {
-			return "。구분 기호를 유지합니다" + SPLITER + "예: 조각 1" + SPLITER + "조각 2" + SPLITER + "조각 3";
-		} else {
-			return "。保留原分隔符" + SPLITER + "例如：片段1" + SPLITER + "片段2" + SPLITER + "片段3";
-		}
 	}
 }

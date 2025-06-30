@@ -65,6 +65,7 @@ public class Configure {
     private double temperature = 0d;
     private int maxTokens = 4096;
     private int minimumLength = 12;
+    private int batchSize = 48;
     private String[] filters = new String[0];
     private String[] keyFilters = new String[0];
     
@@ -166,6 +167,14 @@ public class Configure {
         this.minimumLength = minimumLength;
     }
     
+    public int getBatchSize() {
+        return batchSize;
+    }
+    
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
+    }
+    
     public String[] getFilters() {
         return filters;
     }
@@ -216,6 +225,7 @@ public class Configure {
         conf.temperature = getDouble(conf, "temperature", 0.3d, true);
         conf.maxTokens = getInt(conf, "maxTokens", 4096, true);
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
+        conf.batchSize = getInt(conf, "batchSize", 32, false);
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
@@ -357,6 +367,7 @@ public class Configure {
                 ", temperature=" + temperature +
                 ", maxTokens=" + maxTokens +
                 ", minimumLength=" + minimumLength +
+                ", batchSize=" + batchSize +
                 ", filters=" + Arrays.toString(filters) +
                 ", keyFilters=" + Arrays.toString(keyFilters) +
                 ", fixed=" + fixed +
