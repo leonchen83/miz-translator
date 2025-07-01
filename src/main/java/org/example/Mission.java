@@ -540,4 +540,46 @@ public class Mission implements AutoCloseable {
 	public void close() throws Exception {
 		if (translator != null) translator.stop();
 	}
+	
+	public void reformatJsonFiles() {
+		Set<String> nounsSet = new HashSet<>(256);
+		for (var entry : translatedMap.entrySet()) {
+			addNouns(entry.getKey(), nounsSet);
+		}
+		logger.info("nouns set: {}", nounsSet);
+		for (var entry : translatedMap.entrySet()) {
+			var value = entry.getValue();
+			if (value.contains("PLAYER")) {
+				value = value.replace("PLAYER", "玩家");
+			}
+			if (value.length() > 1024) {
+				value = replaceUpperCaseToCapital(value, nounsSet);
+			} else {
+				int index = value.indexOf(':');
+				if (index <= 0) {
+					index = value.indexOf('：');
+				}
+				if (index <= 0) {
+					value = replaceUpperCaseToCapital(value, nounsSet);
+				} else {
+					String prefix = value.substring(0, index + 1);
+					String secondPart = value.substring(index + 1);
+					secondPart = replaceUpperCaseToCapital(secondPart, nounsSet);
+					value = prefix + secondPart;
+				}
+			}
+			entry.setValue(value);
+		}
+		saveTranslatedMap();
+	}
+	
+	private String replaceUpperCaseToCapital(String value, Set<String> nounsSet) {
+		for (var nouns : nounsSet) {
+			String upperNouns = nouns.toUpperCase();
+			if (value.contains(upperNouns)) {
+				value = value.replaceAll(upperNouns, nouns);
+			}
+		}
+		return value;
+	}
 }

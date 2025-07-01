@@ -44,6 +44,9 @@ public class Main implements Callable<Integer> {
 	@CommandLine.Option(names = {"-c", "--compress"}, description = {"compress json file to miz file"})
 	private boolean compress;
 	
+	@CommandLine.Option(names = {"-r", "--reformat"}, description = {"reformat translated file."})
+	private boolean reformat;
+	
 	@Override
 	public Integer call() throws Exception {
 		Configure configure = Configure.bind();
@@ -55,9 +58,13 @@ public class Main implements Callable<Integer> {
 			if (translate) {
 				step2(mission, folder, configure);
 				step3(mission, folder, configure);
-			} 
+			}
 			if (compress) {
 				step4(mission, folder, configure);
+			}
+			if (reformat) {
+				mission.reformatJsonFiles();
+				return 0;
 			}
 			if (!decompress && !translate && !compress) {
 				step1(mission, folder, configure);

@@ -55,7 +55,7 @@ public class I18N {
 	}
 	
 	public static String retrieveProperNouns(String text) {
-		if (text.length() >= 1024) return null;
+		if (text.length() > 1024) return null;
 		int index = text.indexOf(':');
 		if (index <= 0) {
 			index = text.indexOf('：');
