@@ -25,13 +25,13 @@ public class I18N {
 	public static String nounsHint(Configure configure, Set<String> nounsSet) {
 		String locale = configure.getLanguageCode();
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译";
+			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留";
 		} else if ("ja".equals(locale)) {
-			return "。厳密に保証します" + nounsSet + "これらの単語は翻訳されません。Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは翻訳されません";
+			return "。厳密に保証します" + nounsSet + "これらの単語は翻訳されません。Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは翻訳されません。座標数字：全て保持します";
 		} else if ("ko".equals(locale)) {
-			return "。엄격하게 보장합니다" + nounsSet + "이 단어는 번역되지 않습니다. Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray은 번역되지 않습니다";
+			return "。엄격하게 보장합니다" + nounsSet + "이 단어는 번역되지 않습니다. Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray은 번역되지 않습니다。 좌표 숫자: 모두 유지됩니다";
 		} else {
-			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译";
+			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留";
 		}
 	}
 	
