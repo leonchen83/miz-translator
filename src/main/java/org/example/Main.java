@@ -54,14 +54,16 @@ public class Main implements Callable<Integer> {
 			}
 			if (translate) {
 				step2(mission, folder, configure);
+				step3(mission, folder, configure);
 			} 
 			if (compress) {
-				step3(mission, folder, configure);
+				step4(mission, folder, configure);
 			}
 			if (!decompress && !translate && !compress) {
 				step1(mission, folder, configure);
 				step2(mission, folder, configure);
 				step3(mission, folder, configure);
+				step4(mission, folder, configure);
 			}
 		}
 		return 0;
@@ -99,7 +101,7 @@ public class Main implements Callable<Integer> {
 		
 		if (mizFiles != null && mizFiles.length > 0) {
 			for (File file : mizFiles) {
-				mission.convertJsonToChinese(file);
+				mission.createProperNounsSet(file);
 			}
 		} else {
 			System.out.println("miz files not found");
@@ -107,6 +109,23 @@ public class Main implements Callable<Integer> {
 	}
 	
 	public static void step3(Mission mission, File folder, Configure configure) throws Exception {
+		File[] mizFiles = folder.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".miz");
+			}
+		});
+		
+		if (mizFiles != null && mizFiles.length > 0) {
+			for (File file : mizFiles) {
+				mission.convertJsonToChinese(file);
+			}
+		} else {
+			System.out.println("miz files not found");
+		}
+	}
+	
+	public static void step4(Mission mission, File folder, Configure configure) throws Exception {
 		File[] mizFiles = folder.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {

@@ -1,12 +1,14 @@
 package org.example.impl;
 
 import static org.example.I18N.localeLanguage;
+import static org.example.I18N.nounsHint;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.example.Configure;
 import org.example.Strings;
@@ -24,9 +26,12 @@ import com.openai.models.ChatCompletionCreateParams;
 public class OpenAITranslatorImpl extends AbstractTranslator {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractTranslator.class);
 	private OpenAIClient client;
+	private Set<String> nounsSet;
+	private boolean logged;
 	
-	public OpenAITranslatorImpl(Configure configure) {
+	public OpenAITranslatorImpl(Configure configure, Set<String> nounsSet) {
 		super(configure);
+		this.nounsSet = nounsSet;
 	}
 	
 	@Override
@@ -41,8 +46,12 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	
 	@Override
 	public String translate(String text, Map<String, String> options) {
+		if (!logged) {
+			logger.info("hints: {}", hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet));
+			logged = true;
+		}
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
-				.addSystemMessage(hints + localeLanguage(configure, SPLITER))
+				.addSystemMessage(hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet))
 				.addUserMessage(text)
 				.model(model)
 				.maxCompletionTokens(maxTokens);

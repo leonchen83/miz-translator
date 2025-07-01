@@ -2,6 +2,7 @@ package org.example;
 
 import static java.util.zip.Deflater.NO_COMPRESSION;
 import static org.example.AsciiConverter.convertToAscii;
+import static org.example.I18N.addNouns;
 import static org.example.I18N.containsTranslatedLanguage;
 
 import java.io.BufferedReader;
@@ -17,9 +18,11 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -50,6 +53,7 @@ public class Mission implements AutoCloseable {
 	}
 	
 	private final Map<String, String> translatedMap = new LinkedHashMap<>(4096);
+	private final Set<String> nounsSet = new HashSet<>(256);
 	
 	private static Globals globals = JsePlatform.standardGlobals();
 	private Translator translator;
@@ -61,7 +65,7 @@ public class Mission implements AutoCloseable {
 		this.configure = configure;
 		this.folder = folder;
 		logger.info("configure: {}", configure);
-		this.translator = new Translators(configure).getTranslator();
+		this.translator = new Translators(configure, nounsSet).getTranslator();
 		this.translator.start();
 		loadTranslatedMap();
 	}
@@ -99,6 +103,15 @@ public class Mission implements AutoCloseable {
 		unzip(file.toPath(), tempDir);
 		var map = parseText(tempDir);
 		saveToJson(map, file.getName(), file.toPath().getParent());
+		deleteDirectory(tempDir);
+	}
+	
+	public void createProperNounsSet(File file) throws Exception {
+		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
+		unzip(file.toPath(), tempDir);
+		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json"));
+		Map<String, String> map = readToMap(json);
+		retrieveProperNounsSet(map, nounsSet);
 		deleteDirectory(tempDir);
 	}
 	
@@ -174,6 +187,90 @@ public class Mission implements AutoCloseable {
 		}
 		
 		return map;
+	}
+	
+	public void retrieveProperNounsSet(Map<String, String> map, Set<String> nounsSet) {
+		loop:
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if (value == null || value.isEmpty() || value.isBlank()) {
+				continue;
+			}
+			
+			if (value.length() < configure.getMinimumLength()) {
+				continue;
+			}
+			
+			if (containsTranslatedLanguage(configure, value)) {
+				continue;
+			}
+			
+			if (isAllNumber(value)) {
+				continue;
+			}
+			
+			if (!containsLowerCase(value)) {
+				continue;
+			}
+			
+			if (value.equals(key)) {
+				continue;
+			}
+			
+			for (String filter : configure.getFilters()) {
+				if (filter != null && (value.startsWith(filter) || value.endsWith(filter))) {
+					continue loop;
+				}
+			}
+			
+			for (String keyFilter : configure.getKeyFilters()) {
+				if (keyFilter != null && key.startsWith(keyFilter)) {
+					continue loop;
+				}
+			}
+			
+			for (Map.Entry<String, String> e : configure.getFixed().entrySet()) {
+				if (value.equals(e.getKey())) {
+					entry.setValue(e.getValue());
+					continue loop;
+				}
+			}
+			
+			if (isLikelyLua(value)) {
+				try {
+					globals.load(value);
+					continue;
+				} catch (LuaError error) {
+					// do nothing;
+				}
+			}
+			
+			value = convertToAscii(value);
+			boolean shouldParseNouns = false;
+			if (key.startsWith("DictKey_ActionText_")) {
+				shouldParseNouns = true;
+			} else if (key.startsWith("DictKey_descriptionText_")) {
+			} else if (key.startsWith("DictKey_sortie_")) {
+				shouldParseNouns = true;
+			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
+			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
+			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
+			} else if (key.startsWith("DictKey_subtitle_")) {
+				shouldParseNouns = true;
+			} else if (key.startsWith("DictKey_ActionRadioText_")) {
+			} else if (key.startsWith("DictKey_")) {
+				try {
+					Long.parseLong(key.substring("DictKey_".length()));
+					shouldParseNouns = true;
+				} catch (NumberFormatException e) {
+					// do nothing
+				}
+			}
+			if (shouldParseNouns) {
+				addNouns(value, nounsSet);
+			}
+		}
 	}
 	
 	public Map<String, String> translate(Map<String, String> map) {

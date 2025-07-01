@@ -4,6 +4,7 @@ import static org.example.Strings.trim;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.example.impl.OpenAITranslatorImpl;
 import org.slf4j.Logger;
@@ -17,9 +18,11 @@ public class Translators {
 	static Logger logger = LoggerFactory.getLogger(Translators.class);
 	
 	private Configure configure;
+	private Set<String> nounsSet;
 	
-	public Translators(Configure configure) {
+	public Translators(Configure configure, Set<String> nounsSet) {
 		this.configure = configure;
+		this.nounsSet = nounsSet;
 	}
 	
 	public Translator getTranslator() {
@@ -28,7 +31,7 @@ public class Translators {
 			case "deepseek":
 			case "doubao":
 			case "openai":
-				r = new OpenAITranslatorImpl(configure);
+				r = new OpenAITranslatorImpl(configure, nounsSet);
 				break;
 			default:
 				throw new UnsupportedOperationException();
