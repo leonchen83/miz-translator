@@ -379,7 +379,15 @@ public class Mission implements AutoCloseable {
 			}
 			
 			if (needTranslate) {
-				translates(entry, entries, r);
+				if (value.length() > 1024) {
+					if (translatedMap.containsKey(value)) {
+						entry.setValue(translatedMap.get(value));
+					} else {
+						entry.setValue(translator.translate(value, translatedMap));
+					}
+				} else {
+					translates(entry, entries, r);
+				}
 			}
 		}
 		
