@@ -36,7 +36,7 @@ public class I18N {
 	}
 	
 	private static String radarModels() {
-		return "Guideline, Goa, Gammon, Grumble, Gainful, Gecko, Gadfly, Grison, Dog Ear, Shilka, Gopher, Grouse";
+		return "Guideline, Goa, Gammon, Grumble, Gainful, Gecko, Gadfly, Grison, Flat Face, Spoon Rest, Low Blow, Fan Song, Land Roll, Snow Drift, Gun Dish, Hot Shot, Dog Ear, Grouse";
 	}
 	
 	public static boolean containsTranslatedLanguage(Configure configure, String content) {
