@@ -71,6 +71,16 @@
                 <include>*.conf</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>FA-18C Raven One Dominant Fury</directory>
+            <outputDirectory>FA-18C Raven One Dominant Fury</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>
