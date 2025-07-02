@@ -25,14 +25,18 @@ public class I18N {
 	public static String nounsHint(Configure configure, Set<String> nounsSet) {
 		String locale = configure.getLanguageCode();
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留";
+			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留。雷达型号：" + radarModels() + "不翻译";
 		} else if ("ja".equals(locale)) {
-			return "。厳密に保証します" + nounsSet + "これらの単語は翻訳されません。Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは翻訳されません。座標数字：全て保持します";
+			return "。厳密に保証します" + nounsSet + "これらの単語は翻訳されません。Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは翻訳されません。座標数字：全て保持します。レーダーモデル：" + radarModels() + "は翻訳されません";
 		} else if ("ko".equals(locale)) {
-			return "。엄격하게 보장합니다" + nounsSet + "이 단어는 번역되지 않습니다. Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray은 번역되지 않습니다。 좌표 숫자: 모두 유지됩니다";
+			return "。엄격하게 보장합니다" + nounsSet + "이 단어는 번역되지 않습니다. Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray은 번역되지 않습니다。 좌표 숫자: 모두 유지됩니다。 레이더 모델: " + radarModels() + "은 번역되지 않습니다";
 		} else {
-			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留";
+			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留。雷达型号：" + radarModels() + "不翻译";
 		}
+	}
+	
+	private static String radarModels() {
+		return "Guideline, Goa, Gammon, Grumble, Gainful, Gecko, Gadfly, Grison, Dog Ear, Shilka, Gopher, Grouse";
 	}
 	
 	public static boolean containsTranslatedLanguage(Configure configure, String content) {

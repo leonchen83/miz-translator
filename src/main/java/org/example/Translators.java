@@ -34,7 +34,8 @@ public class Translators {
 				r = new OpenAITranslatorImpl(configure, nounsSet);
 				break;
 			default:
-				throw new UnsupportedOperationException();
+				r = new OpenAITranslatorImpl(configure, nounsSet);
+				break;
 		}
 		r.setModel(configure.getModel());
 		r.setBaseUrl(configure.getBaseURL());
