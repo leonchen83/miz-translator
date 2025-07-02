@@ -28,6 +28,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	private OpenAIClient client;
 	private Set<String> nounsSet;
 	private boolean logged;
+	private int size;
 	
 	public OpenAITranslatorImpl(Configure configure, Set<String> nounsSet) {
 		super(configure);
@@ -40,6 +41,11 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	}
 	
 	@Override
+	public int hintSize() {
+		return size;
+	}
+	
+	@Override
 	public void stop() {
 		if (client != null) client.close();
 	}
@@ -47,7 +53,9 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public String translate(String text, Map<String, String> options) {
 		if (!logged) {
-			logger.info("hints: {}", hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet));
+			String hintText = hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet);
+			logger.info("hints: {}", hintText);
+			this.size = hintText.length();
 			logged = true;
 		}
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()

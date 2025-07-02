@@ -65,6 +65,11 @@ public class Translators {
 		}
 		
 		@Override
+		public int hintSize() {
+			return translator.hintSize();
+		}
+		
+		@Override
 		public void setHints(String hints) {
 			translator.setHints(hints);
 		}

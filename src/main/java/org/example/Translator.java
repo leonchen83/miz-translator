@@ -12,6 +12,8 @@ public interface Translator {
 	
 	void stop();
 	
+	int hintSize();
+	
 	void setHints(String hints);
 	
 	void setModel(String model);
