@@ -16,6 +16,7 @@ import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -472,7 +473,7 @@ public class Mission implements AutoCloseable {
 					} else {
 						Files.createDirectories(outputPath.getParent());
 						try (InputStream inputStream = zipFile.getInputStream(entry)) {
-							Files.copy(inputStream, outputPath);
+							Files.copy(inputStream, outputPath, StandardCopyOption.REPLACE_EXISTING);
 						}
 					}
 				} catch (IOException e) {

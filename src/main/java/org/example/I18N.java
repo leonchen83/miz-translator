@@ -25,13 +25,13 @@ public class I18N {
 	public static String nounsHint(Configure configure, Set<String> nounsSet) {
 		String locale = configure.getLanguageCode();
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留。雷达型号：" + radarModels() + "不翻译";
+			return "。严格保证" + nounsSet + "这些飞行呼号或人名保留原文。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray保留原文。坐标保留数字。雷达型号：" + radarModels() + "保留原文";
 		} else if ("ja".equals(locale)) {
-			return "。厳密に保証します" + nounsSet + "これらの単語は翻訳されません。Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは翻訳されません。座標数字：全て保持します。レーダーモデル：" + radarModels() + "は翻訳されません";
+			return "。厳格に保証します" + nounsSet + "これらの飛行コールサインや人名は原文のままです。厳格に保証しますFox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは原文のままです。座標は数字を保持します。レーダーモデル：" + radarModels() + "は原文のままです";
 		} else if ("ko".equals(locale)) {
-			return "。엄격하게 보장합니다" + nounsSet + "이 단어는 번역되지 않습니다. Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray은 번역되지 않습니다。 좌표 숫자: 모두 유지됩니다。 레이더 모델: " + radarModels() + "은 번역되지 않습니다";
+			return "。엄격하게 보장합니다" + nounsSet + "이 비행 호출 부호나 인명은 원문 그대로입니다. 엄격하게 보장합니다Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray는 원문 그대로입니다. 좌표는 숫자를 유지합니다. 레이더 모델：" + radarModels() + "는 원문 그대로입니다";
 		} else {
-			return "。严格保证" + nounsSet + "这些词不翻译。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray不翻译。坐标数字：全保留。雷达型号：" + radarModels() + "不翻译";
+			return "。严格保证" + nounsSet + "这些飞行呼号或人名保留原文。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray保留原文。坐标保留数字。雷达型号：" + radarModels() + "保留原文";
 		}
 	}
 	
