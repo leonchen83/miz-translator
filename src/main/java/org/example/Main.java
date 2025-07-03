@@ -56,7 +56,6 @@ public class Main implements Callable<Integer> {
 				step1(mission, folder, configure);
 			}
 			if (translate) {
-				step1(mission, folder, configure);
 				step2(mission, folder, configure);
 				step3(mission, folder, configure);
 			}
@@ -64,6 +63,7 @@ public class Main implements Callable<Integer> {
 				step4(mission, folder, configure);
 			}
 			if (reformat) {
+				step1(mission, folder, configure);
 				mission.reformatJsonFiles();
 				return 0;
 			}
