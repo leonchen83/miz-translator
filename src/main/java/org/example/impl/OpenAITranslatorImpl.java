@@ -111,8 +111,9 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 				.map(entry -> {
 					String value = entry.getValue();
 					int index = values.indexOf(value);
-					options.put(value, format(value, parts[index]));
-					return Map.entry(entry.getKey(), parts[index]);
+					String after = format(value, parts[index].trim());
+					options.put(value, after);
+					return Map.entry(entry.getKey(), after);
 				})
 				.toList();
 	}
