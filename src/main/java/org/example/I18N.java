@@ -90,6 +90,9 @@ public class I18N {
 		if (nouns.equals("player")) {
 			return null;
 		}
+		if (nouns.length() <= 2) {
+			return null;
+		}
 		return StringUtils.capitalize(nouns);
 	}
 	
