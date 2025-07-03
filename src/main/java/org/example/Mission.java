@@ -1,22 +1,23 @@
 package org.example;
 
-import static java.util.zip.Deflater.NO_COMPRESSION;
-import static org.example.AsciiConverter.convertToAscii;
+import static org.example.Compressor.unzip;
+import static org.example.Compressor.zip;
 import static org.example.I18N.addNouns;
 import static org.example.I18N.containsTranslatedLanguage;
+import static org.example.Strings.containsLowerCase;
+import static org.example.Strings.convertToAscii;
+import static org.example.Strings.isAllNumber;
+import static org.example.Strings.isLikelyLua;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,10 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -108,23 +106,17 @@ public class Mission implements AutoCloseable {
 	}
 	
 	public void createProperNounsSet(File file) throws Exception {
-		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
-		unzip(file.toPath(), tempDir);
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json"));
 		Map<String, String> map = readToMap(json);
 		retrieveProperNounsSet(map, nounsSet);
-		deleteDirectory(tempDir);
 	}
 	
 	public void convertJsonToChinese(File file) throws Exception {
 		System.out.println("translating : " + file);
-		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
-		unzip(file.toPath(), tempDir);
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json"));
 		Map<String, String> map = readToMap(json);
 		map = translate(map);
 		saveToJson(map, file.getName(), file.toPath().getParent());
-		deleteDirectory(tempDir);
 	}
 	
 	public void convertChineseToMiz(File file) throws Exception {
@@ -415,17 +407,6 @@ public class Mission implements AutoCloseable {
 		return map;
 	}
 	
-	private boolean containsLowerCase(String value) {
-		final int sz = value.length();
-		for (int i = 0; i < sz; i++) {
-			char c = value.charAt(i);
-			if (c >= 'a' && c <= 'z') {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	private void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
 		String key = entry.getKey();
 		String value = entry.getValue();
@@ -443,10 +424,6 @@ public class Mission implements AutoCloseable {
 				saveTranslatedMap();
 			}
 		}
-	}
-	
-	public static boolean isLikelyLua(String code) {
-		return code.matches("(?s).*\\b(function|local|if|then|end|return|print|for|while|do)\\b.*") || code.matches("(?s).*[=(){};].*");
 	}
 	
 	public void saveToFile(Map<String, String> map, Path tempDir) throws IOException {
@@ -469,55 +446,6 @@ public class Mission implements AutoCloseable {
 		try (FileWriter fileWriter = new FileWriter(countryPath.toFile())) {
 			fileWriter.write(builder.toString());
 		}
-	}
-	
-	public void unzip(Path zip, Path destDir) throws IOException {
-		try (ZipFile zipFile = new ZipFile(zip)) {
-			zipFile.getEntries().asIterator().forEachRemaining(entry -> {
-				Path outputPath = destDir.resolve(entry.getName());
-				try {
-					if (entry.isDirectory()) {
-						Files.createDirectories(outputPath);
-					} else {
-						Files.createDirectories(outputPath.getParent());
-						try (InputStream inputStream = zipFile.getInputStream(entry)) {
-							Files.copy(inputStream, outputPath, StandardCopyOption.REPLACE_EXISTING);
-						}
-					}
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			});
-		}
-	}
-	
-	public void zip(Path sourceDir, Path zip) throws IOException {
-		try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zip.toFile()))) {
-			zos.setLevel(NO_COMPRESSION);
-			Files.walk(sourceDir)
-					.filter(path -> !Files.isDirectory(path))
-					.forEach(path -> {
-						String zipEntryName = sourceDir.relativize(path).toString().replace("\\", "/");
-						try {
-							ZipEntry zipEntry = new ZipEntry(zipEntryName);
-							zos.putNextEntry(zipEntry);
-							Files.copy(path, zos);
-							zos.closeEntry();
-						} catch (IOException e) {
-							throw new RuntimeException(e);
-						}
-					});
-		}
-	}
-	
-	public boolean isAllNumber(String str) {
-		for (int i = 0; i < str.length(); i++) {
-			char ch = str.charAt(i);
-			if (ch < '0' || ch > '9') {
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	public boolean deleteDirectory(Path directory) {
