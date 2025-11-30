@@ -21,7 +21,7 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 
 그런 다음, 최신 버전의 미션 번역기를 다운로드해야 합니다.  
 아래 링크에서 최신 버전을 다운로드하고 `/path/to/miz-translator` 경로에 압축을 해제하세요.  
-[최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/download/v1.0.7/miz-translator-release.zip)
+[최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)
 
 ### 설정
 

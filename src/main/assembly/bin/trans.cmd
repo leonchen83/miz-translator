@@ -21,7 +21,11 @@ echo NB: JAVA_HOME should point to a JDK not a JRE >&2
 goto error
 
 :chkMHome
-set "RCT_HOME=%~dp0.."
+rem Get directory of this script, then go one level up (redis-rdb-cli)
+pushd "%~dp0\.." >nul
+set "RCT_HOME=%CD%"
+popd >nul
+
 if not "%RCT_HOME%"=="" goto stripMHome
 goto error
 

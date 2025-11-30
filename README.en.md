@@ -18,7 +18,7 @@ It extracts text from mission files, uses AI to perform the translation, and the
 
 First, you need to install Java 17. You can download and install Java 17 from [here](https://www.oracle.com/java/technologies/downloads/#java17-windows).
 
-Next, download the latest version of the mission translator. You can get the latest release from [here](https://github.com/leonchen83/miz-translator/releases/download/v1.0.7/miz-translator-release.zip). Extract it to `/path/to/miz-translator`.
+Next, download the latest version of the mission translator. You can get the latest release from [here](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip). Extract it to `/path/to/miz-translator`.
 
 ### Configuration
 
