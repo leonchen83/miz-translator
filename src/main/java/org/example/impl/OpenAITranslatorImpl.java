@@ -58,6 +58,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			this.size = hintText.length();
 			logged = true;
 		}
+		rateLimit.acquire();
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
 				.addSystemMessage(hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet))
 				.addUserMessage(text)

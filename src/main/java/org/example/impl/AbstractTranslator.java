@@ -3,6 +3,8 @@ package org.example.impl;
 import org.example.Configure;
 import org.example.Translator;
 
+import com.google.common.util.concurrent.RateLimiter;
+
 /**
  * @author Baoyi Chen
  */
@@ -17,9 +19,11 @@ public abstract class AbstractTranslator implements Translator {
 	protected String baseUrl;
 	protected double temperature;
 	protected Configure configure;
+	protected RateLimiter rateLimit;
 	
 	public AbstractTranslator(Configure configure) {
 		this.configure = configure;
+		this.rateLimit = RateLimiter.create(configure.getRateLimitPerMinute()/60.0);
 	}
 	
 	@Override

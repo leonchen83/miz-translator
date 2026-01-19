@@ -66,6 +66,7 @@ public class Configure {
     private int maxTokens = 4096;
     private int minimumLength = 12;
     private int batchSize = 48;
+    private int rateLimitPerMinute = 15;
     private String[] filters = new String[0];
     private String[] keyFilters = new String[0];
     
@@ -175,6 +176,14 @@ public class Configure {
         this.batchSize = batchSize;
     }
     
+    public int getRateLimitPerMinute() {
+        return rateLimitPerMinute;
+    }
+    
+    public void setRateLimitPerMinute(int rateLimitPerMinute) {
+        this.rateLimitPerMinute = rateLimitPerMinute;
+    }
+    
     public String[] getFilters() {
         return filters;
     }
@@ -226,6 +235,7 @@ public class Configure {
         conf.maxTokens = getInt(conf, "maxTokens", 4096, true);
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
         conf.batchSize = getInt(conf, "batchSize", 32, false);
+        conf.rateLimitPerMinute = getInt(conf, "rateLimitPerMinute", 15, true);
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
