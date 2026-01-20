@@ -20,6 +20,9 @@ import org.example.Configure;
  */
 public class MissionVoice extends AbstractMission implements AutoCloseable {
 	
+	private static final int EDGE_TTS_MAX_RETRY = 3;
+	private static final long EDGE_TTS_RETRY_DELAY_MS = 3000;
+	
 	public MissionVoice(Configure configure, File folder) {
 		super(configure, folder);
 	}
@@ -65,6 +68,8 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	}
 	
 	public void ttsToOgg(String text, String voice, Path outOgg) throws Exception {
+		if (Files.exists(outOgg)) return;
+		
 		Path wav = Files.createTempFile("tts-", ".wav");
 		String ttsCmd = null;
 		if (configure.getEdgeTTSProxy() != null) {
@@ -72,15 +77,13 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		} else {
 			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
 		}
-		
 		String ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libopus \"%s\"", wav, outOgg);
-		runCmd(ttsCmd);
+		runEdgeTtsWithRetry(ttsCmd, outOgg);
 		runCmd(ffmpegCmd);
 		Files.deleteIfExists(wav);
 	}
 	
 	static int runCmd(String cmd) throws Exception {
-		System.out.println("running command: " + cmd);
 		boolean win = System.getProperty("os.name").toLowerCase().contains("win");
 		
 		ProcessBuilder pb = win ? new ProcessBuilder("cmd.exe", "/c", cmd) : new ProcessBuilder("bash", "-c", cmd);
@@ -96,4 +99,24 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		}
 		return code;
 	}
+	
+	private void runEdgeTtsWithRetry(String cmd, Path outOgg) throws Exception {
+		int attempt = 0;
+		
+		while (true) {
+			attempt++;
+			try {
+				System.out.println("translating file: "+ outOgg);
+				runCmd(cmd);
+				return;
+			} catch (Exception e) {
+				if (attempt >= EDGE_TTS_MAX_RETRY) {
+					System.out.println("failed translating file: "+ outOgg);
+					throw e;
+				}
+				Thread.sleep(EDGE_TTS_RETRY_DELAY_MS);
+			}
+		}
+	}
+	
 }
