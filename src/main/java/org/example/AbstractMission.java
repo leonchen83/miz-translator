@@ -129,7 +129,7 @@ public abstract class AbstractMission {
 	
 	public void saveToVoiceFiles(Path voiceDir, Path tempDir) throws IOException {
 		if (!Files.exists(voiceDir) || !Files.isDirectory(voiceDir)) {
-			throw new IllegalArgumentException("voiceDir must exist and be a directory");
+			throw new IllegalArgumentException("voiceDir " + voiceDir + " must exist and be a directory");
 		}
 		
 		Files.createDirectories(tempDir);

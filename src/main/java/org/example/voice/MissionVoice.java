@@ -55,15 +55,24 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
-		Path dest = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
-		saveToVoiceFiles(dest, tempDir);
+		Path outOgg = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
+		Files.createDirectories(outOgg);
+		saveToVoiceFiles(outOgg, tempDir);
+		
+		Path dest = file.toPath().getParent().resolve(file.getName());
 		zip(tempDir, dest);
 		deleteDirectory(tempDir);
 	}
 	
-	public static void ttsToOgg(String text, String voice, Path outOgg) throws Exception {
+	public void ttsToOgg(String text, String voice, Path outOgg) throws Exception {
 		Path wav = Files.createTempFile("tts-", ".wav");
-		String ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
+		String ttsCmd = null;
+		if (configure.getEdgeTTSProxy() != null) {
+			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text.replace("\"", "\\\""), wav, configure.getEdgeTTSProxy());
+		} else {
+			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
+		}
+		
 		String ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libopus \"%s\"", wav, outOgg);
 		runCmd(ttsCmd);
 		runCmd(ffmpegCmd);
@@ -71,12 +80,14 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	}
 	
 	static int runCmd(String cmd) throws Exception {
+		System.out.println("running command: " + cmd);
 		boolean win = System.getProperty("os.name").toLowerCase().contains("win");
 		
 		ProcessBuilder pb = win ? new ProcessBuilder("cmd.exe", "/c", cmd) : new ProcessBuilder("bash", "-c", cmd);
 		
+		pb.redirectInput(ProcessBuilder.Redirect.DISCARD);
 		pb.redirectErrorStream(true);
-		pb.inheritIO();
+		pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 		
 		Process p = pb.start();
 		int code = p.waitFor();
