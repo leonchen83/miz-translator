@@ -1,10 +1,13 @@
 package org.example.voice;
 
+import static org.example.Compressor.unzip;
+import static org.example.Compressor.zip;
 import static org.example.I18N.i18n;
 import static org.example.I18N.localeVoice;
 import static org.example.I18N.pi18n;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
@@ -27,6 +30,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	}
 	
 	public void translateTextToVoice(File file) {
+		System.out.println("translating voice : " + file);
 		Path voiceJson = file.toPath().getParent().resolve(i18n(file.getName() + ".voice", "json", configure));
 		Map<String, String> voiceMap = readToMap(voiceJson);
 		for (var entry : voiceMap.entrySet()) {
@@ -44,8 +48,17 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		}
 	}
 	
-	public void convertVoiceToMiz(File file) {
-		// TODO
+	public void convertVoiceToMiz(File file) throws IOException {
+		System.out.println("compressing : " + file);
+		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
+		unzip(file.toPath(), tempDir);
+		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
+		Map<String, String> map = readToMap(json);
+		saveToFile(map, tempDir);
+		Path dest = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
+		saveToVoiceFiles(dest, tempDir);
+		zip(tempDir, dest);
+		deleteDirectory(tempDir);
 	}
 	
 	public static void ttsToOgg(String text, String voice, Path outOgg) throws Exception {

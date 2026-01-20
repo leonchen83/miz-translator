@@ -5,11 +5,14 @@ import static org.example.I18N.i18n;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -92,6 +95,53 @@ public abstract class AbstractMission {
 			mapper.writeValue(path.toFile(), translatedMap);
 		} catch (IOException e) {
 			logger.error("Failed to save translated map to {}", path, e);
+		}
+	}
+	
+	public void saveToFile(Map<String, String> map, Path tempDir) throws IOException {
+		String country = configure.getCountryCode();
+		Path countryPath = tempDir.resolve("l10n").resolve(country).resolve("dictionary");
+		Files.createDirectories(countryPath.getParent());
+		StringBuilder builder = new StringBuilder();
+		builder.append("dictionary = \n{\n");
+		map.forEach((key, value) -> {
+			builder.append("    [\"").append(key).append("\"] = ");
+			if (value == null || value.isEmpty() || value.isBlank()) {
+				builder.append("\"\"");
+			} else {
+				value = value.replaceAll("\n", "\\\\\n").replace("\"", "\\\"");
+				builder.append("\"").append(value).append("\"");
+			}
+			builder.append(",\n");
+		});
+		builder.append("}-- end of dictionary\n");
+		try (FileWriter fileWriter = new FileWriter(countryPath.toFile())) {
+			fileWriter.write(builder.toString());
+		}
+	}
+	
+	public void saveVoiceFile(Path voice, Path tempDir) throws IOException {
+		Path defaultDir = tempDir.resolve("l10n").resolve("DEFAULT");
+		Files.createDirectories(defaultDir);
+		Path target = defaultDir.resolve(voice.getFileName());
+		Files.copy(voice, target, StandardCopyOption.REPLACE_EXISTING);
+	}
+	
+	public void saveToVoiceFiles(Path voiceDir, Path tempDir) throws IOException {
+		if (!Files.exists(voiceDir) || !Files.isDirectory(voiceDir)) {
+			throw new IllegalArgumentException("voiceDir must exist and be a directory");
+		}
+		
+		Files.createDirectories(tempDir);
+		
+		Path defaultDir = tempDir.resolve("l10n").resolve("DEFAULT");
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(voiceDir)) {
+			for (Path file : stream) {
+				if (Files.isRegularFile(file)) {
+					Path target = defaultDir.resolve(file.getFileName());
+					Files.copy(file, target, StandardCopyOption.REPLACE_EXISTING);
+				}
+			}
 		}
 	}
 	

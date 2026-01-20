@@ -11,7 +11,6 @@ import static org.example.Strings.isAllNumber;
 import static org.example.Strings.isLikelyLua;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -432,28 +431,6 @@ public class Mission extends AbstractMission implements AutoCloseable {
 				entries.clear();
 				saveTranslatedMap();
 			}
-		}
-	}
-	
-	public void saveToFile(Map<String, String> map, Path tempDir) throws IOException {
-		String country = configure.getCountryCode();
-		Path countryPath = tempDir.resolve("l10n").resolve(country).resolve("dictionary");
-		Files.createDirectories(countryPath.getParent());
-		StringBuilder builder = new StringBuilder();
-		builder.append("dictionary = \n{\n");
-		map.forEach((key, value) -> {
-			builder.append("    [\"").append(key).append("\"] = ");
-			if (value == null || value.isEmpty() || value.isBlank()) {
-				builder.append("\"\"");
-			} else {
-				value = value.replaceAll("\n", "\\\\\n").replace("\"", "\\\"");
-				builder.append("\"").append(value).append("\"");
-			}
-			builder.append(",\n");
-		});
-		builder.append("}-- end of dictionary\n");
-		try (FileWriter fileWriter = new FileWriter(countryPath.toFile())) {
-			fileWriter.write(builder.toString());
 		}
 	}
 	
