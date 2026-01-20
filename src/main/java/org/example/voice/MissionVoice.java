@@ -85,9 +85,8 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		
 		ProcessBuilder pb = win ? new ProcessBuilder("cmd.exe", "/c", cmd) : new ProcessBuilder("bash", "-c", cmd);
 		
-		pb.redirectInput(ProcessBuilder.Redirect.DISCARD);
 		pb.redirectErrorStream(true);
-		pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+		pb.inheritIO();
 		
 		Process p = pb.start();
 		int code = p.waitFor();
