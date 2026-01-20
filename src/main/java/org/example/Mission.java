@@ -139,6 +139,8 @@ public class Mission extends AbstractMission implements AutoCloseable {
 				LuaValue value = next.arg(2);
 				if (key.tojstring().equals("actions")) {
 					parseAction(value, resource, out);
+				} else if (key.tojstring().equals("action")) {
+					parseAction(value, resource, out);
 				} else if (value.type() == 5) {
 					parseMission(value, resource, out);
 				}
@@ -151,7 +153,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 	
 	public void parseAction(LuaValue lua, Map<String, String> resource, Map<String, String> out) {
 		try {
-			if (lua.type() == 5) {
+			if (lua.type() == 5 /*Table*/) {
 				String textValue = null;
 				String textKey = null;
 				LuaValue k = LuaValue.NIL;
@@ -160,7 +162,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					k = next.arg1();
 					LuaValue v = next.arg(2);
 					if (k.isnil()) break;
-					if (v.type() == 4/*String*/) {
+					if (v.type() == 4 /*String*/) {
 						String value = v.tojstring();
 						for (var entry : resource.entrySet()) {
 							if (value.contains(entry.getKey()) && !out.containsKey(entry.getValue())) {
