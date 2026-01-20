@@ -87,3 +87,24 @@ cd /path/to/miz-translator/bin
 # Compress the translated text back into a .miz mission file
 ./trans -f /path/to/missions -c
 ```
+
+### Voice Translation
+
+Voice translation requires the installation of `edge-tts` and `ffmpeg`.
+
+```shell
+# MacOS
+brew install python
+pip3 install edge-tts
+brew install ffmpeg
+$ edge-tts --version
+$ ffmpeg -version
+```
+
+Voice translation first requires running the `trans` command to generate the translated voice text, then use the following command to generate the voice files and package them into the miz mission file.
+
+```shell
+cd /path/to/miz-translator/bin
+./trans -f /path/to/missions
+./trans-voice -f /path/to/missions
+```

@@ -4,126 +4,91 @@ import static org.example.Compressor.unzip;
 import static org.example.Compressor.zip;
 import static org.example.I18N.addNouns;
 import static org.example.I18N.containsTranslatedLanguage;
+import static org.example.I18N.i18n;
 import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.isAllNumber;
 import static org.example.Strings.isLikelyLua;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.jse.JsePlatform;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * @author Baoyi Chen
  */
-public class Mission implements AutoCloseable {
+public class Mission extends AbstractMission implements AutoCloseable {
 	
-	static Logger logger = LoggerFactory.getLogger(Mission.class);
-	
-	private static ObjectMapper mapper = new ObjectMapper();
-	
-	static {
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-	}
-	
-	private final Map<String, String> translatedMap = new LinkedHashMap<>(4096);
 	private final Set<String> nounsSet = new HashSet<>(256);
+	private static final Pattern PATTERN = Pattern.compile("getValueDictByKey\\s*\\(\\s*\"([^\"]+)\"\\s*\\)");
 	
 	private static Globals globals = JsePlatform.standardGlobals();
 	private Translator translator;
-	private Configure configure;
-	private File folder;
-	private String translatedMapFileName = "translated_map";
 	
 	public Mission(Configure configure, File folder) {
-		this.configure = configure;
-		this.folder = folder;
-		logger.info("configure: {}", configure);
+		super(configure, folder);
 		this.translator = new Translators(configure, nounsSet).getTranslator();
 		this.translator.start();
-		loadTranslatedMap();
-	}
-	
-	private String i18n(String file, String suffix) {
-		return file + "." + configure.getLanguageCode() + "." + suffix;
-	}
-	
-	public void loadTranslatedMap() {
-		Path path = folder.toPath().resolve(i18n(translatedMapFileName, "json"));
-		if (Files.exists(path)) {
-			try {
-				translatedMap.putAll(mapper.readValue(path.toFile(), new TypeReference<>() {}));
-				logger.info("Loaded translated map from {}", path);
-			} catch (IOException e) {
-				logger.error("Failed to load translated map from {}", path, e);
-			}
-		} else {
-			logger.warn("No translated map found at {}", path);
-		}
-	}
-	
-	public void saveTranslatedMap() {
-		Path path = folder.toPath().resolve(i18n(translatedMapFileName, "json"));
-		try {
-			mapper.writeValue(path.toFile(), translatedMap);
-		} catch (IOException e) {
-			logger.error("Failed to save translated map to {}", path, e);
-		}
 	}
 	
 	public void convertMizToJson(File file) throws Exception {
 		System.out.println("decompress : " + file);
 		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
 		unzip(file.toPath(), tempDir);
-		var map = parseText(tempDir);
+		var map = parseText(tempDir, "dictionary");
 		saveToJson(map, file.getName(), file.toPath().getParent());
+		
+		var voice = parseMission(tempDir, parseText(tempDir, "mapResource"));
+		saveToJson(voice, file.getName() + ".voice", file.toPath().getParent());
 		deleteDirectory(tempDir);
 	}
 	
 	public void createProperNounsSet(File file) throws Exception {
-		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json"));
+		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
 		retrieveProperNounsSet(map, nounsSet);
 	}
 	
 	public void convertJsonToChinese(File file) throws Exception {
 		System.out.println("translating : " + file);
-		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json"));
+		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
 		map = translate(map);
 		saveToJson(map, file.getName(), file.toPath().getParent());
+		
+		// voice
+		Path voiceJson = file.toPath().getParent().resolve(i18n(file.getName() + ".voice", "json", configure));
+		Map<String, String> voiceMap = readToMap(voiceJson);
+		for (var entry : voiceMap.entrySet()) {
+			String value = entry.getValue();
+			if (map.containsKey(value)) {
+				entry.setValue(map.get(value));
+			}
+		}
+		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 	}
 	
 	public void convertChineseToMiz(File file) throws Exception {
 		System.out.println("compressing : " + file);
 		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
 		unzip(file.toPath(), tempDir);
-		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json"));
+		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
 		Path dest = file.toPath().getParent().resolve(file.getName());
@@ -131,42 +96,14 @@ public class Mission implements AutoCloseable {
 		deleteDirectory(tempDir);
 	}
 	
-	private Map<String, String> readToMap(Path path) {
-		try {
-			return mapper.readValue(path.toFile(), new TypeReference<>() {
-			});
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	private void saveToJson(Map<String, String> map, String name, Path path) {
-		try {
-			mapper.writeValue(path.resolve(i18n(name, "json")).toFile(), map);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	private String readFile(Path filePath) throws IOException {
-		StringBuilder content = new StringBuilder();
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
-			String line;
-			while ((line = br.readLine()) != null) {
-				content.append(line).append("\n");
-			}
-		}
-		return content.toString();
-	}
-	
-	public Map<String, String> parseText(Path dir) throws IOException {
-		dir = dir.resolve("l10n").resolve("DEFAULT").resolve("dictionary");
+	public Map<String, String> parseText(Path dir, String name) throws IOException {
+		dir = dir.resolve("l10n").resolve("DEFAULT").resolve(name);
 		String luaScript = readFile(dir);
 		
 		LuaValue chunk = globals.load(luaScript);
 		chunk.call();
 		
-		LuaValue dictionary = globals.get("dictionary");
+		LuaValue dictionary = globals.get(name);
 		
 		Map<String, String> map = new LinkedHashMap<>();
 		
@@ -180,6 +117,78 @@ public class Mission implements AutoCloseable {
 		}
 		
 		return map;
+	}
+	
+	public Map<String, String> parseMission(Path dir, Map<String, String> resource) throws IOException {
+		dir = dir.resolve("mission");
+		String luaScript = readFile(dir);
+		
+		LuaValue chunk = globals.load(luaScript);
+		chunk.call();
+		LuaValue dictionary = globals.get("mission");
+		Map<String, String> map = new LinkedHashMap<>();
+		parseMission(dictionary, resource, map);
+		return map;
+	}
+	
+	public void parseMission(LuaValue lua, Map<String, String> resource, Map<String, String> out) {
+		try {
+			LuaValue key = LuaValue.NIL;
+			while (true) {
+				Varargs next = lua.next(key);
+				key = next.arg1();
+				LuaValue value = next.arg(2);
+				if (key.tojstring().equals("actions")) {
+					parseAction(value, resource, out);
+				} else if (value.type() == 5) {
+					parseMission(value, resource, out);
+				}
+				if (key.isnil()) break;
+			}
+		} catch (Throwable ignore) {
+			// do nothing
+		}
+	}
+	
+	public void parseAction(LuaValue lua, Map<String, String> resource, Map<String, String> out) {
+		try {
+			if (lua.type() == 5) {
+				String textValue = null;
+				String textKey = null;
+				LuaValue k = LuaValue.NIL;
+				while (true) {
+					Varargs next = lua.next(k);
+					k = next.arg1();
+					LuaValue v = next.arg(2);
+					if (k.isnil()) break;
+					if (v.type() == 4) {
+						String value = v.tojstring();
+						for (var entry : resource.entrySet()) {
+							if (value.contains(entry.getKey()) && !out.containsKey(entry.getValue())) {
+								Matcher m = PATTERN.matcher(value);
+								if (!m.find()) continue;
+								value = m.group(1);
+								out.put(entry.getValue(), value);
+							}
+						}
+					} else if (v.type() == 5) {
+						if (v.get("predicate").tojstring().equals("a_out_text_delay_u")) {
+							textValue = v.get("text").tojstring();
+						} else if (v.get("predicate").tojstring().equals("a_out_sound_u")) {
+							textKey = v.get("file").tojstring();
+						}
+					}
+				}
+				if (textKey != null && textValue != null && resource.containsKey(textKey)) {
+					textKey = resource.get(textKey);
+					if (!out.containsKey(textKey)) {
+						out.put(textKey, textValue);
+					}
+				}
+			}
+		} catch (Throwable ignore) {
+			// do nothing
+		}
 	}
 	
 	public void retrieveProperNounsSet(Map<String, String> map, Set<String> nounsSet) {
@@ -445,31 +454,6 @@ public class Mission implements AutoCloseable {
 		builder.append("}-- end of dictionary\n");
 		try (FileWriter fileWriter = new FileWriter(countryPath.toFile())) {
 			fileWriter.write(builder.toString());
-		}
-	}
-	
-	public boolean deleteDirectory(Path directory) {
-		if (!Files.exists(directory)) {
-			return false;
-		}
-		
-		try {
-			Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
-				@Override
-				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-					Files.delete(file);
-					return FileVisitResult.CONTINUE;
-				}
-				
-				@Override
-				public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-					Files.delete(dir);
-					return FileVisitResult.CONTINUE;
-				}
-			});
-			return true;
-		} catch (IOException e) {
-			return false;
 		}
 	}
 	

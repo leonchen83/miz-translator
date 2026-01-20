@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+if type -P java &>/dev/null; then
+    _java=java
+elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
+    _java="$JAVA_HOME/bin/java"
+else
+    echo "no found java."
+fi
+
+if [[ "$_java" ]]; then
+    version=$("$_java" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+    version1=$(echo "$version" | awk -F. '{printf("%03d%03d",$1,$2);}')
+    if [ $version1 -lt 001008 ]; then
+        echo "Java version is lower than 1.8 - Please install Java 8"
+        exit
+    fi
+    if [ $version1 -ge 009000 ]; then
+        opts="--add-opens=java.base/java.lang.invoke=ALL-UNNAMED"
+    fi
+fi
+
+# Resolve script directory, handling symlinks
+PRG="$0"
+while [ -L "$PRG" ]; do
+  ls=$(ls -ld "$PRG")
+  link=$(expr "$ls" : '.*-> \(.*\)$')
+  if expr "$link" : '/.*' > /dev/null; then
+    PRG="$link"
+  else
+    PRG="$(dirname "$PRG")/$link"
+  fi
+done
+
+SCRIPT_DIR="$(cd "$(dirname "$PRG")" >/dev/null 2>&1 && pwd)"
+base_dir="$(cd "$SCRIPT_DIR/.." >/dev/null 2>&1 && pwd)"
+
+find_command() {
+    local cmd="$1"
+    local paths=(
+        "$HOME/.local/bin"
+        "/usr/local/bin"
+        "/usr/bin"
+        "/opt/homebrew/bin"
+    )
+    
+    if type -P "$cmd" &>/dev/null; then
+        echo "$(type -P $cmd)"
+        return 0
+    fi
+    
+    for p in "${paths[@]}"; do
+        if [[ -x "$p/$cmd" ]]; then
+            echo "$p/$cmd"
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
+# edge-tts
+EDGE_TTS_BIN=$(find_command edge-tts)
+if [[ -z "$EDGE_TTS_BIN" ]]; then
+    echo "Error: edge-tts not found. Please install via 'pipx install edge-tts' or 'pip install edge-tts --user'"
+    exit 1
+fi
+
+echo "edge-tts version: $(edge-tts --version)"
+
+# ffmpeg
+FFMPEG_BIN=$(find_command ffmpeg)
+if [[ -z "$FFMPEG_BIN" ]]; then
+    echo "Error: ffmpeg not found. On Ubuntu/Debian: 'sudo apt install ffmpeg', on CentOS/RHEL: 'sudo dnf install ffmpeg'"
+    exit 1
+fi
+
+echo "ffmpeg version: $(ffmpeg -version | head -n 1)"
+
+case "$(uname -s)" in
+  *CYGWIN*) base_dir=`cygpath -w "$base_dir"`;;
+  *MSYS*) base_dir=`cygpath -w "$base_dir"`;;
+esac
+
+lib_dir="$base_dir"/lib
+log_dir="$base_dir"/log
+con_dir="$base_dir"/conf
+
+log_file="$con_dir"/log4j2.xml
+con_file="$con_dir"/trans.conf
+
+for file in "$lib_dir"/*.jar;
+do
+    CLASSPATH="$CLASSPATH":"$file"
+done
+
+(ulimit -n 65535 || true) 2>/dev/null
+
+export CLASSPATH
+
+encoding="-Dsun.stdout.encoding=UTF-8 -Dsun.err.encoding=UTF-8 -Dfile.encoding=UTF-8"
+
+$_java ${opts} ${encoding} -server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:+ExitOnOutOfMemoryError -XX:InitiatingHeapOccupancyPercent=35 -XX:+ExplicitGCInvokesConcurrent -Dlog4j.configurationFile=${log_file} -Dcli.log.path=${log_dir} -Dconf=${con_file} -Dtrans.home=${base_dir} org.example.voice.MainVoice $@

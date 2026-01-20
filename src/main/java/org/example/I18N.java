@@ -9,6 +9,27 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class I18N {
 	
+	public static String i18n(String file, String suffix, Configure configure) {
+		return file + "." + configure.getLanguageCode() + "." + suffix;
+	}
+	
+	public static String pi18n(String file, String suffix, Configure configure) {
+		return file + "-" + configure.getLanguageCode() + "-" + suffix;
+	}
+	
+	public static String localeVoice(Configure configure) {
+		String locale = configure.getLanguageCode();
+		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
+			return "zh-CN-YunyangNeural";
+		} else if( "ja".equals(locale)) {
+			return "ja-JP-KeitaNeural";
+		} else if ("ko".equals(locale)) {
+			return "ko-KR-InJoonNeural";
+		} else {
+			return "zh-CN-YunyangNeural";
+		}
+	}
+	
 	public static String localeLanguage(Configure configure, String spliter) {
 		String locale = configure.getLanguageCode();
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {

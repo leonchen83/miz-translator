@@ -89,3 +89,25 @@ cd /path/to/miz-translator/bin
 # 翻訳後のテキストを .miz ミッションファイルに再圧縮
 ./trans -f /path/to/missions -c
 ```
+
+### 音声翻訳
+
+音声翻訳を行うには、まず `edge-tts` と `ffmpeg` をインストールする必要があります。
+
+```shell
+# macOS
+brew install python
+pip3 install edge-tts
+brew install ffmpeg
+
+$ edge-tts --version
+$ ffmpeg -version
+```
+
+音声翻訳では、まず `trans` コマンドを実行して翻訳済みのテキストを生成し、その後以下のコマンドで音声ファイルを生成して、miz ミッションファイルにパッケージします。
+
+```shell
+cd /path/to/miz-translator/bin
+./trans -f /path/to/missions
+./trans-voice -f /path/to/missions
+```

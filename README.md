@@ -86,4 +86,24 @@ cd /path/to/miz-translator/bin
 # 将翻译后的文本压缩成miz任务
 ./trans -f /path/to/missions -c
 ```
+### 语音翻译
 
+语音翻译需要先安装`edge-tts`以及`ffmpeg`
+
+```shell
+#MacOS
+brew install python
+pip3 install edge-tts
+brew install ffmpeg
+
+$ edge-tts --version
+$ ffmpeg -version
+```
+
+语音翻译首先需要执行trans命令生成翻译后的语音文本, 然后使用下面的命令生成语音文件, 并打包进miz任务文件中
+
+```shell
+cd /path/to/miz-translator/bin
+./trans -f /path/to/missions
+./trans-voice -f /path/to/missions
+```
