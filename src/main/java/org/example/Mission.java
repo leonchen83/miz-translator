@@ -160,7 +160,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					k = next.arg1();
 					LuaValue v = next.arg(2);
 					if (k.isnil()) break;
-					if (v.type() == 4) {
+					if (v.type() == 4/*String*/) {
 						String value = v.tojstring();
 						for (var entry : resource.entrySet()) {
 							if (value.contains(entry.getKey()) && !out.containsKey(entry.getValue())) {
@@ -170,11 +170,14 @@ public class Mission extends AbstractMission implements AutoCloseable {
 								out.put(entry.getValue(), value);
 							}
 						}
-					} else if (v.type() == 5) {
+					} else if (v.type() == 5 /*Table*/) {
 						if (v.get("predicate").tojstring().equals("a_out_text_delay_u")) {
 							textValue = v.get("text").tojstring();
 						} else if (v.get("predicate").tojstring().equals("a_out_sound_u")) {
 							textKey = v.get("file").tojstring();
+						} else {
+							textKey = v.get("file").tojstring();
+							textValue = v.get("subtitle").tojstring();
 						}
 					}
 				}

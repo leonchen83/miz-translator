@@ -91,10 +91,15 @@ cd /path/to/miz-translator/bin
 语音翻译需要先安装`edge-tts`以及`ffmpeg`
 
 ```shell
-#MacOS
+# MacOS
 brew install python
 pip3 install edge-tts
 brew install ffmpeg
+
+# Windows
+winget install Python.Python.3.14
+pip install edge-tts
+winget install -e --id BtbN.FFmpeg.LGPL.8.0
 
 $ edge-tts --version
 $ ffmpeg -version
