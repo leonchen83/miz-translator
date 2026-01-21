@@ -70,8 +70,17 @@ public class Configure {
     private int rateLimitPerMinute = 10000;
     private String[] filters = new String[0];
     private String[] keyFilters = new String[0];
+    private String voice;
     
     private Map<String, String> fixed = new HashMap<>();
+    
+    public String getVoice() {
+        return voice;
+    }
+    
+    public void setVoice(String voice) {
+        this.voice = voice;
+    }
     
     public String getHint() {
         return hint;
@@ -392,6 +401,7 @@ public class Configure {
                 ", keyFilters=" + Arrays.toString(keyFilters) +
                 ", fixed=" + fixed +
                 ", edgeTTSProxy='" + ttsProxy + '\'' +
+                ", voice='" + voice + '\'' +
                 '}';
     }
 }

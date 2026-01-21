@@ -41,11 +41,17 @@ public class MainVoice implements Callable<Integer> {
 	@CommandLine.Option(names = {"-p", "--proxy"}, paramLabel = "<proxy>", description = {"tts proxy"}, type = String.class)
 	private String proxy;
 	
+	@CommandLine.Option(names = {"-v", "--voice"}, paramLabel = "<voice>", description = {"edge tts voice. example: zh-CN-YunyangNeural"}, type = String.class)
+	private String voice;
+	
 	@Override
 	public Integer call() throws Exception {
 		Configure configure = Configure.bind();
 		if (proxy != null && !proxy.isEmpty()) {
 			configure.setTtsProxy(proxy);
+		}
+		if (voice != null && !voice.isEmpty()) {
+			configure.setVoice(voice);
 		}
 		try(MissionVoice mission = new MissionVoice(configure, folder)) {
 			if (translate) {

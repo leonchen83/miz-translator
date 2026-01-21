@@ -43,7 +43,13 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				Path outOgg = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
 				Files.createDirectories(outOgg);
 				outOgg = outOgg.resolve(voiceFileName);
-				ttsToOgg(text, localeVoice(configure), outOgg);
+				String voice = null;
+				if (configure.getVoice() != null) {
+					voice = configure.getVoice();
+				} else {
+					voice = localeVoice(configure);
+				}
+				ttsToOgg(text, voice, outOgg);
 				logger.info("Generated voice file: {}", outOgg);
 			} catch (Exception e) {
 				logger.error("Failed to generate voice for text: {}", text, e);
