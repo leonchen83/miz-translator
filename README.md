@@ -111,7 +111,7 @@ $ edge-tts --version
 $ ffmpeg -version
 ```
 
-语音翻译首先需要执行trans命令生成翻译后的语音文本, 然后使用下面的命令生成语音文件, 并打包进miz任务文件中
+语音翻译首先需要执行`trans`命令生成翻译后的语音文本, 然后使用下面的命令生成语音文件, 并打包进miz任务文件中
 
 ```shell
 cd /path/to/miz-translator/bin
