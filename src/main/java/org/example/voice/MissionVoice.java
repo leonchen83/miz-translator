@@ -43,7 +43,13 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				Path outOgg = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
 				Files.createDirectories(outOgg);
 				outOgg = outOgg.resolve(voiceFileName);
-				ttsToOgg(text, localeVoice(configure), outOgg);
+				String voice = null;
+				if (configure.getVoice() != null) {
+					voice = configure.getVoice();
+				} else {
+					voice = localeVoice(configure);
+				}
+				ttsToOgg(text, voice, outOgg);
 				logger.info("Generated voice file: {}", outOgg);
 			} catch (Exception e) {
 				logger.error("Failed to generate voice for text: {}", text, e);
@@ -72,8 +78,8 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		
 		Path wav = Files.createTempFile("tts-", ".wav");
 		String ttsCmd = null;
-		if (configure.getEdgeTTSProxy() != null) {
-			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text.replace("\"", "\\\""), wav, configure.getEdgeTTSProxy());
+		if (configure.getTtsProxy() != null) {
+			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text.replace("\"", "\\\""), wav, configure.getTtsProxy());
 		} else {
 			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
 		}

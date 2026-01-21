@@ -93,19 +93,25 @@ cd /path/to/miz-translator/bin
 ```shell
 # MacOS
 brew install python
-pip3 install edge-tts
+brew install pipx
+pipx ensurepath
+# reopen bash
+pipx install edge-tts
 brew install ffmpeg
 
 # Windows
-winget install Python.Python.3.14
-pip install edge-tts
+winget install Python.Python.3.11
+python -m pip install --user pipx
+python -m pipx ensurepath
+# reopen cmd
+pipx install edge-tts
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
 
 $ edge-tts --version
 $ ffmpeg -version
 ```
 
-语音翻译首先需要执行trans命令生成翻译后的语音文本, 然后使用下面的命令生成语音文件, 并打包进miz任务文件中
+语音翻译首先需要执行`trans`命令生成翻译后的语音文本, 然后使用下面的命令生成语音文件, 并打包进miz任务文件中
 
 ```shell
 cd /path/to/miz-translator/bin

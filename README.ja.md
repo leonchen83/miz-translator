@@ -95,14 +95,20 @@ cd /path/to/miz-translator/bin
 音声翻訳を行うには、まず `edge-tts` と `ffmpeg` をインストールする必要があります。
 
 ```shell
-# macOS
+# MacOS
 brew install python
-pip3 install edge-tts
+brew install pipx
+pipx ensurepath
+# reopen bash
+pipx install edge-tts
 brew install ffmpeg
 
 # Windows
-winget install Python.Python.3.14
-pip install edge-tts
+winget install Python.Python.3.11
+python -m pip install --user pipx
+python -m pipx ensurepath
+# reopen cmd
+pipx install edge-tts
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
 
 $ edge-tts --version

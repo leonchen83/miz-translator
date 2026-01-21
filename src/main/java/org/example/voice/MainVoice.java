@@ -19,13 +19,14 @@ import picocli.CommandLine;
 		optionListHeading = "%nOptions:%n",
 		versionProvider = XVersionProvider.class,
 		customSynopsis = {
-				"Usage: trans-voice [-hV] -f <folder> [-tco]"
+				"Usage: trans-voice [-hV] -f <folder> [-tc] [-p <proxy>] [-v <voice>]"
 		},
 		description = "%nDescription: Translate DCS world miz mission to chinese.",
 		footer = {"%nExamples:",
-				"  trans -f /path/to",
-				"  trans -f /path/to -t",
-				"  trans -f /path/to -c"})
+				"  trans-voice -f /path/to",
+				"  trans-voice -f /path/to -t",
+				"  trans-voice -f /path/to -c",
+				"  trans-voice -f /path/to -p http://proxy.your.com"})
 public class MainVoice implements Callable<Integer> {
 	
 	@CommandLine.Option(names = {"-f", "--folder"}, required = true, paramLabel = "<folder>", description = "miz mission folder", type = File.class)
@@ -37,9 +38,21 @@ public class MainVoice implements Callable<Integer> {
 	@CommandLine.Option(names = {"-c", "--compress"}, description = {"compress voice file to miz file"})
 	private boolean compress;
 	
+	@CommandLine.Option(names = {"-p", "--proxy"}, paramLabel = "<proxy>", description = {"tts proxy"}, type = String.class)
+	private String proxy;
+	
+	@CommandLine.Option(names = {"-v", "--voice"}, paramLabel = "<voice>", description = {"edge tts voice. example: zh-CN-YunyangNeural"}, type = String.class)
+	private String voice;
+	
 	@Override
 	public Integer call() throws Exception {
 		Configure configure = Configure.bind();
+		if (proxy != null && !proxy.isEmpty()) {
+			configure.setTtsProxy(proxy);
+		}
+		if (voice != null && !voice.isEmpty()) {
+			configure.setVoice(voice);
+		}
 		try(MissionVoice mission = new MissionVoice(configure, folder)) {
 			if (translate) {
 				step1(mission, folder, configure);
