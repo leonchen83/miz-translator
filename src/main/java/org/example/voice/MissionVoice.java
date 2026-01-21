@@ -72,8 +72,8 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		
 		Path wav = Files.createTempFile("tts-", ".wav");
 		String ttsCmd = null;
-		if (configure.getEdgeTTSProxy() != null) {
-			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text.replace("\"", "\\\""), wav, configure.getEdgeTTSProxy());
+		if (configure.getTtsProxy() != null) {
+			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text.replace("\"", "\\\""), wav, configure.getTtsProxy());
 		} else {
 			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
 		}

@@ -61,7 +61,7 @@ public class Configure {
     private String apiKey = null;
     private String model = null;
     private String translator = null;
-    private String edgeTTSProxy = null;
+    private String ttsProxy = null;
     private boolean original = false;
     private double temperature = 0d;
     private int maxTokens = 4096;
@@ -209,12 +209,12 @@ public class Configure {
         this.fixed = fixed;
     }
     
-    public String getEdgeTTSProxy() {
-        return edgeTTSProxy;
+    public String getTtsProxy() {
+        return ttsProxy;
     }
     
-    public void setEdgeTTSProxy(String edgeTTSProxy) {
-        this.edgeTTSProxy = edgeTTSProxy;
+    public void setTtsProxy(String ttsProxy) {
+        this.ttsProxy = ttsProxy;
     }
     
     public static Configure bind() {
@@ -248,7 +248,7 @@ public class Configure {
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
-        conf.edgeTTSProxy = getString(conf, "edgeTTSProxy", null, false);
+        conf.ttsProxy = getString(conf, "ttsProxy", null, false);
         return conf;
     }
 
@@ -391,7 +391,7 @@ public class Configure {
                 ", filters=" + Arrays.toString(filters) +
                 ", keyFilters=" + Arrays.toString(keyFilters) +
                 ", fixed=" + fixed +
-                ", edgeTTSProxy='" + edgeTTSProxy + '\'' +
+                ", edgeTTSProxy='" + ttsProxy + '\'' +
                 '}';
     }
 }
