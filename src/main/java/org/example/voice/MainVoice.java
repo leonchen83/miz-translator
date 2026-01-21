@@ -19,7 +19,7 @@ import picocli.CommandLine;
 		optionListHeading = "%nOptions:%n",
 		versionProvider = XVersionProvider.class,
 		customSynopsis = {
-				"Usage: trans-voice [-hV] -f <folder> [-tco]"
+				"Usage: trans-voice [-hV] -f <folder> [-tc] [-p <proxy>] [-v <voice>]"
 		},
 		description = "%nDescription: Translate DCS world miz mission to chinese.",
 		footer = {"%nExamples:",
