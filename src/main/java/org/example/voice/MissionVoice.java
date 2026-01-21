@@ -77,7 +77,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		} else {
 			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
 		}
-		String ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libopus \"%s\"", wav, outOgg);
+		String ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
 		runEdgeTtsWithRetry(ttsCmd, outOgg);
 		runCmd(ffmpegCmd);
 		Files.deleteIfExists(wav);
