@@ -257,7 +257,7 @@ public class Configure {
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
-        conf.ttsProxy = getString(conf, "ttsProxy", null, false);
+        conf.ttsProxy = getString(conf, "ttsProxy", null, true);
         return conf;
     }
 
