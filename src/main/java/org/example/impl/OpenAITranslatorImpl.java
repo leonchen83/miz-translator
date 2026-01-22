@@ -37,7 +37,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	
 	@Override
 	public void start() {
-		client = OpenAIOkHttpClient.builder().baseUrl(baseUrl).apiKey(apiKey).timeout(Duration.of(30, ChronoUnit.MINUTES)).build();
+		client = OpenAIOkHttpClient.builder().baseUrl(baseUrl).apiKey(apiKey).timeout(Duration.of(5, ChronoUnit.MINUTES)).build();
 	}
 	
 	@Override
