@@ -71,6 +71,7 @@ public class Configure {
     private String[] filters = new String[0];
     private String[] keyFilters = new String[0];
     private String voice;
+    private String ttsService = "edge-tts";
     
     private Map<String, String> fixed = new HashMap<>();
     
@@ -80,6 +81,14 @@ public class Configure {
     
     public void setVoice(String voice) {
         this.voice = voice;
+    }
+    
+    public String getTtsService() {
+        return ttsService;
+    }
+    
+    public void setTtsService(String ttsService) {
+        this.ttsService = ttsService;
     }
     
     public String getHint() {
@@ -258,6 +267,7 @@ public class Configure {
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
         conf.ttsProxy = getString(conf, "ttsProxy", null, true);
+        conf.ttsService = getString(conf, "ttsService", "edge-tts", true);
         return conf;
     }
 
@@ -402,6 +412,7 @@ public class Configure {
                 ", fixed=" + fixed +
                 ", edgeTTSProxy='" + ttsProxy + '\'' +
                 ", voice='" + voice + '\'' +
+                ", ttsService='" + ttsService + '\'' +
                 '}';
     }
 }

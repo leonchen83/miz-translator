@@ -77,12 +77,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		if (Files.exists(outOgg)) return;
 		
 		Path wav = Files.createTempFile("tts-", ".wav");
-		String ttsCmd = null;
-		if (configure.getTtsProxy() != null) {
-			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text.replace("\"", "\\\""), wav, configure.getTtsProxy());
-		} else {
-			ttsCmd = String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text.replace("\"", "\\\""), wav);
-		}
+		String ttsCmd = ttsCmd(text, voice, wav, configure);
 		String ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
 		runEdgeTtsWithRetry(ttsCmd, outOgg);
 		runCmd(ffmpegCmd);
@@ -123,6 +118,32 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				Thread.sleep(EDGE_TTS_RETRY_DELAY_MS);
 			}
 		}
+	}
+	
+	private String ttsCmd(String text, String voice, Path wav, Configure configure) {
+		String ttsService = configure.getTtsService();
+		text = sanitizeForTTS(text);
+		text = text.replace("\"", "\\\"");
+		if (ttsService == null || ttsService.equals("edge-tts")) {
+			if (configure.getTtsProxy() != null) {
+				return String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\" --proxy \"%s\"", voice, text, wav, configure.getTtsProxy());
+			} else {
+				return String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text, wav);
+			}
+		} else if (ttsService.equals("tts")) {
+			return String.format("tts --text \"%s\" --model_name \"%s\" --out_path \"%s\"", text, voice, wav);
+		} else {
+			throw new IllegalArgumentException("Unsupported TTS service: " + ttsService);
+		}
+	}
+	
+	private static String sanitizeForTTS(String s) {
+		if (s == null) return "";
+		
+		return s.replaceAll("[*#@&%^~=+|\\\\<>\\[\\]{}]", " ")
+				.replaceAll("[/:_]", " ")
+				.replaceAll("\\s+", " ")
+				.trim();
 	}
 	
 }
