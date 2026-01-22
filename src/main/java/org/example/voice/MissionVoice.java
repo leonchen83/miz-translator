@@ -75,17 +75,22 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	
 	public void ttsToOgg(String text, String voice, Path outOgg) throws Exception {
 		if (Files.exists(outOgg)) return;
+		boolean win = System.getProperty("os.name").toLowerCase().contains("win");
 		
 		Path wav = Files.createTempFile("tts-", ".wav");
 		String ttsCmd = ttsCmd(text, voice, wav, configure);
-		String ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
-		runEdgeTtsWithRetry(ttsCmd, outOgg);
-		runCmd(ffmpegCmd);
+		String ffmpegCmd = null;
+		if (win) {
+			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
+		} else {
+			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a vorbis -ar 44100 -ac 2 -q:a 3 -strict -2 \"%s\"", wav, outOgg);
+		}
+		runEdgeTtsWithRetry(ttsCmd, outOgg, win);
+		runCmd(ffmpegCmd, win);
 		Files.deleteIfExists(wav);
 	}
 	
-	static int runCmd(String cmd) throws Exception {
-		boolean win = System.getProperty("os.name").toLowerCase().contains("win");
+	static int runCmd(String cmd, boolean win) throws Exception {
 		
 		ProcessBuilder pb = win ? new ProcessBuilder("cmd.exe", "/c", cmd) : new ProcessBuilder("bash", "-c", cmd);
 		
@@ -101,14 +106,14 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		return code;
 	}
 	
-	private void runEdgeTtsWithRetry(String cmd, Path outOgg) throws Exception {
+	private void runEdgeTtsWithRetry(String cmd, Path outOgg, boolean win) throws Exception {
 		int attempt = 0;
 		
 		while (true) {
 			attempt++;
 			try {
 				System.out.println("translating file: "+ outOgg);
-				runCmd(cmd);
+				runCmd(cmd, win);
 				return;
 			} catch (Exception e) {
 				if (attempt >= EDGE_TTS_MAX_RETRY) {
@@ -130,8 +135,6 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 			} else {
 				return String.format("edge-tts --voice %s --text \"%s\" --write-media \"%s\"", voice, text, wav);
 			}
-		} else if (ttsService.equals("tts")) {
-			return String.format("tts --text \"%s\" --model_name \"%s\" --out_path \"%s\"", text, voice, wav);
 		} else {
 			throw new IllegalArgumentException("Unsupported TTS service: " + ttsService);
 		}
