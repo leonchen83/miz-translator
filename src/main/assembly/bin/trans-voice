@@ -59,14 +59,24 @@ find_command() {
     return 1
 }
 
-# edge-tts
-EDGE_TTS_BIN=$(find_command edge-tts)
-if [[ -z "$EDGE_TTS_BIN" ]]; then
-    echo "Error: edge-tts not found. Please install via 'pipx install edge-tts' or 'pip install edge-tts --user'"
+# 检测 TTS 工具，按优先顺序 edge-tts > tts
+TTS_BIN=""
+TTS_NAME=""
+
+for cmd in edge-tts tts; do
+    if BIN=$(find_command "$cmd"); then
+        TTS_BIN="$BIN"
+        TTS_NAME="$cmd"
+        break
+    fi
+done
+
+if [[ -z "$TTS_BIN" ]]; then
+    echo "Error: No supported TTS found. Please install one of: edge-tts, coqui-tts"
     exit 1
 fi
 
-echo "edge-tts version: $(edge-tts --version)"
+echo "Using TTS: $TTS_NAME ($TTS_BIN)"
 
 # ffmpeg
 FFMPEG_BIN=$(find_command ffmpeg)

@@ -47,17 +47,29 @@ goto error
 @REM ==== END JAVA VALIDATION ====
 
 :checkTools
-REM ==== CHECK edge-tts ====
+REM ==== 检测 TTS 工具 ====
+set TTS_CMD=
+set TTS_NAME=
+
+REM 按优先顺序检查
 where edge-tts >nul 2>&1
-if ERRORLEVEL 1 (
-    echo Error: edge-tts not found.
-    echo Install Python and then run "pip install --user edge-tts" or "pipx install edge-tts"
-    goto error
+if %ERRORLEVEL%==0 (
+    set TTS_CMD=edge-tts
+    set TTS_NAME=edge-tts
+) else (
+    where tts >nul 2>&1
+    if %ERRORLEVEL%==0 (
+        set TTS_CMD=tts
+        set TTS_NAME=tts
+    )
 )
 
-REM Print edge-tts version
-echo edge-tts version:
-edge-tts --version
+if "%TTS_CMD%"=="" (
+    echo Error: No supported TTS found. Please install one of edge-tts, coqui-tts
+    goto :error
+)
+
+echo Using TTS: %TTS_NAME% (%TTS_CMD%)
 
 REM ==== CHECK ffmpeg ====
 where ffmpeg >nul 2>&1
