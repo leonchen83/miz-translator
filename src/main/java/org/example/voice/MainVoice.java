@@ -41,7 +41,7 @@ public class MainVoice implements Callable<Integer> {
 	@CommandLine.Option(names = {"-p", "--proxy"}, paramLabel = "<proxy>", description = {"tts proxy"}, type = String.class)
 	private String proxy;
 	
-	@CommandLine.Option(names = {"-v", "--voice"}, paramLabel = "<voice>", description = {"edge tts voice. example: zh-CN-YunyangNeural"}, type = String.class)
+	@CommandLine.Option(names = {"-v", "--voice"}, paramLabel = "<voice>", description = {"tts voice. example: zh-CN-YunyangNeural"}, type = String.class)
 	private String voice;
 	
 	@Override
