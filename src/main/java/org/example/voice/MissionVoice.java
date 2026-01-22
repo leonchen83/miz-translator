@@ -140,7 +140,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	private static String sanitizeForTTS(String s) {
 		if (s == null) return "";
 		
-		return s.replaceAll("[*_`~#|\\[\\](){}!:]", " ")
+		return s.replaceAll("[*_`~#|\\[\\]]", " ")
 				.replaceAll("\\s+", " ")
 				.trim();
 	}
