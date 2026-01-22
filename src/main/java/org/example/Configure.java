@@ -410,7 +410,7 @@ public class Configure {
                 ", filters=" + Arrays.toString(filters) +
                 ", keyFilters=" + Arrays.toString(keyFilters) +
                 ", fixed=" + fixed +
-                ", edgeTTSProxy='" + ttsProxy + '\'' +
+                ", ttsProxy='" + ttsProxy + '\'' +
                 ", voice='" + voice + '\'' +
                 ", ttsService='" + ttsService + '\'' +
                 '}';
