@@ -33,13 +33,13 @@ public class I18N {
 	public static String localeLanguage(Configure configure, String spliter) {
 		String locale = configure.getLanguageCode();
 		if (locale == null || locale.isEmpty() || "zh".equals(locale)) {
-			return "。保留原分隔符" + spliter + "例如：片段1" + spliter + "片段2" + spliter + "片段3";
-		} else if( "ja".equals(locale)) {
-			return "。区切り文字を保持します" + spliter + "例：フラグメント1" + spliter + "フラグメント2" + spliter + "フラグメント3";
+			return "。保留原分隔符" + spliter + "(程序需要通过这个" + spliter + "进行拆分, 如果翻译前和后的分隔符数量对不上的话会有问题), 例如：片段1" + spliter + "片段2" + spliter + "片段3";
+		} else if ("ja".equals(locale)) {
+			return "。区切り文字を保持します" + spliter + "(プログラムはこの " + spliter + " で分割する必要があります。翻訳前と翻訳後で区切り文字の数が一致しない場合、問題が発生します), 例：フラグメント1" + spliter + "フラグメント2" + spliter + "フラグメント3";
 		} else if ("ko".equals(locale)) {
-			return "。구분 기호를 유지합니다" + spliter + "예: 조각 1" + spliter + "조각 2" + spliter + "조각 3";
+			return "。구분 기호를 유지합니다" + spliter + "(프로그램은 이 " + spliter + " 로 분할해야 합니다. 번역 전후의 구분자 수가 일치하지 않으면 문제가 발생할 수 있습니다.), 예: 조각 1" + spliter + "조각 2" + spliter + "조각 3";
 		} else {
-			return "。保留原分隔符" + spliter + "例如：片段1" + spliter + "片段2" + spliter + "片段3";
+			return "。保留原分隔符" + spliter + "(程序需要通过这个" + spliter + "进行拆分, 如果翻译前和后的分隔符数量对不上的话会有问题), 例如：片段1" + spliter + "片段2" + spliter + "片段3";
 		}
 	}
 	
