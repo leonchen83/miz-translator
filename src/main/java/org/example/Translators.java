@@ -2,6 +2,7 @@ package org.example;
 
 import static org.example.Strings.trim;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,10 @@ public class Translators {
 	
 	private Configure configure;
 	private Set<String> nounsSet;
+	
+	public Translators(Configure configure) {
+		this(configure, new HashSet<>());
+	}
 	
 	public Translators(Configure configure, Set<String> nounsSet) {
 		this.configure = configure;

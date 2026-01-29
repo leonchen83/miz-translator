@@ -54,15 +54,16 @@ public class MainVoice implements Callable<Integer> {
 			configure.setVoice(voice);
 		}
 		try(MissionVoice mission = new MissionVoice(configure, folder)) {
+			step1(mission, folder, configure);
 			if (translate) {
-				step1(mission, folder, configure);
+				step2(mission, folder, configure);
 			}
 			if (compress) {
-				step2(mission, folder, configure);
+				step3(mission, folder, configure);
 			}
 			if (!translate && !compress) {
-				step1(mission, folder, configure);
 				step2(mission, folder, configure);
+				step3(mission, folder, configure);
 			}
 		}
 		return 0;
@@ -83,7 +84,7 @@ public class MainVoice implements Callable<Integer> {
 		
 		if (mizFiles != null && mizFiles.length > 0) {
 			for (File file : mizFiles) {
-				mission.translateTextToVoice(file);
+				mission.translateVoiceToText(file);
 			}
 		} else {
 			System.out.println("miz files not found");
@@ -91,6 +92,23 @@ public class MainVoice implements Callable<Integer> {
 	}
 	
 	public static void step2(MissionVoice mission, File folder, Configure configure) throws Exception {
+		File[] mizFiles = folder.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".miz");
+			}
+		});
+		
+		if (mizFiles != null && mizFiles.length > 0) {
+			for (File file : mizFiles) {
+				mission.translateTextToVoice(file);
+			}
+		} else {
+			System.out.println("miz files not found");
+		}
+	}
+	
+	public static void step3(MissionVoice mission, File folder, Configure configure) throws Exception {
 		File[] mizFiles = folder.listFiles(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {

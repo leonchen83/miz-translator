@@ -88,7 +88,7 @@ cd /path/to/miz-translator/bin
 ```
 ### 语音翻译
 
-语音翻译需要先安装`edge-tts`以及`ffmpeg`
+语音翻译需要先安装`edge-tts`,`faster-whisper`以及`ffmpeg`
 
 ```shell
 # MacOS
@@ -98,6 +98,7 @@ pipx ensurepath
 # reopen bash
 pipx install edge-tts
 brew install ffmpeg
+pipx install faster-whisper
 
 # Windows
 winget install Python.Python.3.11
@@ -105,8 +106,10 @@ python -m pip install --user pipx
 python -m pipx ensurepath
 # reopen cmd
 pipx install edge-tts
+pipx install faster-whisper
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
 
+# verify install
 $ edge-tts --version
 $ ffmpeg -version
 ```
