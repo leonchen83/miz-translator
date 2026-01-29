@@ -93,5 +93,21 @@
             <source>README.md</source>
             <destName>README.md</destName>
         </file>
+        <file>
+            <source>README.en.md</source>
+            <destName>README.en.md</destName>
+        </file>
+        <file>
+            <source>README.ja.md</source>
+            <destName>README.ja.md</destName>
+        </file>
+        <file>
+            <source>README.ko.md</source>
+            <destName>README.ko.md</destName>
+        </file>
+        <file>
+            <source>Dockerfile</source>
+            <destName>Dockerfile</destName>
+        </file>
     </files>
 </assembly>

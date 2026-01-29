@@ -19,6 +19,27 @@ DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中日韩文的�
 
 然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
 
+### Docker
+
+```shell
+# build docker image
+docker build -t miz-translator:latest .
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans -f /data
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans-voice -f /data
+```
+
 ### 配置
 
 在`/path/to/miz-translator/conf`文件夹中，有一个`trans.conf`文件。你可以在这个文件中配置翻译器的一些参数。

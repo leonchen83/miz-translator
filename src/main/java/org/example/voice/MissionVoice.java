@@ -22,7 +22,9 @@ import java.util.Map;
 
 import org.example.AbstractMission;
 import org.example.Configure;
+import org.example.OSDetector;
 import org.example.PythonDetector;
+import org.example.RuntimeOS;
 import org.example.Translators;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +38,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	private static final long EDGE_TTS_RETRY_DELAY_MS = 3000;
 	
 	private Map<String, String> env = new HashMap<>();
-	private boolean win = System.getProperty("os.name").toLowerCase().contains("win");
+	private final RuntimeOS os = OSDetector.detect();
 	
 	public MissionVoice(Configure configure, File folder) {
 		super(configure, folder);
@@ -74,7 +76,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		}
 		Path voice = tempDir.resolve("l10n").resolve("DEFAULT");
 		
-		Map<String, String> json = fasterWhisperToText(files, voice, configure, win, env);
+		Map<String, String> json = fasterWhisperToText(files, voice, configure, env);
 		
 		for (var entry : voiceMap.entrySet()) {
 			if (json.containsKey(entry.getKey())) {
@@ -128,7 +130,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				} else {
 					voice = localeVoice(configure);
 				}
-				ttsToOgg(text, voice, outOgg, win, env);
+				ttsToOgg(text, voice, outOgg, env);
 				logger.info("Generated voice file: {}", outOgg);
 			} catch (Exception e) {
 				logger.error("Failed to generate voice for text: {}", text, e);
@@ -152,29 +154,29 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		deleteDirectory(tempDir);
 	}
 	
-	public void ttsToOgg(String text, String voice, Path outOgg, boolean win, Map<String, String> env) throws Exception {
+	public void ttsToOgg(String text, String voice, Path outOgg, Map<String, String> env) throws Exception {
 		if (Files.exists(outOgg)) return;
 		Path wav = Files.createTempFile("tts-", ".wav");
 		String ttsCmd = ttsCmd(text, voice, wav, configure);
 		String ffmpegCmd = null;
-		if (win) {
-			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
-		} else {
+		if (os == RuntimeOS.MAC){
 			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a vorbis -ar 44100 -ac 2 -q:a 3 -strict -2 \"%s\"", wav, outOgg);
+		} else {
+			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
 		}
-		runEdgeTtsWithRetry(ttsCmd, outOgg, win, env);
-		runCmd(ffmpegCmd, win, env);
+		runEdgeTtsWithRetry(ttsCmd, outOgg, env);
+		runCmd(ffmpegCmd, env);
 		Files.deleteIfExists(wav);
 	}
 	
-	private void runEdgeTtsWithRetry(String cmd, Path outOgg, boolean win, Map<String, String> env) throws Exception {
+	private void runEdgeTtsWithRetry(String cmd, Path outOgg, Map<String, String> env) throws Exception {
 		int attempt = 0;
 		
 		while (true) {
 			attempt++;
 			try {
 				System.out.println("translating file: "+ outOgg);
-				runCmd(cmd, win, env);
+				runCmd(cmd, env);
 				return;
 			} catch (Exception e) {
 				if (attempt >= EDGE_TTS_MAX_RETRY) {
@@ -201,7 +203,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		}
 	}
 	
-	private Map<String, String> fasterWhisperToText(List<String> files, Path audioDir, Configure configure, boolean win, Map<String, String> env) throws Exception {
+	private Map<String, String> fasterWhisperToText(List<String> files, Path audioDir, Configure configure, Map<String, String> env) throws Exception {
 		if (files == null || files.isEmpty()) {
 			return Map.of();
 		}
@@ -227,7 +229,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		
 		String python = PythonDetector.detectPython();
 		String cmd = String.format("%s \"%s\" \"%s\" \"%s\" \"%s\"", python, pyScript.toAbsolutePath(), audioDir, listFile, outFile);
-		runCmd(cmd, win, env);
+		runCmd(cmd, env);
 		
 		var result = readToMap(outFile);
 		
@@ -237,9 +239,9 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		return result;
 	}
 	
-	static int runCmd(String cmd, boolean win, Map<String, String> env) throws Exception {
+	private int runCmd(String cmd, Map<String, String> env) throws Exception {
 		
-		ProcessBuilder pb = win ? new ProcessBuilder("cmd.exe", "/c", cmd) : new ProcessBuilder("bash", "-c", cmd);
+		ProcessBuilder pb = os == RuntimeOS.WINDOWS ? new ProcessBuilder("cmd.exe", "/c", cmd) : new ProcessBuilder("bash", "-c", cmd);
 		
 		if (env != null) {
 			pb.environment().putAll(env);

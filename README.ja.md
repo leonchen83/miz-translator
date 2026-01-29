@@ -22,6 +22,27 @@ DCSミッション翻訳ツールは、DCSのミッションファイルを中�
 次に、ミッション翻訳ツールの最新版をダウンロードします。以下のリンクから最新版を取得し、`/path/to/miz-translator` に解凍してください。  
 [最新バージョンをダウンロード](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)
 
+### Docker
+
+```shell
+# build docker image
+docker build -t miz-translator:latest .
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans -f /data
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans-voice -f /data
+```
+
 ### 設定
 
 `/path/to/miz-translator/conf` フォルダには、`trans.conf` という設定ファイルがあります。このファイルで翻訳ツールのパラメータを設定できます。

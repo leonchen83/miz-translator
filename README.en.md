@@ -20,6 +20,27 @@ First, you need to install Java 17. You can download and install Java 17 from [h
 
 Next, download the latest version of the mission translator. You can get the latest release from [here](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip). Extract it to `/path/to/miz-translator`.
 
+### Docker
+
+```shell
+# build docker image
+docker build -t miz-translator:latest .
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans -f /data
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans-voice -f /data
+```
+
 ### Configuration
 
 In the `/path/to/miz-translator/conf` directory, there is a file named `trans.conf`. You can configure the translator using this file.

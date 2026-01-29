@@ -23,6 +23,27 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 아래 링크에서 최신 버전을 다운로드하고 `/path/to/miz-translator` 경로에 압축을 해제하세요.  
 [최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)
 
+### Docker
+
+```shell
+# build docker image
+docker build -t miz-translator:latest .
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans -f /data
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/data \
+  miz-translator:latest \
+  trans-voice -f /data
+```
+
 ### 설정
 
 `/path/to/miz-translator/conf` 폴더에 `trans.conf` 파일이 있습니다. 이 파일에서 번역기의 여러 설정을 구성할 수 있습니다.
