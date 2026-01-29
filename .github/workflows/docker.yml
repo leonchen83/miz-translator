@@ -1,0 +1,38 @@
+name: Docker CI
+
+on: [ push ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Docker check
+        uses: actions/checkout@v4
+      - name: Create Tag
+        run: |
+          echo "RELEASE_TAG=`cat ./src/main/resources/.version`" >> $GITHUB_ENV
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build docker latest
+        id: latest
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: false
+          tags: |
+            ${{ secrets.DOCKER_USER }}/${{ secrets.REPO }}:latest
+            ${{ secrets.DOCKER_USER }}/${{ secrets.REPO }}:${{ env.RELEASE_TAG }}
+      - name: Image digest
+        run: echo ${{ steps.latest.outputs.digest }}
