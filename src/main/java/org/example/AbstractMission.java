@@ -1,6 +1,11 @@
 package org.example;
 
+import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
+import static org.example.Strings.containsLowerCase;
+import static org.example.Strings.convertToAscii;
+import static org.example.Strings.isAllNumber;
+import static org.example.Strings.isLikelyLua;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,9 +19,14 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaError;
+import org.luaj.vm2.lib.jse.JsePlatform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +49,7 @@ public abstract class AbstractMission {
 	protected File folder;
 	protected final Map<String, String> translatedMap = new LinkedHashMap<>(4096);
 	protected static Logger logger = LoggerFactory.getLogger(Mission.class);
+	protected static Globals globals = JsePlatform.standardGlobals();
 	
 	public AbstractMission(Configure configure, File folder) {
 		this.configure = configure;
@@ -167,6 +178,166 @@ public abstract class AbstractMission {
 			return true;
 		} catch (IOException e) {
 			return false;
+		}
+	}
+	
+	public Map<String, String> translate(Map<String, String> map) {
+		List<Map.Entry<String, String>> entries = new ArrayList<>(configure.getBatchSize());
+		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
+		loop:
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if (value == null || value.isEmpty() || value.isBlank()) {
+				continue;
+			}
+			
+			if (value.length() < configure.getMinimumLength()) {
+				continue;
+			}
+			
+			if (containsTranslatedLanguage(configure, value)) {
+				continue;
+			}
+			
+			if (isAllNumber(value)) {
+				continue;
+			}
+			
+			if (!containsLowerCase(value)) {
+				continue;
+			}
+			
+			if (value.equals(key)) {
+				continue;
+			}
+			
+			for (String filter : configure.getFilters()) {
+				if (filter != null && (value.startsWith(filter) || value.endsWith(filter))) {
+					continue loop;
+				}
+			}
+			
+			for (String keyFilter : configure.getKeyFilters()) {
+				if (keyFilter != null && key.startsWith(keyFilter)) {
+					continue loop;
+				}
+			}
+			
+			for (Map.Entry<String, String> e : configure.getFixed().entrySet()) {
+				if (value.equals(e.getKey())) {
+					entry.setValue(e.getValue());
+					continue loop;
+				}
+			}
+			
+			if (isLikelyLua(value)) {
+				try {
+					globals.load(value);
+					continue;
+				} catch (LuaError error) {
+					// do nothing;
+				}
+			}
+			
+			value = convertToAscii(value);
+			// formatted value
+			entry.setValue(value);
+			boolean needTranslate = false;
+			if (key.startsWith("DictKey_ActionText_")) {
+				needTranslate = true;
+			} else if (key.startsWith("DictKey_descriptionText_")) {
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
+			} else if (key.startsWith("DictKey_sortie_")) {
+				needTranslate = true;
+			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
+			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
+			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
+				if (translatedMap.containsKey(value)) {
+					entry.setValue(translatedMap.get(value));
+				} else {
+					entry.setValue(translator.translate(value, translatedMap));
+				}
+			} else if (key.startsWith("DictKey_subtitle_")) {
+				needTranslate = true;
+			} else if (key.startsWith("DictKey_ActionRadioText_")) {
+				needTranslate = true;
+			} else if (key.startsWith("DictKey_")) {
+				try {
+					Long.parseLong(key.substring("DictKey_".length()));
+					needTranslate = true;
+				} catch (NumberFormatException e) {
+					// do nothing
+				}
+			}
+			
+			if (needTranslate) {
+				if (value.length() > 1024) {
+					if (translatedMap.containsKey(value)) {
+						entry.setValue(translatedMap.get(value));
+					} else {
+						entry.setValue(translator.translate(value, translatedMap));
+					}
+				} else {
+					translates(entry, entries, r);
+				}
+			}
+		}
+		
+		if (!entries.isEmpty()) {
+			r.addAll(translator.translates(entries, translatedMap));
+			entries.clear();
+		}
+		
+		// merge the results back into the original map
+		for (Map.Entry<String, String> entry : r) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			String raw = map.get(key);
+			if (containsTranslatedLanguage(configure, raw)) {
+				// already translated, skip
+				continue;
+			}
+			if (configure.getOriginal() && raw.length() <= 1024) {
+				map.replace(key, raw + "\n" + value);
+			} else {
+				map.replace(key, value);
+			}
+		}
+		saveTranslatedMap();
+		return map;
+	}
+	
+	protected void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
+		String key = entry.getKey();
+		String value = entry.getValue();
+		if (translatedMap.containsKey(value)) {
+			if (configure.getOriginal() && value.length() <= 1024) {
+				entry.setValue(value + "\n" + translatedMap.get(value));
+			} else {
+				entry.setValue(translatedMap.get(value));
+			}
+		} else {
+			entries.add(Map.entry(key, value));
+			if (entries.size() >= configure.getBatchSize()) {
+				list.addAll(translator.translates(entries, translatedMap));
+				entries.clear();
+				saveTranslatedMap();
+			}
 		}
 	}
 }

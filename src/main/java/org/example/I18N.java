@@ -166,12 +166,35 @@ public class I18N {
 	}
 	
 	public static boolean containsTranslatedLanguage(Configure configure, String content) {
+		var locale = configure.getLanguageCode();
 		for (int i = 0; i < content.length(); i++) {
 			char ch = content.charAt(i);
-			if ((ch >= '\u4e00' && ch <= '\u9fa5') || // Chinese
-					(ch >= '\u3040' && ch <= '\u30ff') || // Japanese Hiragana and Katakana
-					(ch >= '\uac00' && ch <= '\ud7af')) { // Korean Hangul
-				return true;
+			switch (locale) {
+				case "zh": // Chinese
+					if (ch >= '\u4e00' && ch <= '\u9fa5') return true;
+					break;
+				case "ja": // Japanese
+					if ((ch >= '\u3040' && ch <= '\u30ff') || // Hiragana & Katakana
+							(ch >= '\u4e00' && ch <= '\u9faf')) // Kanji
+						return true;
+					break;
+				case "ko": // Korean
+					if (ch >= '\uac00' && ch <= '\ud7af') return true;
+					break;
+				case "uk": // Ukrainian
+					if (ch >= '\u0400' && ch <= '\u04FF') return true;
+					break;
+				case "ru": // Russian
+					if (ch >= '\u0400' && ch <= '\u04FF') return true;
+					break;
+				case "he": // Hebrew
+					if (ch >= '\u0590' && ch <= '\u05FF') return true;
+					break;
+				case "ar": // Arabic
+					if ((ch >= '\u0600' && ch <= '\u06FF') || (ch >= '\u0750' && ch <= '\u077F')) return true;
+					break;
+				default:
+					if (ch >= '\u00C0' && ch <= '\u017F') return true;
 			}
 		}
 		return false;

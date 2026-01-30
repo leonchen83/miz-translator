@@ -14,20 +14,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 /**
  * @author Baoyi Chen
@@ -36,9 +32,6 @@ public class Mission extends AbstractMission implements AutoCloseable {
 	
 	private final Set<String> nounsSet = new HashSet<>(256);
 	private static final Pattern PATTERN = Pattern.compile("getValueDictByKey\\s*\\(\\s*\"([^\"]+)\"\\s*\\)");
-	
-	private static Globals globals = JsePlatform.standardGlobals();
-	private Translator translator;
 	
 	public Mission(Configure configure, File folder) {
 		super(configure, folder);
@@ -275,166 +268,6 @@ public class Mission extends AbstractMission implements AutoCloseable {
 			}
 			if (shouldParseNouns) {
 				addNouns(value, nounsSet);
-			}
-		}
-	}
-	
-	public Map<String, String> translate(Map<String, String> map) {
-		List<Map.Entry<String, String>> entries = new ArrayList<>(configure.getBatchSize());
-		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
-		loop:
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			String key = entry.getKey();
-			String value = entry.getValue();
-			if (value == null || value.isEmpty() || value.isBlank()) {
-				continue;
-			}
-			
-			if (value.length() < configure.getMinimumLength()) {
-				continue;
-			}
-			
-			if (containsTranslatedLanguage(configure, value)) {
-				continue;
-			}
-			
-			if (isAllNumber(value)) {
-				continue;
-			}
-			
-			if (!containsLowerCase(value)) {
-				continue;
-			}
-			
-			if (value.equals(key)) {
-				continue;
-			}
-			
-			for (String filter : configure.getFilters()) {
-				if (filter != null && (value.startsWith(filter) || value.endsWith(filter))) {
-					continue loop;
-				}
-			}
-			
-			for (String keyFilter : configure.getKeyFilters()) {
-				if (keyFilter != null && key.startsWith(keyFilter)) {
-					continue loop;
-				}
-			}
-			
-			for (Map.Entry<String, String> e : configure.getFixed().entrySet()) {
-				if (value.equals(e.getKey())) {
-					entry.setValue(e.getValue());
-					continue loop;
-				}
-			}
-			
-			if (isLikelyLua(value)) {
-				try {
-					globals.load(value);
-					continue;
-				} catch (LuaError error) {
-					// do nothing;
-				}
-			}
-			
-			value = convertToAscii(value);
-			// formatted value
-			entry.setValue(value);
-			boolean needTranslate = false;
-			if (key.startsWith("DictKey_ActionText_")) {
-				needTranslate = true;
-			} else if (key.startsWith("DictKey_descriptionText_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
-			} else if (key.startsWith("DictKey_sortie_")) {
-				needTranslate = true;
-			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
-			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
-			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
-			} else if (key.startsWith("DictKey_subtitle_")) {
-				needTranslate = true;
-			} else if (key.startsWith("DictKey_ActionRadioText_")) {
-				needTranslate = true;
-			} else if (key.startsWith("DictKey_")) {
-				try {
-					Long.parseLong(key.substring("DictKey_".length()));
-					needTranslate = true;
-				} catch (NumberFormatException e) {
-					// do nothing
-				}
-			}
-			
-			if (needTranslate) {
-				if (value.length() > 1024) {
-					if (translatedMap.containsKey(value)) {
-						entry.setValue(translatedMap.get(value));
-					} else {
-						entry.setValue(translator.translate(value, translatedMap));
-					}
-				} else {
-					translates(entry, entries, r);
-				}
-			}
-		}
-		
-		if (!entries.isEmpty()) {
-			r.addAll(translator.translates(entries, translatedMap));
-			entries.clear();
-		}
-		
-		// merge the results back into the original map
-		for (Map.Entry<String, String> entry : r) {
-			String key = entry.getKey();
-			String value = entry.getValue();
-			String raw = map.get(key);
-			if (containsTranslatedLanguage(configure, raw)) {
-				// already translated, skip
-				continue;
-			}
-			if (configure.getOriginal() && raw.length() <= 1024) {
-				map.replace(key, raw + "\n" + value);
-			} else {
-				map.replace(key, value);
-			}
-		}
-		saveTranslatedMap();
-		return map;
-	}
-	
-	private void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
-		String key = entry.getKey();
-		String value = entry.getValue();
-		if (translatedMap.containsKey(value)) {
-			if (configure.getOriginal() && value.length() <= 1024) {
-				entry.setValue(value + "\n" + translatedMap.get(value));
-			} else {
-				entry.setValue(translatedMap.get(value));
-			}
-		} else {
-			entries.add(Map.entry(key, value));
-			if (entries.size() >= configure.getBatchSize()) {
-				list.addAll(translator.translates(entries, translatedMap));
-				entries.clear();
-				saveTranslatedMap();
 			}
 		}
 	}

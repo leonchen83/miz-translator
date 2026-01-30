@@ -77,38 +77,8 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		Path voice = tempDir.resolve("l10n").resolve("DEFAULT");
 		
 		Map<String, String> json = fasterWhisperToText(files, voice, configure, env);
-		
-		for (var entry : voiceMap.entrySet()) {
-			if (json.containsKey(entry.getKey())) {
-				entry.setValue(json.get(entry.getKey()));
-			}
-		}
-		
-		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
-		
-		var translatedMap = readToMap(voiceJson);
-		
-		List<Map.Entry<String, String>> entries = new ArrayList<>(configure.getBatchSize());
-		for (var entry : voiceMap.entrySet()) {
-			String text = entry.getValue();
-			
-			if (containsTranslatedLanguage(configure, text)) {
-				continue;
-			}
-			
-			entries.add(entry);
-			if (entries.size() >= configure.getBatchSize()) {
-				translator.translates(entries, translatedMap);
-				entries.clear();
-				saveToJson(translatedMap, file.getName() + ".voice", file.toPath().getParent());
-			}
-		}
-		
-		if (!entries.isEmpty()) {
-			translator.translates(entries, translatedMap);
-			entries.clear();
-			saveToJson(translatedMap, file.getName() + ".voice", file.toPath().getParent());
-		}
+		json = translate(json);
+		saveToJson(json, file.getName() + ".voice", file.toPath().getParent());
 		deleteDirectory(tempDir);
 	}
 	
