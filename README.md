@@ -61,6 +61,27 @@ docker run --rm \
   -v /path/to/miz:/data \
   miz-translator:latest \
   trans-voice -f /data
+  
+# use environment variables instead of a config file
+docker run --rm \
+  -v /path/to/miz:/data \
+  -e API_KEY="${api-key}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e LANG="zh-CN" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans -f /data
+  
+docker run --rm \
+  -v /path/to/miz:/data \
+  -e API_KEY="${api-key}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e LANG="zh-CN" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans-voice -f /data
 ```
 
 ### 配置
