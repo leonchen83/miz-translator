@@ -7,6 +7,29 @@
 - 🇯🇵 [日本語の説明](./README.ja.md)
 - 🇰🇷 [한국어 설명](./README.ko.md)
 
+### 📝 其他支持的语言（没有单独 README）
+- 🇪🇸 西班牙语
+- 🇫🇷 法语
+- 🇩🇪 德语
+- 🇮🇹 意大利语
+- 🇳🇱 荷兰语
+- 🇵🇱 波兰语
+- 🇸🇪 瑞典语
+- 🇳🇴 挪威语
+- 🇩🇰 丹麦语
+- 🇷🇴 罗马尼亚语
+- 🇨🇿 捷克语
+- 🇭🇺 匈牙利语
+- 🇧🇬 保加利亚语
+- 🇺🇦 乌克兰语
+- 🇻🇳 越南语
+- 🇲🇾 马来语
+- 🇬🇷 希腊语
+- 🇮🇱 希伯来语
+- 🇸🇦 阿拉伯语
+
+> ⚠️ 注意：这些额外语言程序支持翻译，但没有单独的 README 文件。请参考英文或中文 README 获取使用说明。
+
 ## 介绍
 
 DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中日韩文的工具。它可以将任务文件中的文本提取出来，然后使用AI将其翻译为中日韩文，最后将翻译后的文本重新写入任务文件中。
@@ -47,9 +70,6 @@ docker run --rm \
 ```properties
 # 给AI的提示，这里的F/A 18是一个示例，你可以根据需要修改飞机类型或者战役类型
 hint=你是一个翻译，下面是跟战斗机F/A 18相关的英语，翻译成简体中文，但不要使用markdown输出, 保持原文的换行格式，不要添加多余的解释。遇到全大写的缩略词保持缩略词原样
-
-# 翻译的目标语言
-language=zh-CN
 
 # AI翻译器，目前支持deepseek和doubao以及openai 3种翻译器
 translator=deepseek
@@ -109,7 +129,7 @@ cd /path/to/miz-translator/bin
 ```
 ### 语音翻译
 
-语音翻译需要先安装`edge-tts`,`faster-whisper`以及`ffmpeg`
+语音翻译需要先安装`edge-tts`,`faster-whisper`以及`ffmpeg`. 注意: 语音翻译需要梯子
 
 ```shell
 # MacOS
@@ -141,4 +161,7 @@ $ ffmpeg -version
 cd /path/to/miz-translator/bin
 ./trans -f /path/to/missions
 ./trans-voice -f /path/to/missions
+
+# http代理
+./trans-voice -f /path/to/missions --proxy http://proxy.example.com:8080
 ```

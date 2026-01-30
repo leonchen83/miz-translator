@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -38,6 +39,10 @@ public class Configure {
                     properties.load(reader);
                 }
             }
+            Locale locale = Locale.getDefault();
+            languageCode = locale.getLanguage();
+            countryCode = locale.getCountry();
+            language = languageCode + "-" + countryCode;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -47,6 +52,7 @@ public class Configure {
         this();
         if (properties != null)
             this.properties.putAll(properties);
+        
     }
     
     public Properties properties() {
@@ -242,18 +248,6 @@ public class Configure {
     public static Configure bind(Properties properties) {
         Configure conf = new Configure(properties);
         conf.hint = getString(conf, "hint", null, false);
-        conf.language = getString(conf, "language", "zh-CN", false);
-        String[] ary = conf.language.split("-");
-        if (ary.length == 2) {
-            conf.languageCode = ary[0].trim();
-            conf.countryCode = ary[1].trim();
-        }
-        if (conf.languageCode == null) {
-            conf.languageCode = System.getProperty("user.language");
-        }
-        if (conf.countryCode == null) {
-            conf.countryCode = System.getProperty("user.country");
-        }
         conf.translator = getString(conf, "translator", null, false);
         conf.baseURL = getString(conf, "baseURL", null, false);
         conf.apiKey = getString(conf, "apiKey", null, false);

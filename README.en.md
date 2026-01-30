@@ -12,6 +12,30 @@
 DCS Mission Translator is a tool designed to translate DCS mission files into Chinese, Japanese, or Korean.
 It extracts text from mission files, uses AI to perform the translation, and then writes the translated content back into the original mission file.
 
+### 📝 Other Supported Languages (no separate README)
+- 🇪🇸 Español
+- 🇫🇷 Français
+- 🇩🇪 Deutsch
+- 🇮🇹 Italiano
+- 🇳🇱 Nederlands
+- 🇵🇱 Polski
+- 🇸🇪 Svenska
+- 🇳🇴 Norsk
+- 🇩🇰 Dansk
+- 🇷🇴 Română
+- 🇨🇿 Čeština
+- 🇭🇺 Magyar
+- 🇧🇬 Български
+- 🇺🇦 Українська
+- 🇻🇳 Tiếng Việt
+- 🇲🇾 Bahasa Melayu
+- 🇬🇷 Ελληνικά
+- 🇮🇱 עברית
+- 🇸🇦 العربية
+
+> ⚠️ Note: For these additional languages, the program supports translation,  
+> but there is no separate README file. Use the English or Chinese README for instructions.
+
 ## Usage
 
 ### Installation
@@ -48,9 +72,6 @@ In the `/path/to/miz-translator/conf` directory, there is a file named `trans.co
 ```properties
 # Prompt for the AI; here "F/A 18" is an example. You can modify the aircraft type or campaign as needed.
 hint=You are a translator. The following English texts are related to the F/A 18 fighter jet. Translate them into Simplified Chinese without using markdown formatting. Keep the original line breaks and do not add extra explanations. Preserve acronyms written in uppercase.
-
-# Target language for translation
-language=zh-CN
 
 # AI translators supported: deepseek, doubao, and openai
 translator=deepseek
