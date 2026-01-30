@@ -70,10 +70,8 @@ public class I18N {
 			case "he": return "he-IL-HilaNeural";
 			// 阿拉伯语
 			case "ar": return "ar-SA-ZariyahNeural";
-			
-			// 默认 fallback 英语
-			default: return "en-US-GuyNeural";
 		}
+		throw new IllegalArgumentException("required option:<voice>");
 	}
 	
 	public static String localeLanguage(Configure configure, String spliter) {
