@@ -71,7 +71,7 @@ docker run --rm \
   -v /path/to/miz:/data \
   -e API_KEY="${api-key}" \
   -e BASE_URL="https://api.deepseek.com/v1" \
-  -e LANG="zh-CN" \
+  -e LANG="ko-KR" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
   miz-translator:latest \
@@ -81,7 +81,7 @@ docker run --rm \
   -v /path/to/miz:/data \
   -e API_KEY="${api-key}" \
   -e BASE_URL="https://api.deepseek.com/v1" \
-  -e LANG="zh-CN" \
+  -e LANG="ko-KR" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
   miz-translator:latest \
