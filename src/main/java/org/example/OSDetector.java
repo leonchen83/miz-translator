@@ -52,9 +52,7 @@ public final class OSDetector {
 		}
 		
 		try {
-			String osrelease = Files.readString(
-							Path.of("/proc/sys/kernel/osrelease"))
-					.toLowerCase(Locale.ROOT);
+			String osrelease = Files.readString(Path.of("/proc/sys/kernel/osrelease")).toLowerCase(Locale.ROOT);
 			if (osrelease.contains("microsoft")) {
 				return true;
 			}
