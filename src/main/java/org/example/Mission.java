@@ -18,8 +18,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
@@ -31,7 +29,6 @@ import org.luaj.vm2.Varargs;
 public class Mission extends AbstractMission implements AutoCloseable {
 	
 	private final Set<String> nounsSet = new HashSet<>(256);
-	private static final Pattern PATTERN = Pattern.compile("getValueDictByKey\\s*\\(\\s*\"([^\"]+)\"\\s*\\)");
 	
 	public Mission(Configure configure, File folder) {
 		super(configure, folder);
@@ -155,17 +152,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					k = next.arg1();
 					LuaValue v = next.arg(2);
 					if (k.isnil()) break;
-					if (v.type() == 4 /*String*/) {
-						String value = v.tojstring();
-						for (var entry : resource.entrySet()) {
-							if (value.contains(entry.getKey()) && !out.containsKey(entry.getValue())) {
-								Matcher m = PATTERN.matcher(value);
-								if (!m.find()) continue;
-								value = m.group(1);
-								out.put(entry.getValue(), value);
-							}
-						}
-					} else if (v.type() == 5 /*Table*/) {
+					if (v.type() == 5 /*Table*/) {
 						if (v.get("predicate").tojstring().equals("a_out_text_delay_u")) {
 							textValue = v.get("text").tojstring();
 						} else if (v.get("predicate").tojstring().equals("a_out_sound_u")) {

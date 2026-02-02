@@ -327,7 +327,7 @@ public abstract class AbstractMission {
 		String value = entry.getValue();
 		if (translatedMap.containsKey(value)) {
 			if (configure.getOriginal() && value.length() <= 1024) {
-				entry.setValue(value + "\n" + translatedMap.get(value));
+				entry.setValue(value + "\n---------------------------------------------\n" + translatedMap.get(value));
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}
