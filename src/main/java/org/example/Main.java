@@ -18,7 +18,7 @@ import picocli.CommandLine;
 		optionListHeading = "%nOptions:%n",
 		versionProvider = XVersionProvider.class,
 		customSynopsis = {
-				"Usage: trans [-hV] -f <folder> [-dtco]"
+				"Usage: trans [-hV] -f <folder> [-s <file>] [-dtco]"
 		},
 		description = "%nDescription: Translate DCS world miz mission to chinese.",
 		footer = {"%nExamples:",
@@ -47,9 +47,17 @@ public class Main implements Callable<Integer> {
 	@CommandLine.Option(names = {"-r", "--reformat"}, description = {"reformat translated file."})
 	private boolean reformat;
 	
+	@CommandLine.Option(names = {"-s", "--setting"}, description = "trans.conf setting file", paramLabel = "<file>", type = File.class)
+	private File settingFile;
+	
 	@Override
 	public Integer call() throws Exception {
-		Configure configure = Configure.bind();
+		Configure configure;
+		if (settingFile != null && settingFile.exists()) {
+			configure = Configure.bind(settingFile);
+		} else {
+			configure = Configure.bind();
+		}
 		configure.setOriginal(original);
 		try(Mission mission = new Mission(configure, folder)) {
 			if (decompress) {

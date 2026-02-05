@@ -53,37 +53,43 @@ docker build -t miz-translator:latest .
 # run text translation
 docker run --rm \
   -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/data \
+  -v /path/to/miz:/tmp/miz-uploaded \
   miz-translator:latest \
-  trans -f /data
+  trans -f /tmp/miz-uploaded
 
 # run voice translation
 docker run --rm \
   -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/data \
+  -v /path/to/miz:/tmp/miz-uploaded \
   miz-translator:latest \
-  trans-voice -f /data
+  trans-voice -f /tmp/miz-uploaded
   
 # use environment variables instead of a config file
 docker run --rm \
-  -v /path/to/miz:/data \
+  -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
   -e BASE_URL="https://api.deepseek.com/v1" \
-  -e LANG="zh-CN" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
   miz-translator:latest \
-  trans -f /data
+  trans -f /tmp/miz-uploaded
   
 docker run --rm \
-  -v /path/to/miz:/data \
+  -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
   -e BASE_URL="https://api.deepseek.com/v1" \
-  -e LANG="zh-CN" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
   miz-translator:latest \
-  trans-voice -f /data
+  trans-voice -f /tmp/miz-uploaded
+  
+# use local web service
+docker run -d \
+  --name miz-translator \
+  -p 8000:8000 \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  uvicorn bin.main:app --host 0.0.0.0 --port 8000
 ```
 
 ### Configuration

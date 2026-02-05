@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -242,7 +243,22 @@ public class Configure {
     }
     
     public static Configure bind() {
-        return bind(null);
+        return bind((Properties) null);
+    }
+    
+    public static Configure bind(File file) {
+        if (file != null && file.exists()) {
+            Properties props = new Properties();
+            try (InputStream in = new FileInputStream(file)) {
+                Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8);
+                props.load(reader);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+            return bind(props);
+        } else {
+            return bind();
+        }
     }
     
     public static Configure bind(Properties properties) {
@@ -272,7 +288,6 @@ public class Configure {
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
-        conf.original = getBool(conf, "original", false, true);
         conf.ttsProxy = getString(conf, "ttsProxy", null, true);
         conf.ttsService = getString(conf, "ttsService", "edge-tts", true);
         return conf;

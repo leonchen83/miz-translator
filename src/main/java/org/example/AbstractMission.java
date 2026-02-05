@@ -180,7 +180,7 @@ public abstract class AbstractMission {
 		}
 	}
 	
-	public Map<String, String> translate(Map<String, String> map) {
+	public Map<String, String> translate(Map<String, String> map, boolean force) {
 		List<Map.Entry<String, String>> entries = new ArrayList<>(configure.getBatchSize());
 		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
 		loop:
@@ -284,7 +284,7 @@ public abstract class AbstractMission {
 				}
 			}
 			
-			if (needTranslate) {
+			if (needTranslate || force) {
 				if (value.length() > 1024) {
 					if (translatedMap.containsKey(value)) {
 						entry.setValue(translatedMap.get(value));

@@ -24,8 +24,11 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 RUN pip install --upgrade pip \
     && pip install \
+        fastapi \
+        uvicorn[standard] \
         edge-tts \
-        faster-whisper
+        faster-whisper \
+        python-multipart
 
 COPY . /app
 
@@ -40,4 +43,4 @@ RUN chmod +x /app/miz-translator/generate-config.sh
 ENTRYPOINT ["/app/miz-translator/generate-config.sh"]
 
 WORKDIR /app/miz-translator
-CMD ["/bin/bash"]
+CMD ["uvicorn", "bin.main:app", "--host", "0.0.0.0", "--port", "8000"]

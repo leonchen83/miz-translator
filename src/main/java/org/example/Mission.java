@@ -58,7 +58,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		System.out.println("translating : " + file);
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
-		map = translate(map);
+		map = translate(map, false);
 		saveToJson(map, file.getName(), file.toPath().getParent());
 		
 		// voice

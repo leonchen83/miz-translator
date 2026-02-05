@@ -19,7 +19,7 @@ import picocli.CommandLine;
 		optionListHeading = "%nOptions:%n",
 		versionProvider = XVersionProvider.class,
 		customSynopsis = {
-				"Usage: trans-voice [-hV] -f <folder> [-tc] [-p <proxy>] [-v <voice>]"
+				"Usage: trans-voice [-hV] -f <folder> [-tc] [-p <proxy>] [-v <voice>] [-s <file>]"
 		},
 		description = "%nDescription: Translate DCS world miz mission to chinese.",
 		footer = {"%nExamples:",
@@ -44,9 +44,17 @@ public class MainVoice implements Callable<Integer> {
 	@CommandLine.Option(names = {"-v", "--voice"}, paramLabel = "<voice>", description = {"tts voice. example: zh-CN-YunyangNeural"}, type = String.class)
 	private String voice;
 	
+	@CommandLine.Option(names = {"-s", "--setting"}, description = "trans.conf setting file", paramLabel = "<file>", type = File.class)
+	private File settingFile;
+	
 	@Override
 	public Integer call() throws Exception {
-		Configure configure = Configure.bind();
+		Configure configure;
+		if (settingFile != null && settingFile.exists()) {
+			configure = Configure.bind(settingFile);
+		} else {
+			configure = Configure.bind();
+		}
 		if (proxy != null && !proxy.isEmpty()) {
 			configure.setTtsProxy(proxy);
 		}

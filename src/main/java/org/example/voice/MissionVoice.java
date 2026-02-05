@@ -2,7 +2,6 @@ package org.example.voice;
 
 import static org.example.Compressor.unzip;
 import static org.example.Compressor.zip;
-import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
 import static org.example.I18N.localeVoice;
 import static org.example.I18N.pi18n;
@@ -77,8 +76,14 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		Path voice = tempDir.resolve("l10n").resolve("DEFAULT");
 		
 		Map<String, String> json = fasterWhisperToText(files, voice, configure, env);
-		json = translate(json);
-		saveToJson(json, file.getName() + ".voice", file.toPath().getParent());
+		
+		for (var entry : json.entrySet()) {
+			String voiceFileName = entry.getKey();
+			String text = entry.getValue();
+			voiceMap.put(voiceFileName, text);
+		}
+		voiceMap = translate(voiceMap, true);
+		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 		deleteDirectory(tempDir);
 	}
 	
