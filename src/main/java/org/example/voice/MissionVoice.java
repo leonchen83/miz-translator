@@ -77,11 +77,14 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		
 		Map<String, String> json = fasterWhisperToText(files, voice, configure, env);
 		
-		for (var entry : json.entrySet()) {
-			String voiceFileName = entry.getKey();
-			String text = entry.getValue();
-			voiceMap.put(voiceFileName, text);
+		if (json != null && !json.isEmpty()) {
+			for (var entry : json.entrySet()) {
+				String voiceFileName = entry.getKey();
+				String text = entry.getValue();
+				voiceMap.put(voiceFileName, text);
+			}
 		}
+		
 		voiceMap = translate(voiceMap, true);
 		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 		deleteDirectory(tempDir);
@@ -95,6 +98,9 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		for (var entry : voiceMap.entrySet()) {
 			String voiceFileName = entry.getKey();
 			String text = entry.getValue();
+			if (text == null || text.isBlank() || text.equals("nil")) {
+				continue;
+			}
 			try {
 				Path outOgg = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
 				Files.createDirectories(outOgg);
