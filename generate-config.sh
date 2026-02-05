@@ -7,6 +7,9 @@ set -e
 
 CONF_FILE="/app/miz-translator/conf/trans.conf"
 
+# 默认语言（如果未设置 LANG）
+: "${LANG:=zh-CN}"
+
 # 如果 conf 已存在且不可写，说明挂载了只读文件，跳过生成
 if [ -f "$CONF_FILE" ] && ! touch "$CONF_FILE" 2>/dev/null; then
   echo "conf file is mounted externally as read-only, skipping generation."
@@ -17,7 +20,6 @@ mkdir -p "$(dirname "$CONF_FILE")"
 
 # 必须传入 API_KEY 和 LANG
 : "${API_KEY:?API_KEY environment variable must be set}"
-: "${LANG:?LANG environment variable must be set, e.g., zh-CN}"
 
 echo "Generating conf at $CONF_FILE"
 echo "Using language=$LANG"
