@@ -9,9 +9,6 @@ import java.io.InputStreamReader;
  */
 public class PythonDetector {
 	
-	/**
-	 * 检测当前系统 Python 可执行文件的绝对路径
-	 */
 	public static String detectPython() throws Exception {
 		boolean win = System.getProperty("os.name").toLowerCase().contains("win");
 		if (win) {
@@ -21,7 +18,6 @@ public class PythonDetector {
 		}
 	}
 	
-	// ----------------- Windows -----------------
 	private static String detectPythonWindows() throws Exception {
 		ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/c", "where python");
 		pb.redirectErrorStream(true);
@@ -48,15 +44,9 @@ public class PythonDetector {
 		throw new RuntimeException("Cannot detect python on Unix");
 	}
 	
-	/**
-	 * 使用非交互 shell 解析 alias 并返回绝对路径
-	 */
 	private static String resolveAliasWithShell(String cmd) throws Exception {
-		// 加载用户 shell 配置并尝试 alias
 		String shellConfig = getShellConfigFile();
-		String bashCmd = shellConfig == null ?
-				String.format("%s", cmd) : // 没找到配置直接尝试命令
-				String.format("source %s >/dev/null 2>&1; alias %s 2>/dev/null || echo %s", shellConfig, cmd, cmd);
+		String bashCmd = shellConfig == null ? String.format("%s", cmd) : String.format("source %s >/dev/null 2>&1; alias %s 2>/dev/null || echo %s", shellConfig, cmd, cmd);
 		
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", bashCmd);
 		pb.redirectErrorStream(true);
@@ -71,7 +61,6 @@ public class PythonDetector {
 					String target = line.split("=")[1].replaceAll("['\"]", "").trim();
 					return whichAbsolute(target);
 				} else {
-					// 直接返回路径
 					return whichAbsolute(line);
 				}
 			}
@@ -80,9 +69,6 @@ public class PythonDetector {
 		return null;
 	}
 	
-	/**
-	 * 获取用户 shell 配置文件路径
-	 */
 	private static String getShellConfigFile() {
 		String home = System.getProperty("user.home");
 		String zshrc = home + "/.zshrc";
@@ -93,9 +79,6 @@ public class PythonDetector {
 		return null;
 	}
 	
-	/**
-	 * 使用 which 获取绝对路径
-	 */
 	private static String whichAbsolute(String cmd) throws Exception {
 		ProcessBuilder pb = new ProcessBuilder("bash", "-c", "which " + cmd);
 		pb.redirectErrorStream(true);

@@ -30,7 +30,7 @@ cat >> "$CONF_FILE" <<EOF
 #
 # translate hint
 #
-hint=${HINT:-你是一个军事方面的翻译，下面是DCS World F/A-18C-Raven One第二部Dominant Fury战役的英语对话，这是根据小说改编的战役，请翻译成简体中文，不要添加多余的解释以及补充出多余的对话，不要使用markdown输出, 保持原文的换行格式}
+hint=${HINT:-你是一个军事方面的翻译，下面是DCS World 中战役的英语文本，这个文本包含无线电对话,战役简介等等. 请翻译成简体中文，不要添加多余的解释以及补充出多余的对话，不要使用markdown输出, 保持原文的换行格式}
 
 #
 # the number of texts to use for translation one time
@@ -59,6 +59,7 @@ rateLimitPerMinute=${RATE_LIMIT_PER_MINUTE:-}
 temperature=${TEMPERATURE:-1.3}
 maxTokens=${MAX_TOKENS:-4096}
 minimumLength=${MINIMUM_LENGTH:-12}
+original=${ORIGINAL:-false}
 EOF
 
 # 固定 keyFilters

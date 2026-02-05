@@ -80,13 +80,32 @@ public class Strings {
 		return code.matches("(?s).*\\b(function|local|if|then|end|return|print|for|while|do)\\b.*") || code.matches("(?s).*[=(){};].*");
 	}
 	
-	public static boolean isAllNumber(String str) {
+	public static boolean isNumberOrPunctuation(String str) {
+		if (str == null || str.isEmpty()) {
+			return false;
+		}
+		
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
-			if (ch < '0' || ch > '9') {
-				return false;
+			
+			if (Character.isDigit(ch)) {
+				continue;
 			}
+			
+			int type = Character.getType(ch);
+			if (type == Character.CONNECTOR_PUNCTUATION ||
+					type == Character.DASH_PUNCTUATION ||
+					type == Character.START_PUNCTUATION ||
+					type == Character.END_PUNCTUATION ||
+					type == Character.OTHER_PUNCTUATION ||
+					type == Character.INITIAL_QUOTE_PUNCTUATION ||
+					type == Character.FINAL_QUOTE_PUNCTUATION) {
+				continue;
+			}
+			
+			return false;
 		}
+		
 		return true;
 	}
 	

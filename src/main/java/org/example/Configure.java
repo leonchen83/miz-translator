@@ -272,6 +272,7 @@ public class Configure {
         conf.filters = getStrings(conf, "filters");
         conf.keyFilters = getStrings(conf, "keyFilters");
         conf.fixed = getMap(conf, "source", "target");
+        conf.original = getBool(conf, "original", false, true);
         conf.ttsProxy = getString(conf, "ttsProxy", null, true);
         conf.ttsService = getString(conf, "ttsService", "edge-tts", true);
         return conf;

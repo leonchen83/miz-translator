@@ -13,8 +13,7 @@ public final class OSDetector {
 	private OSDetector() {}
 	
 	public static RuntimeOS detect() {
-		String osName = System.getProperty("os.name", "unknown")
-				.toLowerCase(Locale.ROOT);
+		String osName = System.getProperty("os.name", "unknown").toLowerCase(Locale.ROOT);
 		
 		if (osName.contains("win")) {
 			return RuntimeOS.WINDOWS;
@@ -34,17 +33,13 @@ public final class OSDetector {
 		return RuntimeOS.UNKNOWN;
 	}
 	
-	/**
-	 * WSL1 / WSL2 检测
-	 */
 	private static boolean isWSL() {
 		if (System.getenv("WSL_DISTRO_NAME") != null) {
 			return true;
 		}
 		
 		try {
-			String version = Files.readString(Path.of("/proc/version"))
-					.toLowerCase(Locale.ROOT);
+			String version = Files.readString(Path.of("/proc/version")).toLowerCase(Locale.ROOT);
 			if (version.contains("microsoft")) {
 				return true;
 			}
