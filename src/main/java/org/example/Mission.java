@@ -7,8 +7,8 @@ import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
 import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
-import static org.example.Strings.isAllNumber;
 import static org.example.Strings.isLikelyLua;
+import static org.example.Strings.isNumberOrPunctuation;
 
 import java.io.File;
 import java.io.IOException;
@@ -192,7 +192,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 				continue;
 			}
 			
-			if (isAllNumber(value)) {
+			if (isNumberOrPunctuation(value)) {
 				continue;
 			}
 			
