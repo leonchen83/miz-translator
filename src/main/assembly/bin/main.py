@@ -15,9 +15,37 @@ UPLOAD_ROOT = Path("/tmp/miz-uploaded")
 UPLOAD_ROOT.mkdir(exist_ok=True)
 
 DEFAULT_HINT = (
-    "你是一个军事方面的翻译，下面是DCS World 中战役的英语文本，这个文本包含无线电对话,"
-    "战役简介等等. 请翻译成简体中文，不要添加多余的解释以及补充出多余的对话，不要使用markdown输出, 保持原文的换行格式"
+    "你是一个军事方面的翻译，下面是 DCS World 中战役或任务的英语文本，"
+    "这个文本包含无线电对话、战役或任务的简介等等。"
+    "请翻译成 {{lang}}，不要添加多余的解释以及补充出多余的对话，"
+    "不要使用 markdown 输出，保持原文的换行格式。"
 )
+
+LANG_DISPLAY = {
+    "zh-CN": "简体中文",
+    "en-US": "English",
+    "ja-JP": "日本語",
+    "ko-KR": "한국어",
+    "es-ES": "Español",
+    "fr-FR": "Français",
+    "de-DE": "Deutsch",
+    "it-IT": "Italiano",
+    "nl-NL": "Nederlands",
+    "pl-PL": "Polski",
+    "sv-SE": "Svenska",
+    "no-NO": "Norsk",
+    "da-DK": "Dansk",
+    "ro-RO": "Română",
+    "cs-CZ": "Čeština",
+    "hu-HU": "Magyar",
+    "bg-BG": "Български",
+    "uk-UA": "Українська",
+    "vi-VN": "Tiếng Việt",
+    "ms-MY": "Bahasa Melayu",
+    "el-GR": "Ελληνικά",
+    "he-IL": "עברית",
+    "ar-SA": "العربية",
+}
 
 # 首页表单
 @app.get("/", response_class=HTMLResponse)
@@ -103,7 +131,6 @@ async def index():
             const pre = document.getElementById(preId);
             const btn = document.getElementById("downloadBtn");
 
-            // 🔴 每次提交前清空日志和按钮状态
             pre.textContent = "";
             btn.style.display = "none";
             btn.dataset.zip = "";
@@ -156,7 +183,7 @@ async def index():
             </div>
             <div class="form-row">
                 <label>语言 (LANG):</label>
-                <select name="lang">
+                <select name="lang" onchange="onLangChange(this)">
                     <option value="zh-CN" selected>🇨🇳 简体中文</option>
                     <option value="en-US">🇺🇸 English</option>
                     <option value="ja-JP">🇯🇵 日本語</option>
@@ -311,6 +338,9 @@ async def translate(
     voice: bool = Form(False),
     miz_files: list[UploadFile] = File(...)
 ):
+    lang_name = LANG_DISPLAY.get(lang, lang)
+    if "{{lang}}" in hint:
+        hint = hint.replace("{{lang}}", lang_name)
     tmp_dir = save_upload_files(miz_files)
     conf_path = generate_conf(tmp_dir, api_key, base_url, lang, model, hint, proxy)
 
