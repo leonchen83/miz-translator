@@ -23,7 +23,6 @@ DEFAULT_HINT = (
 
 LANG_DISPLAY = {
     "zh-CN": "简体中文",
-    "en-US": "English",
     "ja-JP": "日本語",
     "ko-KR": "한국어",
     "es-ES": "Español",
@@ -183,30 +182,11 @@ async def index():
             </div>
             <div class="form-row">
                 <label>语言 (LANG):</label>
-                <select name="lang" onchange="onLangChange(this)">
-                    <option value="zh-CN" selected>🇨🇳 简体中文</option>
-                    <option value="en-US">🇺🇸 English</option>
-                    <option value="ja-JP">🇯🇵 日本語</option>
-                    <option value="ko-KR">🇰🇷 한국어</option>
-                    <option value="es-ES">🇪🇸 西班牙语</option>
-                    <option value="fr-FR">🇫🇷 法语</option>
-                    <option value="de-DE">🇩🇪 德语</option>
-                    <option value="it-IT">🇮🇹 意大利语</option>
-                    <option value="nl-NL">🇳🇱 荷兰语</option>
-                    <option value="pl-PL">🇵🇱 波兰语</option>
-                    <option value="sv-SE">🇸🇪 瑞典语</option>
-                    <option value="no-NO">🇳🇴 挪威语</option>
-                    <option value="da-DK">🇩🇰 丹麦语</option>
-                    <option value="ro-RO">🇷🇴 罗马尼亚语</option>
-                    <option value="cs-CZ">🇨🇿 捷克语</option>
-                    <option value="hu-HU">🇭🇺 匈牙利语</option>
-                    <option value="bg-BG">🇧🇬 保加利亚语</option>
-                    <option value="uk-UA">🇺🇦 乌克兰语</option>
-                    <option value="vi-VN">🇻🇳 越南语</option>
-                    <option value="ms-MY">🇲🇾 马来语</option>
-                    <option value="el-GR">🇬🇷 希腊语</option>
-                    <option value="he-IL">🇮🇱 希伯来语</option>
-                    <option value="ar-SA">🇸🇦 阿拉伯语</option>
+                <select name="lang">
+                {''.join([
+                    f'<option value="{code}" {"selected" if code=="zh-CN" else ""}>{name}</option>'
+                    for code, name in LANG_DISPLAY.items()
+                ])}
                 </select>
             </div>
             <div class="form-row">

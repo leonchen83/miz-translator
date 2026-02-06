@@ -28,7 +28,6 @@ echo "Generating conf at $CONF_FILE"
 # -----------------------------
 case "$LANG" in
     zh-CN) LANG_NAME="简体中文" ;;
-    en-US) LANG_NAME="English" ;;
     ja-JP) LANG_NAME="日本語" ;;
     ko-KR) LANG_NAME="한국어" ;;
     es-ES) LANG_NAME="Español" ;;
