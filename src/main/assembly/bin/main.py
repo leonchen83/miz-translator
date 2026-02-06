@@ -174,14 +174,14 @@ async def index():
         <form id="translateForm" action="/translate" enctype="multipart/form-data" method="post" onsubmit="translateForm(event,'translateForm','log')">
             <div class="form-row">
                 <label>API_KEY:</label>
-                <input type="text" name="api_key" required />
+                <input type="password" name="api_key" required />
             </div>
             <div class="form-row">
                 <label>BASE URL:</label>
                 <input type="text" name="base_url" value="https://api.deepseek.com/v1" />
             </div>
             <div class="form-row">
-                <label>语言 (LANG):</label>
+                <label>语言 (Language):</label>
                 <select name="lang">
                 {''.join([
                     f'<option value="{code}" {"selected" if code=="zh-CN" else ""}>{name}</option>'
@@ -190,36 +190,36 @@ async def index():
                 </select>
             </div>
             <div class="form-row">
-                <label>模型 (MODEL):</label>
+                <label>模型 (Model):</label>
                 <input type="text" name="model" value="deepseek-reasoner" />
             </div>
             <div class="form-row">
-                <label>Proxy (可选):</label>
+                <label>代理 (Proxy, optional):</label>
                 <input type="text" name="proxy" />
             </div>
             <div class="form-row">
-                <label>保留原文:</label>
+                <label>保留原文 (Keep Original):</label>
                 <input type="checkbox" name="original" />
             </div>
             <div class="form-row">
-                <label>生成语音:</label>
+                <label>生成语音 (Generate Voice):</label>
                 <input type="checkbox" name="voice" />
             </div>
             <div class="form-row">
-                <label>提示词:</label>
+                <label>AI提示词 (AI Hint):</label>
                 <textarea name="hint" rows="4">{DEFAULT_HINT}</textarea>
             </div>
             <div class="form-row">
-                <label>上传 MIZ 文件:</label>
+                <label>MIZ 文件夹 (MIZ Folder):</label>
                 <input type="file" name="miz_files" webkitdirectory directory multiple required />
             </div>
             <div class="form-row">
-                <label>日志输出:</label>
+                <label>日志输出 (Log Output):</label>
                 <pre id="log"></pre>
             </div>
             <div class="form-row">
-                <button type="submit">翻译</button>
-                <button id="downloadBtn" style="display:none;" type="button" onclick="downloadZip()">下载结果 ZIP</button>
+                <button type="submit">翻译 (Translate)</button>
+                <button id="downloadBtn" style="display:none;" type="button" onclick="downloadZip()">下载 (Download)</button>
             </div>
         </form>
     </body>
