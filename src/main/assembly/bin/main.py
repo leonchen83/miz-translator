@@ -77,11 +77,12 @@ async def index():
                 flex-wrap: wrap;
             }}
             .form-row label {{
-                width: 140px;
+                width: 240px; /* 调宽 */
                 margin-right: 12px;
                 font-weight: bold;
             }}
             .form-row input[type="text"],
+            .form-row input[type="password"], /* 加入 password */
             .form-row select,
             .form-row textarea {{
                 flex: 1;
@@ -89,6 +90,7 @@ async def index():
                 border-radius: 4px;
                 border: 1px solid #ccc;
                 font-size: 14px;
+                box-sizing: border-box;
             }}
             .form-row textarea {{
                 resize: vertical;
