@@ -8,6 +8,7 @@ from datetime import datetime
 import shutil
 import asyncio
 import zipfile
+import shlex
 
 app = FastAPI(title="MIZ Translator Web")
 
@@ -167,7 +168,8 @@ async def index():
         function downloadZip() {{
             const btn = document.getElementById("downloadBtn");
             const zipName = btn.dataset.zip;
-            window.location.href = `/download/${{zipName}}`;
+            const encodedName = encodeURIComponent(zipName);
+            window.location.href = `/download/${{encodedName}}`;
         }}
         </script>
     </head>
@@ -239,6 +241,15 @@ def zip_directory(src_dir: Path) -> Path:
                 z.write(p, arcname=p.relative_to(src_dir))
 
     return zip_path
+    
+def sanitize_filename(name: str) -> str:
+    """
+    替换上传目录名中的空格和括号，其他字符保留
+    """
+    name = name.strip()
+    # 替换空格和括号为下划线
+    safe = name.replace(" ", "_").replace("(", "_").replace(")", "_")
+    return safe
 
 def save_upload_files(upload_files: list[UploadFile]) -> Path:
     if not upload_files:
@@ -249,7 +260,8 @@ def save_upload_files(upload_files: list[UploadFile]) -> Path:
         raise ValueError("请使用目录方式上传")
 
     root_dir_name = first.parts[0]
-    target_dir = UPLOAD_ROOT / root_dir_name
+    safe_name = sanitize_filename(root_dir_name)
+    target_dir = UPLOAD_ROOT / safe_name
     target_dir.mkdir(parents=True, exist_ok=True)
 
     saved_miz = 0
@@ -292,10 +304,13 @@ def generate_conf(tmp_dir: Path, api_key, base_url, lang, model, hint, proxy):
         f.write(f"ttsService=edge-tts\n")
     return conf_path
 
-# 异步执行命令，实时输出
-async def run_command(cmd: list[str]):
-    proc = await asyncio.create_subprocess_exec(
-        *cmd,
+async def run_command(cmd: str):
+    """
+    cmd: str，完整 shell 命令
+    必须在 shell=True 下执行，保证路径空格和括号被正确解析
+    """
+    proc = await asyncio.create_subprocess_shell(
+        cmd,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.STDOUT
     )
@@ -303,11 +318,10 @@ async def run_command(cmd: list[str]):
         line = await proc.stdout.readline()
         if not line:
             break
-        # 注意这里line是bytes，需要解码
         yield line.decode("utf-8", errors="ignore")
     await proc.wait()
 
-# 翻译接口
+
 @app.post("/translate")
 async def translate(
     api_key: str = Form(...),
@@ -323,39 +337,57 @@ async def translate(
     lang_name = LANG_DISPLAY.get(lang, lang)
     if "{{lang}}" in hint:
         hint = hint.replace("{{lang}}", lang_name)
+
     tmp_dir = save_upload_files(miz_files)
     conf_path = generate_conf(tmp_dir, api_key, base_url, lang, model, hint, proxy)
 
     async def event_stream():
-        cmd_trans = ["trans", "-f", str(tmp_dir), "-s", str(conf_path)]
+        # 日志显示路径用双引号
+        def quote_path_for_log(p):
+            s = str(p)
+            if ' ' in s or '(' in s or ')':
+                return f'"{s}"'
+            return s
+
+        # ========== trans ==========
+        cmd_trans = f'trans -f "{tmp_dir}" -s "{conf_path}"'
         if original:
-            cmd_trans.append("-o")
-        yield f"$ {' '.join(cmd_trans)}\n"
+            cmd_trans += " -o"
+        yield f"$ {cmd_trans}\n"
         async for line in run_command(cmd_trans):
             yield line
 
+        # ========== trans-voice ==========
         if voice:
-            cmd_voice = ["trans-voice", "-f", str(tmp_dir), "-s", str(conf_path)]
+            cmd_voice = f'trans-voice -f "{tmp_dir}" -s "{conf_path}"'
             if proxy:
-                cmd_voice.extend(["-p", proxy])
-            yield f"$ {' '.join(cmd_voice)}\n"
+                cmd_voice += f' -p "{proxy}"'
+            yield f"$ {cmd_voice}\n"
             async for line in run_command(cmd_voice):
                 yield line
+
+        # ========== 打包 ==========
         yield "\n[INFO] Packaging result...\n"
         zip_path = zip_directory(tmp_dir)
         yield f"[DONE] Package ready: {zip_path.name}\n"
         yield f"[DOWNLOAD] /download/{zip_path.stem}\n"
+
     return StreamingResponse(event_stream(), media_type="text/plain")
     
 @app.get("/download/{zip_name}")
 async def download(zip_name: str):
+    zip_name = urllib.parse.unquote(zip_name)
+
+    if ".." in zip_name or "/" in zip_name or "\\" in zip_name:
+        raise HTTPException(status_code=400, detail="Invalid zip name")
+
     zip_path = UPLOAD_ROOT / f"{zip_name}.zip"
 
     if not zip_path.exists():
         raise HTTPException(status_code=404, detail="ZIP not found")
 
     return FileResponse(
-        zip_path,
+        path=zip_path,
         media_type="application/zip",
         filename=f"{zip_name}.zip"
     )
