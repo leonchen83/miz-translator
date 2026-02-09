@@ -311,7 +311,9 @@ public abstract class AbstractMission {
 				// already translated, skip
 				continue;
 			}
-			if (configure.getOriginal() && raw.length() <= 1024) {
+			if (key.startsWith("DictKey_ActionRadioText_")) {
+				map.replace(key, value);
+			} else if (configure.getOriginal() && raw.length() <= 1024) {
 				map.replace(key, raw + "\n" + value);
 			} else {
 				map.replace(key, value);

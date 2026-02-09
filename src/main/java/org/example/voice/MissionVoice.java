@@ -5,6 +5,7 @@ import static org.example.Compressor.zip;
 import static org.example.I18N.i18n;
 import static org.example.I18N.localeVoice;
 import static org.example.I18N.pi18n;
+import static org.example.Strings.getFileExt;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -111,7 +112,9 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				} else {
 					voice = localeVoice(configure);
 				}
-				ttsToOgg(text, voice, outOgg, env);
+				
+				String ext = getFileExt(voiceFileName);
+				ttsToSound(text, voice, outOgg, env, ext);
 				logger.info("Generated voice file: {}", outOgg);
 			} catch (Exception e) {
 				logger.error("Failed to generate voice for text: {}", text, e);
@@ -135,18 +138,24 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		deleteDirectory(tempDir);
 	}
 	
-	public void ttsToOgg(String text, String voice, Path outOgg, Map<String, String> env) throws Exception {
-		if (Files.exists(outOgg)) return;
+	public void ttsToSound(String text, String voice, Path out, Map<String, String> env, String ext) throws Exception {
+		if (Files.exists(out)) return;
 		Path wav = Files.createTempFile("tts-", ".wav");
 		String ttsCmd = ttsCmd(text, voice, wav, configure);
-		String ffmpegCmd = null;
-		if (os == RuntimeOS.MAC){
-			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a vorbis -ar 44100 -ac 2 -q:a 3 -strict -2 \"%s\"", wav, outOgg);
+		runEdgeTtsWithRetry(ttsCmd, out, env);
+		if (ext.equals("ogg")) {
+			String ffmpegCmd = null;
+			if (os == RuntimeOS.MAC) {
+				ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a vorbis -ar 44100 -ac 2 -q:a 3 -strict -2 \"%s\"", wav, out);
+			} else {
+				ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, out);
+			}
+			runCmd(ffmpegCmd, env);
+		} else if (ext.equals("wav")) {
+			Files.copy(wav, out);
 		} else {
-			ffmpegCmd = String.format("ffmpeg -y -i \"%s\" -c:a libvorbis -ar 44100 -ac 1 -q:a 3 \"%s\"", wav, outOgg);
+			throw new IllegalArgumentException("Unsupported audio format: " + ext);
 		}
-		runEdgeTtsWithRetry(ttsCmd, outOgg, env);
-		runCmd(ffmpegCmd, env);
 		Files.deleteIfExists(wav);
 	}
 	

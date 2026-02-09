@@ -109,6 +109,15 @@ public class Strings {
 		return true;
 	}
 	
+	public static String getFileExt(String file) {
+		String ext = "ogg";
+		int dot = file.lastIndexOf('.');
+		if (dot > 0 && dot < file.length() - 1) {
+			ext = file.substring(dot + 1).toLowerCase();
+		}
+		return ext;
+	}
+	
 	public static String convertToAscii(String input) {
 		if (input == null) {
 			return null;

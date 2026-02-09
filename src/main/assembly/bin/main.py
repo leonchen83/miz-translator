@@ -9,6 +9,7 @@ import shutil
 import asyncio
 import zipfile
 import shlex
+import urllib.parse
 
 app = FastAPI(title="MIZ Translator Web")
 

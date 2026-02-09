@@ -7,6 +7,7 @@ import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
 import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
+import static org.example.Strings.getFileExt;
 import static org.example.Strings.isLikelyLua;
 import static org.example.Strings.isNumberOrPunctuation;
 
@@ -43,7 +44,16 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		var map = parseText(tempDir, "dictionary");
 		saveToJson(map, file.getName(), file.toPath().getParent());
 		
-		var voice = parseMission(tempDir, parseText(tempDir, "mapResource"));
+		var voiceMap = parseText(tempDir, "mapResource");
+		var voice = parseMission(tempDir, voiceMap);
+		for (var value : voiceMap.values()) {
+			if (!voice.containsKey(value)) {
+				var ext = getFileExt(value);
+				if (ext.equals("wav") || ext.equals("ogg")) {
+					voice.put(value, "nil");
+				}
+			}
+		}
 		saveToJson(voice, file.getName() + ".voice", file.toPath().getParent());
 		deleteDirectory(tempDir);
 	}
