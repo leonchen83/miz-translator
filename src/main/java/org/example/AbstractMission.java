@@ -325,8 +325,11 @@ public abstract class AbstractMission {
 		String key = entry.getKey();
 		String value = entry.getValue();
 		if (translatedMap.containsKey(value)) {
-			if (configure.getOriginal() && value.length() <= 1024) {
-				entry.setValue(value + "\n---------------------------------------------\n" + translatedMap.get(value));
+			// radio text
+			if (key.startsWith("DictKey_ActionRadioText_")) {
+				entry.setValue(translatedMap.get(value));
+			} else if (configure.getOriginal() && value.length() <= 1024) {
+				entry.setValue(value + "\n-------------------------------------------------------------------\n" + translatedMap.get(value));
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}
