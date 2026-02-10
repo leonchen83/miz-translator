@@ -103,9 +103,9 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				continue;
 			}
 			try {
-				Path outOgg = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
-				Files.createDirectories(outOgg);
-				outOgg = outOgg.resolve(voiceFileName);
+				Path sound = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
+				Files.createDirectories(sound);
+				sound = sound.resolve(voiceFileName);
 				String voice = null;
 				if (configure.getVoice() != null) {
 					voice = configure.getVoice();
@@ -114,8 +114,8 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				}
 				
 				String ext = getFileExt(voiceFileName);
-				ttsToSound(text, voice, outOgg, env, ext);
-				logger.info("Generated voice file: {}", outOgg);
+				ttsToSound(text, voice, sound, env, ext);
+				logger.info("Generated voice file: {}", sound);
 			} catch (Exception e) {
 				logger.error("Failed to generate voice for text: {}", text, e);
 			}
@@ -129,9 +129,9 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
-		Path outOgg = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
-		Files.createDirectories(outOgg);
-		saveToVoiceFiles(outOgg, tempDir);
+		Path sound = file.toPath().getParent().resolve(pi18n(file.getName(), "voice", configure));
+		Files.createDirectories(sound);
+		saveToVoiceFiles(sound, tempDir);
 		
 		Path dest = file.toPath().getParent().resolve(file.getName());
 		zip(tempDir, dest);
