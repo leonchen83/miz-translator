@@ -161,21 +161,15 @@ cd /path/to/miz-translator/bin
 ```shell
 # MacOS
 brew install python
-brew install pipx
-pipx ensurepath
-# reopen bash
-pipx install edge-tts
 brew install ffmpeg
-pipx install faster-whisper
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # Windows
 winget install Python.Python.3.11
-python -m pip install --user pipx
-python -m pipx ensurepath
-# reopen cmd
-pipx install edge-tts
-pipx install faster-whisper
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # verify install
 $ edge-tts --version

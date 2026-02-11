@@ -109,5 +109,9 @@
             <source>Dockerfile</source>
             <destName>Dockerfile</destName>
         </file>
+        <file>
+            <source>requirements.txt</source>
+            <destName>requirements.txt</destName>
+        </file>
     </files>
 </assembly>
