@@ -46,54 +46,6 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 아래 링크에서 최신 버전을 다운로드하고 `/path/to/miz-translator` 경로에 압축을 해제하세요.  
 [최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)
 
-### Docker
-
-```shell
-# build docker image
-docker build -t miz-translator:latest .
-
-# run text translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-
-# run voice translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use environment variables instead of a config file
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-  
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use local web service
-docker run -d \
-  --name miz-translator \
-  -p 8000:8000 \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  uvicorn bin.main:app --host 0.0.0.0 --port 8000
-```
-
 ### 설정
 
 `/path/to/miz-translator/conf` 폴더에 `trans.conf` 파일이 있습니다. 이 파일에서 번역기의 여러 설정을 구성할 수 있습니다.
@@ -187,4 +139,51 @@ $ ffmpeg -version
 cd /path/to/miz-translator/bin
 ./trans -f /path/to/missions
 ./trans-voice -f /path/to/missions
+```
+### Docker
+
+```shell
+# build docker image
+docker build -t miz-translator:latest .
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use environment variables instead of a config file
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+  
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use local web service
+docker run -d \
+  --name miz-translator \
+  -p 8000:8000 \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  uvicorn bin.main:app --host 0.0.0.0 --port 8000
 ```
