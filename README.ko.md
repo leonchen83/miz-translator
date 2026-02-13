@@ -145,8 +145,8 @@ cd /path/to/miz-translator/bin
 ### Docker
 
 ```shell
-# build docker image
-docker build -t miz-translator:latest .
+# pull docker image
+docker pull redisrdbcli/miz-translator:latest
 
 # run text translation
 docker run --rm \
