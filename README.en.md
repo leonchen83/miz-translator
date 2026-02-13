@@ -52,6 +52,10 @@ In the `/path/to/miz-translator/conf` directory, there is a file named `trans.co
 # Prompt for the AI; here "F/A 18" is an example. You can modify the aircraft type or campaign as needed.
 hint=You are a translator. The following English texts are related to the F/A 18 fighter jet. Translate them into Simplified Chinese without using markdown formatting. Keep the original line breaks and do not add extra explanations. Preserve acronyms written in uppercase.
 
+# Target language 
+# language code + country code, e.g., zh-CN for Simplified Chinese, ja-JP for Japanese, ko-KR for Korean
+language=zh-CN
+
 # AI translators supported: deepseek, doubao, and openai
 translator=deepseek
 
@@ -163,6 +167,7 @@ docker run --rm \
 docker run --rm \
   -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
+  -e LANG="{{languageCode-countryCode}}" \
   -e BASE_URL="https://api.deepseek.com/v1" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
@@ -172,6 +177,7 @@ docker run --rm \
 docker run --rm \
   -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
+  -e LANG="{{languageCode-countryCode}}" \
   -e BASE_URL="https://api.deepseek.com/v1" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \

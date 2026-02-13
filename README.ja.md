@@ -53,6 +53,8 @@ DCSミッション翻訳ツールは、DCSのミッションファイルを中�
 # AI へのプロンプト。ここでは「F/A 18」は一例です。必要に応じて航空機の種類や作戦を変更してください。
 hint="あなたは翻訳者です。以下は戦闘機F/A 18に関連する英語です。日本語に翻訳してください。ただし、markdownは使用せず、原文の改行を保持し、余計な説明は追加しないでください。すべて大文字の略語はそのまま保持してください
 
+language=ja-JP
+
 # 利用可能な AI 翻訳エンジン：deepseek、doubao、openai
 translator=deepseek
 
@@ -163,6 +165,7 @@ docker run --rm \
 docker run --rm \
   -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
+  -e LANG="ja-JP" \
   -e BASE_URL="https://api.deepseek.com/v1" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
@@ -172,6 +175,7 @@ docker run --rm \
 docker run --rm \
   -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
+  -e LANG="ja-JP" \
   -e BASE_URL="https://api.deepseek.com/v1" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \

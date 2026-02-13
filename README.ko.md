@@ -54,6 +54,8 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 # AI에게 전달되는 프롬프트입니다. F/A 18은 예시이며, 필요에 따라 항공기나 캠페인 종류를 수정할 수 있습니다.
 hint="당신은 번역가입니다. 아래는 전투기 F/A 18과 관련된 영어 내용입니다. 한국어로 번역해 주세요. 단, markdown을 사용하지 말고 원문의 줄바꿈 형식을 유지하며, 불필요한 설명은 추가하지 마세요. 모두 대문자인 약어는 원래 형태로 유지해 주세요
 
+language=ko-KR
+
 # 지원되는 AI 번역기: deepseek, doubao, openai
 translator=deepseek
 
@@ -164,6 +166,7 @@ docker run --rm \
 docker run --rm \
   -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
+  -e LANG="ko-KR" \
   -e BASE_URL="https://api.deepseek.com/v1" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
@@ -173,6 +176,7 @@ docker run --rm \
 docker run --rm \
   -v /path/to/miz:/tmp/miz-uploaded \
   -e API_KEY="${api-key}" \
+  -e LANG="ko-KR" \
   -e BASE_URL="https://api.deepseek.com/v1" \
   -e HINT="${hint}" \
   -e PROXY="http://proxy.example.com:8080" \
