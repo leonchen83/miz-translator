@@ -82,6 +82,26 @@
                 <include>*.conf</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>FA-18C_Rise_of_the_Persian_Lion</directory>
+            <outputDirectory>FA-18C_Rise_of_the_Persian_Lion</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>FA-18C_Rise_of_the_Persian_Lion_II</directory>
+            <outputDirectory>FA-18C_Rise_of_the_Persian_Lion_II</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>
