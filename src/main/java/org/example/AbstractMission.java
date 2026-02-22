@@ -37,6 +37,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
  * @author Baoyi Chen
  */
 public abstract class AbstractMission {
+	
+	public static final String SPLITTER = "\n___________________________________________________________________\n\n";
+	
 	protected static ObjectMapper mapper = new ObjectMapper();
 	static {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -324,7 +327,7 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				entry.setValue(translatedMap.get(value));
 			} else if (configure.getOriginal() && value.length() <= 1024) {
-				entry.setValue(value + "\n___________________________________________________________________\n\n" + translatedMap.get(value));
+				entry.setValue(value + SPLITTER + translatedMap.get(value));
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}

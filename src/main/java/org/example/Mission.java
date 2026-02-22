@@ -77,7 +77,12 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		for (var entry : voiceMap.entrySet()) {
 			String value = entry.getValue();
 			if (map.containsKey(value)) {
-				entry.setValue(map.get(value));
+				var text = map.get(value);
+				if (text.contains(SPLITTER)) {
+					int idx = text.indexOf(SPLITTER, 0);
+					text = text.substring(0, idx);
+				}
+				entry.setValue(text);
 			}
 		}
 		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
