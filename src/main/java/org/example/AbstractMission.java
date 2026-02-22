@@ -324,7 +324,7 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				entry.setValue(translatedMap.get(value));
 			} else if (configure.getOriginal() && value.length() <= 1024) {
-				entry.setValue(value + "\n-------------------------------------------------------------------\n" + translatedMap.get(value));
+				entry.setValue(value + "\n___________________________________________________________________\n\n" + translatedMap.get(value));
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}
