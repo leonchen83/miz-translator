@@ -130,13 +130,6 @@ public abstract class AbstractMission {
 		}
 	}
 	
-	public void saveVoiceFile(Path voice, Path tempDir) throws IOException {
-		Path defaultDir = tempDir.resolve("l10n").resolve("DEFAULT");
-		Files.createDirectories(defaultDir);
-		Path target = defaultDir.resolve(voice.getFileName());
-		Files.copy(voice, target, StandardCopyOption.REPLACE_EXISTING);
-	}
-	
 	public void saveToVoiceFiles(Path voiceDir, Path tempDir) throws IOException {
 		if (!Files.exists(voiceDir) || !Files.isDirectory(voiceDir)) {
 			throw new IllegalArgumentException("voiceDir " + voiceDir + " must exist and be a directory");

@@ -42,54 +42,6 @@ DCS 任务翻译器是一个用于将 DCS 任务文件翻译为中日韩文的�
 
 然后，你需要下载任务翻译器的最新版本。你可以在[这里](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)下载最新版本。并解压到`/path/to/miz-translator`
 
-### Docker
-
-```shell
-# build docker image
-docker build -t miz-translator:latest .
-
-# run text translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-
-# run voice translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use environment variables instead of a config file
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-  
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use local web service
-docker run -d \
-  --name miz-translator \
-  -p 8000:8000 \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  uvicorn bin.main:app --host 0.0.0.0 --port 8000
-```
-
 ### 配置
 
 在`/path/to/miz-translator/conf`文件夹中，有一个`trans.conf`文件。你可以在这个文件中配置翻译器的一些参数。
@@ -161,21 +113,15 @@ cd /path/to/miz-translator/bin
 ```shell
 # MacOS
 brew install python
-brew install pipx
-pipx ensurepath
-# reopen bash
-pipx install edge-tts
 brew install ffmpeg
-pipx install faster-whisper
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # Windows
 winget install Python.Python.3.11
-python -m pip install --user pipx
-python -m pipx ensurepath
-# reopen cmd
-pipx install edge-tts
-pipx install faster-whisper
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # verify install
 $ edge-tts --version
@@ -191,4 +137,52 @@ cd /path/to/miz-translator/bin
 
 # http代理
 ./trans-voice -f /path/to/missions --proxy http://proxy.example.com:8080
+```
+
+### Docker
+
+```shell
+# pull docker image
+docker pull redisrdbcli/miz-translator:latest
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use environment variables instead of a config file
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+  
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use local web service
+docker run -d \
+  --name miz-translator \
+  -p 8000:8000 \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  uvicorn bin.main:app --host 0.0.0.0 --port 8000
 ```

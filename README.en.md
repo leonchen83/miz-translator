@@ -44,54 +44,6 @@ First, you need to install Java 17. You can download and install Java 17 from [h
 
 Next, download the latest version of the mission translator. You can get the latest release from [here](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip). Extract it to `/path/to/miz-translator`.
 
-### Docker
-
-```shell
-# build docker image
-docker build -t miz-translator:latest .
-
-# run text translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-
-# run voice translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use environment variables instead of a config file
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-  
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use local web service
-docker run -d \
-  --name miz-translator \
-  -p 8000:8000 \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  uvicorn bin.main:app --host 0.0.0.0 --port 8000
-```
-
 ### Configuration
 
 In the `/path/to/miz-translator/conf` directory, there is a file named `trans.conf`. You can configure the translator using this file.
@@ -99,6 +51,10 @@ In the `/path/to/miz-translator/conf` directory, there is a file named `trans.co
 ```properties
 # Prompt for the AI; here "F/A 18" is an example. You can modify the aircraft type or campaign as needed.
 hint=You are a translator. The following English texts are related to the F/A 18 fighter jet. Translate them into Simplified Chinese without using markdown formatting. Keep the original line breaks and do not add extra explanations. Preserve acronyms written in uppercase.
+
+# Target language 
+# language code + country code, e.g., zh-CN for Simplified Chinese, ja-JP for Japanese, ko-KR for Korean
+language=zh-CN
 
 # AI translators supported: deepseek, doubao, and openai
 translator=deepseek
@@ -164,21 +120,15 @@ Voice translation requires the installation of `edge-tts`,`faster-whisper` and `
 ```shell
 # MacOS
 brew install python
-brew install pipx
-pipx ensurepath
-# reopen bash
-pipx install edge-tts
 brew install ffmpeg
-pipx install faster-whisper
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # Windows
 winget install Python.Python.3.11
-python -m pip install --user pipx
-python -m pipx ensurepath
-# reopen cmd
-pipx install edge-tts
-pipx install faster-whisper
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # verify install
 $ edge-tts --version
@@ -191,4 +141,54 @@ Voice translation first requires running the `trans` command to generate the tra
 cd /path/to/miz-translator/bin
 ./trans -f /path/to/missions
 ./trans-voice -f /path/to/missions
+```
+
+### Docker
+
+```shell
+# pull docker image
+docker pull redisrdbcli/miz-translator:latest
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use environment variables instead of a config file
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e LANG="{{languageCode-countryCode}}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+  
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e LANG="{{languageCode-countryCode}}" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use local web service
+docker run -d \
+  --name miz-translator \
+  -p 8000:8000 \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  uvicorn bin.main:app --host 0.0.0.0 --port 8000
 ```

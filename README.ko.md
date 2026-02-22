@@ -46,54 +46,6 @@ DCS 미션 번역기는 DCS 미션 파일을 중국어, 일본어 또는 한국�
 아래 링크에서 최신 버전을 다운로드하고 `/path/to/miz-translator` 경로에 압축을 해제하세요.  
 [최신 버전 다운로드](https://github.com/leonchen83/miz-translator/releases/latest/download/miz-translator-release.zip)
 
-### Docker
-
-```shell
-# build docker image
-docker build -t miz-translator:latest .
-
-# run text translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-
-# run voice translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use environment variables instead of a config file
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-  
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use local web service
-docker run -d \
-  --name miz-translator \
-  -p 8000:8000 \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  uvicorn bin.main:app --host 0.0.0.0 --port 8000
-```
-
 ### 설정
 
 `/path/to/miz-translator/conf` 폴더에 `trans.conf` 파일이 있습니다. 이 파일에서 번역기의 여러 설정을 구성할 수 있습니다.
@@ -101,6 +53,8 @@ docker run -d \
 ```properties
 # AI에게 전달되는 프롬프트입니다. F/A 18은 예시이며, 필요에 따라 항공기나 캠페인 종류를 수정할 수 있습니다.
 hint="당신은 번역가입니다. 아래는 전투기 F/A 18과 관련된 영어 내용입니다. 한국어로 번역해 주세요. 단, markdown을 사용하지 말고 원문의 줄바꿈 형식을 유지하며, 불필요한 설명은 추가하지 마세요. 모두 대문자인 약어는 원래 형태로 유지해 주세요
+
+language=ko-KR
 
 # 지원되는 AI 번역기: deepseek, doubao, openai
 translator=deepseek
@@ -166,21 +120,15 @@ cd /path/to/miz-translator/bin
 ```shell
 # MacOS
 brew install python
-brew install pipx
-pipx ensurepath
-# reopen bash
-pipx install edge-tts
 brew install ffmpeg
-pipx install faster-whisper
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # Windows
 winget install Python.Python.3.11
-python -m pip install --user pipx
-python -m pipx ensurepath
-# reopen cmd
-pipx install edge-tts
-pipx install faster-whisper
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # verify install
 $ edge-tts --version
@@ -193,4 +141,53 @@ $ ffmpeg -version
 cd /path/to/miz-translator/bin
 ./trans -f /path/to/missions
 ./trans-voice -f /path/to/missions
+```
+### Docker
+
+```shell
+# pull docker image
+docker pull redisrdbcli/miz-translator:latest
+
+# run text translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+
+# run voice translation
+docker run --rm \
+  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use environment variables instead of a config file
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e LANG="ko-KR" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans -f /tmp/miz-uploaded
+  
+docker run --rm \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  -e API_KEY="${api-key}" \
+  -e LANG="ko-KR" \
+  -e BASE_URL="https://api.deepseek.com/v1" \
+  -e HINT="${hint}" \
+  -e PROXY="http://proxy.example.com:8080" \
+  miz-translator:latest \
+  trans-voice -f /tmp/miz-uploaded
+  
+# use local web service
+docker run -d \
+  --name miz-translator \
+  -p 8000:8000 \
+  -v /path/to/miz:/tmp/miz-uploaded \
+  miz-translator:latest \
+  uvicorn bin.main:app --host 0.0.0.0 --port 8000
 ```
