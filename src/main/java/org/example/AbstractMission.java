@@ -310,7 +310,7 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				map.replace(key, value);
 			} else if (configure.getOriginal() && raw.length() <= 1024) {
-				map.replace(key, raw + "\n" + value);
+				map.replace(key, raw + SPLITTER + value);
 			} else {
 				map.replace(key, value);
 			}
