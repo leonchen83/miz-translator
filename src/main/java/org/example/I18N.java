@@ -51,7 +51,9 @@ public class I18N {
 			"CASE 1",
 			"CASE 2",
 			"CASE 3",
-			"ARCHANGEL"
+			"ARCHANGEL",
+			"SWORD",
+			"WEASEL"
 	);
 	
 	public static String i18n(String file, String suffix, Configure configure) {
