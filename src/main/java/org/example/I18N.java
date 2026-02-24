@@ -9,6 +9,51 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class I18N {
 	
+	public static final Set<String> PROTECTED_TERMS = Set.of(
+			"STRIKE",
+			"VIPER",
+			"FALCON",
+			"PANTHER",
+			"TIGER",
+			"KNIGHT",
+			"RAM",
+			"TROJAN",
+			"HAWG",
+			"RAPTOR",
+			"REAPER",
+			"HORNET",
+			"MAGIC",
+			"OVERLORD",
+			"WIZARD",
+			"DARKSTAR",
+			"SKYEYE",
+			"TEXACO",
+			"SHELL",
+			"ARCO",
+			"DEVIL",
+			"CHEVY",
+			"CHEV",
+			"DODGE",
+			"LANCER",
+			"COLT",
+			"SPRINGFIELD",
+			"ENFIELD",
+			"UZI",
+			"PYTHON",
+			"VENOM",
+			"AXEMAN",
+			"JESTER",
+			"SABER",
+			"EAGLE",
+			"VIKING",
+			"BULLS",
+			"BULLSEYE",
+			"CASE 1",
+			"CASE 2",
+			"CASE 3",
+			"ARCHANGEL"
+	);
+	
 	public static String i18n(String file, String suffix, Configure configure) {
 		return file + "." + configure.getLanguageCode() + "." + suffix;
 	}
@@ -135,7 +180,9 @@ public class I18N {
 	
 	public static String nounsHint(Configure configure, Set<String> nounsSet) {
 		String locale = configure.getLanguageCode();
-		String nounsStr = nounsSet.toString();
+		Set<String> nounsCopy = Set.copyOf(nounsSet);
+		nounsCopy.addAll(PROTECTED_TERMS);
+		String nounsStr = nounsCopy.toString();
 		String radarStr = radarModels();
 		switch (locale) {
 			case "zh":
@@ -201,7 +248,7 @@ public class I18N {
 	public static void addNouns(String text, Set<String> nounsSet) {
 		String nouns = retrieveProperNouns(text);
 		if (nouns != null) {
-			nounsSet.add(nouns);
+			nounsSet.add(nouns.toUpperCase());
 		}
 	}
 	
