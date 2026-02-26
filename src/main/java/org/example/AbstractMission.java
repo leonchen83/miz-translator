@@ -2,7 +2,8 @@ package org.example;
 
 import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
-import static org.example.LuaStringExtractor.STRING_LITERAL_PATTERN;
+import static org.example.LuaStringExtractor.replaceInOutText;
+import static org.example.LuaStringExtractor.replaceInSubtitle;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.isLikelyLua;
 import static org.example.Strings.isNumberOrPunctuation;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
@@ -138,29 +138,22 @@ public abstract class AbstractMission {
 	
 	public void saveToLuaFile(Map<String, String> map, Path tempDir) throws IOException {
 		tempDir = tempDir.resolve("l10n").resolve("DEFAULT");
+		
 		Files.walk(tempDir)
 				.filter(path -> path.toString().endsWith(".lua"))
 				.forEach(path -> {
+					
 					try {
 						String content = Files.readString(path);
 						
-						Matcher matcher = STRING_LITERAL_PATTERN.matcher(content);
-						StringBuffer sb = new StringBuffer();
+						content = replaceInSubtitle(content, map);
 						
-						while (matcher.find()) {
-							String original = matcher.group(1);
-							String translated = map.getOrDefault(original, original);
-							
-							translated = translated
-									.replace("\\", "\\\\")
-									.replace("\"", "\\\"");
-							
-							matcher.appendReplacement(sb, "\"" + translated + "\"");
-						}
-						matcher.appendTail(sb);
+						content = replaceInOutText(content, map);
 						
-						Files.writeString(path, sb.toString(), StandardOpenOption.TRUNCATE_EXISTING);
+						Files.writeString(path, content, StandardOpenOption.TRUNCATE_EXISTING);
+						
 					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				});
 	}
