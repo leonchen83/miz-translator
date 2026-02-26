@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,56 +10,58 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class I18N {
 	
-	public static final Set<String> PROTECTED_TERMS = Set.of(
-			"STRIKE",
-			"VIPER",
-			"FALCON",
-			"PANTHER",
-			"TIGER",
-			"KNIGHT",
-			"RAM",
-			"TROJAN",
-			"HAWG",
-			"RAPTOR",
-			"REAPER",
-			"HORNET",
-			"MAGIC",
-			"OVERLORD",
-			"WIZARD",
-			"DARKSTAR",
-			"SKYEYE",
-			"TEXACO",
-			"SHELL",
-			"ARCO",
-			"DEVIL",
-			"CHEVY",
-			"CHEV",
-			"DODGE",
-			"LANCER",
-			"COLT",
-			"SPRINGFIELD",
-			"ENFIELD",
-			"UZI",
-			"PYTHON",
-			"VENOM",
-			"AXEMAN",
-			"JESTER",
-			"SABER",
-			"EAGLE",
-			"VIKING",
-			"BULLS",
-			"BULLSEYE",
-			"CASE 1",
-			"CASE 2",
-			"CASE 3",
-			"ARCHANGEL",
-			"SWORD",
-			"WEASEL",
-			"SPARTAN",
-			"HAMMER",
-			"WARDEN",
-			"SENTINEL"
-	);
+	public static final Set<String> PROTECTED_TERMS = new HashSet<>();
+	
+	static {
+		PROTECTED_TERMS.add("STRIKE");
+		PROTECTED_TERMS.add("VIPER");
+		PROTECTED_TERMS.add("FALCON");
+		PROTECTED_TERMS.add("PANTHER");
+		PROTECTED_TERMS.add("TIGER");
+		PROTECTED_TERMS.add("KNIGHT");
+		PROTECTED_TERMS.add("RAM");
+		PROTECTED_TERMS.add("TROJAN");
+		PROTECTED_TERMS.add("HAWG");
+		PROTECTED_TERMS.add("RAPTOR");
+		PROTECTED_TERMS.add("REAPER");
+		PROTECTED_TERMS.add("HORNET");
+		PROTECTED_TERMS.add("MAGIC");
+		PROTECTED_TERMS.add("OVERLORD");
+		PROTECTED_TERMS.add("WIZARD");
+		PROTECTED_TERMS.add("DARKSTAR");
+		PROTECTED_TERMS.add("SKYEYE");
+		PROTECTED_TERMS.add("TEXACO");
+		PROTECTED_TERMS.add("SHELL");
+		PROTECTED_TERMS.add("ARCO");
+		PROTECTED_TERMS.add("DEVIL");
+		PROTECTED_TERMS.add("CHEVY");
+		PROTECTED_TERMS.add("CHEV");
+		PROTECTED_TERMS.add("DODGE");
+		PROTECTED_TERMS.add("LANCER");
+		PROTECTED_TERMS.add("COLT");
+		PROTECTED_TERMS.add("SPRINGFIELD");
+		PROTECTED_TERMS.add("ENFIELD");
+		PROTECTED_TERMS.add("UZI");
+		PROTECTED_TERMS.add("PYTHON");
+		PROTECTED_TERMS.add("VENOM");
+		PROTECTED_TERMS.add("AXEMAN");
+		PROTECTED_TERMS.add("JESTER");
+		PROTECTED_TERMS.add("SABER");
+		PROTECTED_TERMS.add("EAGLE");
+		PROTECTED_TERMS.add("VIKING");
+		PROTECTED_TERMS.add("BULLS");
+		PROTECTED_TERMS.add("BULLSEYE");
+		PROTECTED_TERMS.add("CASE 1");
+		PROTECTED_TERMS.add("CASE 2");
+		PROTECTED_TERMS.add("CASE 3");
+		PROTECTED_TERMS.add("ARCHANGEL");
+		PROTECTED_TERMS.add("SWORD");
+		PROTECTED_TERMS.add("WEASEL");
+		PROTECTED_TERMS.add("SPARTAN");
+		PROTECTED_TERMS.add("HAMMER");
+		PROTECTED_TERMS.add("WARDEN");
+		PROTECTED_TERMS.add("SENTINEL");
+	}
 	
 	public static String i18n(String file, String suffix, Configure configure) {
 		return file + "." + configure.getLanguageCode() + "." + suffix;
@@ -186,7 +189,7 @@ public class I18N {
 	
 	public static String nounsHint(Configure configure, Set<String> nounsSet) {
 		String locale = configure.getLanguageCode();
-		Set<String> nounsCopy = Set.copyOf(nounsSet);
+		Set<String> nounsCopy = new HashSet<>(nounsSet);
 		nounsCopy.addAll(PROTECTED_TERMS);
 		String nounsStr = nounsCopy.toString();
 		String radarStr = radarModels();

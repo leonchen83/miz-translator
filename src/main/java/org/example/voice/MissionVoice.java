@@ -85,7 +85,7 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 				voiceMap.put(voiceFileName, text);
 			}
 		}
-		
+		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 		voiceMap = translate(voiceMap, true);
 		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 		deleteDirectory(tempDir);
