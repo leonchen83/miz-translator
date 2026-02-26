@@ -1,7 +1,6 @@
 package org.example;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,22 +9,22 @@ import java.util.regex.Pattern;
  */
 public class LuaStringExtractor {
 	
-	private static final Pattern SUBTITLE_EXPR_PATTERN = Pattern.compile(
+	
+	public static final Pattern SUBTITLE_EXPR_PATTERN = Pattern.compile(
 			"subtitle\\s*=\\s*(.+)$",
 			Pattern.MULTILINE
 	);
 	
-	private static final Pattern OUTTEXT_PATTERN = Pattern.compile(
+	public static final Pattern OUTTEXT_PATTERN = Pattern.compile(
 			"trigger\\.action\\.outText\\s*\\(\\s*\"((?:\\\\.|[^\"\\\\])*)\"",
 			Pattern.DOTALL
 	);
 	
-	private static final Pattern STRING_LITERAL_PATTERN = Pattern.compile(
+	public static final Pattern STRING_LITERAL_PATTERN = Pattern.compile(
 			"\"((?:\\\\.|[^\"\\\\])*)\""
 	);
 	
-	private static Set<String> extractSubtitleStrings(String luaContent, Configure configure) {
-		Set<String> subtitles = new HashSet<>();
+	public static void extractSubtitleStrings(String luaContent, Map<String, String> subtitles, Configure configure) {
 		Matcher subtitleMatcher = SUBTITLE_EXPR_PATTERN.matcher(luaContent);
 		while (subtitleMatcher.find()) {
 			String expression = subtitleMatcher.group(1).trim();
@@ -38,22 +37,19 @@ public class LuaStringExtractor {
 			while (stringMatcher.find()) {
 				String text = stringMatcher.group(1);
 				if (text != null && text.length() >= configure.getMinimumLength()) {
-					subtitles.add(text);
+					subtitles.put(text, text);
 				}
 			}
 		}
-		return subtitles;
 	}
 	
-	private static Set<String> extractOutTextStrings(String luaContent, Configure configure) {
-		Set<String> outTexts = new HashSet<>();
+	public static void extractOutTextStrings(String luaContent, Map<String, String> outTexts, Configure configure) {
 		Matcher outMatcher = OUTTEXT_PATTERN.matcher(luaContent);
 		while (outMatcher.find()) {
 			String text = outMatcher.group(1);
 			if (text != null && text.length() >= configure.getMinimumLength()) {
-				outTexts.add(text);
+				outTexts.put(text, text);
 			}
 		}
-		return outTexts;
 	}
 }

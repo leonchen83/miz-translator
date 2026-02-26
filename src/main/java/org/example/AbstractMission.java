@@ -2,6 +2,7 @@ package org.example;
 
 import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
+import static org.example.LuaStringExtractor.STRING_LITERAL_PATTERN;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.isLikelyLua;
 import static org.example.Strings.isNumberOrPunctuation;
@@ -17,11 +18,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
@@ -133,6 +136,35 @@ public abstract class AbstractMission {
 		}
 	}
 	
+	public void saveToLuaFile(Map<String, String> map, Path tempDir) throws IOException {
+		tempDir = tempDir.resolve("l10n").resolve("DEFAULT");
+		Files.walk(tempDir)
+				.filter(path -> path.toString().endsWith(".lua"))
+				.forEach(path -> {
+					try {
+						String content = Files.readString(path);
+						
+						Matcher matcher = STRING_LITERAL_PATTERN.matcher(content);
+						StringBuffer sb = new StringBuffer();
+						
+						while (matcher.find()) {
+							String original = matcher.group(1);
+							String translated = map.getOrDefault(original, original);
+							
+							translated = translated
+									.replace("\\", "\\\\")
+									.replace("\"", "\\\"");
+							
+							matcher.appendReplacement(sb, "\"" + translated + "\"");
+						}
+						matcher.appendTail(sb);
+						
+						Files.writeString(path, sb.toString(), StandardOpenOption.TRUNCATE_EXISTING);
+					} catch (IOException e) {
+					}
+				});
+	}
+	
 	public void saveToVoiceFiles(Path voiceDir, Path tempDir) throws IOException {
 		if (!Files.exists(voiceDir) || !Files.isDirectory(voiceDir)) {
 			throw new IllegalArgumentException("voiceDir " + voiceDir + " must exist and be a directory");
@@ -199,11 +231,7 @@ public abstract class AbstractMission {
 				continue;
 			}
 			
-//			if (!containsLowerCase(value)) {
-//				continue;
-//			}
-			
-			if (value.equals(key)) {
+			if (!force && value.equals(key)) {
 				continue;
 			}
 			
@@ -288,7 +316,7 @@ public abstract class AbstractMission {
 						entry.setValue(translator.translate(value, translatedMap));
 					}
 				} else {
-					translates(entry, entries, r);
+					translates(entry, entries, r, force);
 				}
 			}
 		}
@@ -310,7 +338,11 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				map.replace(key, value);
 			} else if (configure.getOriginal() && raw.length() <= 1024) {
-				map.replace(key, raw + SPLITTER + value);
+				if (!force) {
+					map.replace(key, raw + SPLITTER + value);
+				} else {
+					map.replace(key, value);
+				}
 			} else {
 				map.replace(key, value);
 			}
@@ -319,7 +351,7 @@ public abstract class AbstractMission {
 		return map;
 	}
 	
-	protected void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list) {
+	protected void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list, boolean force) {
 		String key = entry.getKey();
 		String value = entry.getValue();
 		if (translatedMap.containsKey(value)) {
@@ -327,7 +359,11 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				entry.setValue(translatedMap.get(value));
 			} else if (configure.getOriginal() && value.length() <= 1024) {
-				entry.setValue(value + SPLITTER + translatedMap.get(value));
+				if (!force) {
+					entry.setValue(value + SPLITTER + translatedMap.get(value));
+				} else {
+					entry.setValue(translatedMap.get(value));
+				}
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}

@@ -5,6 +5,8 @@ import static org.example.Compressor.zip;
 import static org.example.I18N.addNouns;
 import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
+import static org.example.LuaStringExtractor.extractOutTextStrings;
+import static org.example.LuaStringExtractor.extractSubtitleStrings;
 import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.getFileExt;
@@ -15,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -55,7 +58,27 @@ public class Mission extends AbstractMission implements AutoCloseable {
 			}
 		}
 		saveToJson(voice, file.getName() + ".voice", file.toPath().getParent());
+		
+		Map<String, String> subtitles = convertLuaToJson(tempDir, configure);
+		saveToJson(subtitles, file.getName() + ".lua", file.toPath().getParent());
 		deleteDirectory(tempDir);
+	}
+	
+	public Map<String, String> convertLuaToJson(Path dir, Configure configure) throws Exception {
+		dir = dir.resolve("l10n").resolve("DEFAULT");
+		final Map<String, String> subtitles = new HashMap<>();
+		Files.walk(dir)
+				.filter(path -> path.toString().endsWith(".lua"))
+				.forEach(path -> {
+					try {
+						String luaContent = Files.readString(path);
+						extractSubtitleStrings(luaContent, subtitles, configure);
+						extractOutTextStrings(luaContent, subtitles, configure);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+		return subtitles;
 	}
 	
 	public void createProperNounsSet(File file) throws Exception {
@@ -86,6 +109,12 @@ public class Mission extends AbstractMission implements AutoCloseable {
 			}
 		}
 		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
+		
+		// lua
+		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
+		Map<String, String> luaMap = readToMap(luaJson);
+		luaMap = translate(luaMap, true);
+		saveToJson(luaMap, file.getName() + ".lua", file.toPath().getParent());
 	}
 	
 	public void convertChineseToMiz(File file) throws Exception {
@@ -95,6 +124,11 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
+		
+		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
+		Map<String, String> luaMap = readToMap(luaJson);
+		saveToLuaFile(luaMap, tempDir);
+		
 		Path dest = file.toPath().getParent().resolve(file.getName());
 		zip(tempDir, dest);
 		deleteDirectory(tempDir);
