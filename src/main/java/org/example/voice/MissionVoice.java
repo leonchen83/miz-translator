@@ -71,7 +71,10 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 			String voiceFileName = entry.getKey();
 			String text = entry.getValue();
 			if (text == null || text.isBlank() || text.equals("nil")) {
-				files.add(voiceFileName);
+				var ext = getFileExt(voiceFileName);
+				if (ext.equals("wav") || ext.equals("ogg")) {
+					files.add(voiceFileName);
+				}
 			}
 		}
 		Path voice = tempDir.resolve("l10n").resolve("DEFAULT");
