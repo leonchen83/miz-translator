@@ -56,7 +56,8 @@ public class I18N {
 			"WEASEL",
 			"SPARTAN",
 			"HAMMER",
-			"WARDEN"
+			"WARDEN",
+			"SENTINEL"
 	);
 	
 	public static String i18n(String file, String suffix, Configure configure) {

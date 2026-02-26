@@ -168,9 +168,10 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					LuaValue v = next.arg(2);
 					if (k.isnil()) break;
 					if (v.type() == 5 /*Table*/) {
-						if (v.get("predicate").tojstring().equals("a_out_text_delay_u")) {
+						var predicate = v.get("predicate").tojstring();
+						if (predicate.equals("a_out_text_delay_u") || predicate.equals("a_out_text_delay")) {
 							textValue = v.get("text").tojstring();
-						} else if (v.get("predicate").tojstring().equals("a_out_sound_u")) {
+						} else if (predicate.equals("a_out_sound_u") || predicate.equals("a_out_sound")) {
 							textKey = v.get("file").tojstring();
 						} else {
 							textKey = v.get("file").tojstring();
