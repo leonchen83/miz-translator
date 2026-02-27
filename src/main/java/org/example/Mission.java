@@ -57,10 +57,14 @@ public class Mission extends AbstractMission implements AutoCloseable {
 				}
 			}
 		}
-		saveToJson(voice, file.getName() + ".voice", file.toPath().getParent());
+		if (!voice.isEmpty()) {
+			saveToJson(voice, file.getName() + ".voice", file.toPath().getParent());
+		}
 		
 		Map<String, String> subtitles = convertLuaToJson(tempDir, configure);
-		saveToJson(subtitles, file.getName() + ".lua", file.toPath().getParent());
+		if (!subtitles.isEmpty()) {
+			saveToJson(subtitles, file.getName() + ".lua", file.toPath().getParent());
+		}
 		deleteDirectory(tempDir);
 	}
 	
@@ -96,25 +100,29 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		
 		// voice
 		Path voiceJson = file.toPath().getParent().resolve(i18n(file.getName() + ".voice", "json", configure));
-		Map<String, String> voiceMap = readToMap(voiceJson);
-		for (var entry : voiceMap.entrySet()) {
-			String value = entry.getValue();
-			if (map.containsKey(value)) {
-				var text = map.get(value);
-				if (text.contains(SPLITTER)) {
-					int idx = text.indexOf(SPLITTER, 0);
-					text = text.substring(0, idx);
+		if (Files.exists(voiceJson)) {
+			Map<String, String> voiceMap = readToMap(voiceJson);
+			for (var entry : voiceMap.entrySet()) {
+				String value = entry.getValue();
+				if (map.containsKey(value)) {
+					var text = map.get(value);
+					if (text.contains(SPLITTER)) {
+						int idx = text.indexOf(SPLITTER, 0);
+						text = text.substring(0, idx);
+					}
+					entry.setValue(text);
 				}
-				entry.setValue(text);
 			}
+			saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 		}
-		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
 		
 		// lua
 		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
-		Map<String, String> luaMap = readToMap(luaJson);
-		luaMap = translate(luaMap, true);
-		saveToJson(luaMap, file.getName() + ".lua", file.toPath().getParent());
+		if (Files.exists(luaJson)) {
+			Map<String, String> luaMap = readToMap(luaJson);
+			luaMap = translate(luaMap, true);
+			saveToJson(luaMap, file.getName() + ".lua", file.toPath().getParent());
+		}
 	}
 	
 	public void convertChineseToMiz(File file) throws Exception {
@@ -126,8 +134,10 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		saveToFile(map, tempDir);
 		
 		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
-		Map<String, String> luaMap = readToMap(luaJson);
-		saveToLuaFile(luaMap, tempDir);
+		if (Files.exists(luaJson)) {
+			Map<String, String> luaMap = readToMap(luaJson);
+			saveToLuaFile(luaMap, tempDir);
+		}
 		
 		Path dest = file.toPath().getParent().resolve(file.getName());
 		zip(tempDir, dest);

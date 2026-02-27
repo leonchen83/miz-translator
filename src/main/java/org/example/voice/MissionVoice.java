@@ -63,40 +63,45 @@ public class MissionVoice extends AbstractMission implements AutoCloseable {
 	public void translateVoiceToText(File file) throws Exception {
 		System.out.println("translating voice to text : " + file);
 		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
-		unzip(file.toPath(), tempDir);
-		Path voiceJson = file.toPath().getParent().resolve(i18n(file.getName() + ".voice", "json", configure));
-		Map<String, String> voiceMap = readToMap(voiceJson);
-		List<String> files = new ArrayList<>();
-		for (var entry : voiceMap.entrySet()) {
-			String voiceFileName = entry.getKey();
-			String text = entry.getValue();
-			if (text == null || text.isBlank() || text.equals("nil")) {
-				var ext = getFileExt(voiceFileName);
-				if (ext.equals("wav") || ext.equals("ogg")) {
-					files.add(voiceFileName);
-				}
-			}
-		}
-		Path voice = tempDir.resolve("l10n").resolve("DEFAULT");
-		
-		Map<String, String> json = fasterWhisperToText(files, voice, configure, env);
-		
-		if (json != null && !json.isEmpty()) {
-			for (var entry : json.entrySet()) {
+		try {
+			unzip(file.toPath(), tempDir);
+			Path voiceJson = file.toPath().getParent().resolve(i18n(file.getName() + ".voice", "json", configure));
+			if (!Files.exists(voiceJson)) return;
+			Map<String, String> voiceMap = readToMap(voiceJson);
+			List<String> files = new ArrayList<>();
+			for (var entry : voiceMap.entrySet()) {
 				String voiceFileName = entry.getKey();
 				String text = entry.getValue();
-				voiceMap.put(voiceFileName, text);
+				if (text == null || text.isBlank() || text.equals("nil")) {
+					var ext = getFileExt(voiceFileName);
+					if (ext.equals("wav") || ext.equals("ogg")) {
+						files.add(voiceFileName);
+					}
+				}
 			}
+			Path voice = tempDir.resolve("l10n").resolve("DEFAULT");
+			
+			Map<String, String> json = fasterWhisperToText(files, voice, configure, env);
+			
+			if (json != null && !json.isEmpty()) {
+				for (var entry : json.entrySet()) {
+					String voiceFileName = entry.getKey();
+					String text = entry.getValue();
+					voiceMap.put(voiceFileName, text);
+				}
+			}
+			saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
+			voiceMap = translate(voiceMap, true);
+			saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
+		} finally {
+			deleteDirectory(tempDir);
 		}
-		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
-		voiceMap = translate(voiceMap, true);
-		saveToJson(voiceMap, file.getName() + ".voice", file.toPath().getParent());
-		deleteDirectory(tempDir);
 	}
 	
 	public void translateTextToVoice(File file) {
 		System.out.println("translating text to voice : " + file);
 		Path voiceJson = file.toPath().getParent().resolve(i18n(file.getName() + ".voice", "json", configure));
+		if (!Files.exists(voiceJson)) return;
 		Map<String, String> voiceMap = readToMap(voiceJson);
 		
 		for (var entry : voiceMap.entrySet()) {
