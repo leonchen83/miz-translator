@@ -193,23 +193,23 @@ public class I18N {
 		String radarStr = radarModels();
 		switch (locale) {
 			case "zh":
-				return "。严格保证" + nounsStr + "这些飞行呼号或人名保留原文。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray保留原文。坐标保留数字。雷达型号：" + radarStr + "保留原文。数字翻译例：ninety-nine翻译为99，four-zero-one翻译为401";
+				return "。严格保证" + nounsStr + "这些飞行呼号或人名保留原文。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie保留原文。坐标保留数字。雷达型号：" + radarStr + "保留原文。数字翻译例：ninety-nine翻译为99，four-zero-one翻译为401";
 			case "ja":
-				return "。厳格に保証します" + nounsStr + "これらの飛行コールサインや人名は原文のままです。厳格に保証しますFox-[1-3], Maverick, Magnum, Rifle, Mud, X-Rayは原文のままです。座標は数字を保持します。レーダーモデル：" + radarStr + "は原文のままです。数字の翻訳例：ninety-nineは99に、four-zero-oneは401に翻訳されます";
+				return "。厳格に保証します" + nounsStr + "これらの飛行コールサインや人名は原文のままです。厳格に保証しますFox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlieは原文のままです。座標は数字を保持します。レーダーモデル：" + radarStr + "は原文のままです。数字の翻訳例：ninety-nineは99に、four-zero-oneは401に翻訳されます";
 			case "ko":
-				return "。엄격하게 보장합니다" + nounsStr + "이 비행 호출 부호나 인명은 원문 그대로입니다. 엄격하게 보장합니다Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray는 원문 그대로입니다. 좌표는 숫자를 유지합니다. 레이더 모델：" + radarStr + "는 원문 그대로입니다. 숫자 번역 예: ninety-nine는 99로, four-zero-one은 401로 번역됩니다";
+				return "。엄격하게 보장합니다" + nounsStr + "이 비행 호출 부호나 인명은 원문 그대로입니다. 엄격하게 보장합니다Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie는 원문 그대로입니다. 좌표는 숫자를 유지합니다. 레이더 모델：" + radarStr + "는 원문 그대로입니다. 숫자 번역 예: ninety-nine는 99로, four-zero-one은 401로 번역됩니다";
 			case "es":
-				return ". Garantice estrictamente que " + nounsStr + " estos indicativos de vuelo o nombres se mantienen en el texto original. Garantice estrictamente Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray se mantienen en el original. Las coordenadas mantienen los números. Modelo de radar: " + radarStr + " se mantiene en el original. Ejemplo de traducción de números: ninety-nine → 99, four-zero-one → 401";
+				return ". Garantice estrictamente que " + nounsStr + " estos indicativos de vuelo o nombres se mantienen en el texto original. Garantice estrictamente Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie se mantienen en el original. Las coordenadas mantienen los números. Modelo de radar: " + radarStr + " se mantiene en el original. Ejemplo de traducción de números: ninety-nine → 99, four-zero-one → 401";
 			case "fr":
-				return ". Assurez-vous strictement que " + nounsStr + " ces indicatifs d'appel ou noms propres restent en texte original. Assurez-vous strictement que Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray restent en original. Les coordonnées conservent les nombres. Modèle de radar: " + radarStr + " reste en original. Exemple de traduction des nombres: ninety-nine → 99, four-zero-one → 401";
+				return ". Assurez-vous strictement que " + nounsStr + " ces indicatifs d'appel ou noms propres restent en texte original. Assurez-vous strictement que Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie restent en original. Les coordonnées conservent les nombres. Modèle de radar: " + radarStr + " reste en original. Exemple de traduction des nombres: ninety-nine → 99, four-zero-one → 401";
 			case "de":
-				return ". Stellen Sie strikt sicher, dass " + nounsStr + " diese Rufzeichen oder Namen im Original bleiben. Stellen Sie strikt sicher, dass Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray im Original bleiben. Koordinaten behalten die Zahlen. Radarmodell: " + radarStr + " bleibt im Original. Zahlenbeispiel: ninety-nine → 99, four-zero-one → 401";
+				return ". Stellen Sie strikt sicher, dass " + nounsStr + " diese Rufzeichen oder Namen im Original bleiben. Stellen Sie strikt sicher, dass Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie im Original bleiben. Koordinaten behalten die Zahlen. Radarmodell: " + radarStr + " bleibt im Original. Zahlenbeispiel: ninety-nine → 99, four-zero-one → 401";
 			case "pt":
-				return ". Garanta estritamente que " + nounsStr + " estes indicativos de voo ou nomes permaneçam no original. Garanta estritamente Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray permaneçam no original. As coordenadas mantêm os números. Modelo de radar: " + radarStr + " permanece no original. Exemplo de tradução de números: ninety-nine → 99, four-zero-one → 401";
+				return ". Garanta estritamente que " + nounsStr + " estes indicativos de voo ou nomes permaneçam no original. Garanta estritamente Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie permaneçam no original. As coordenadas mantêm os números. Modelo de radar: " + radarStr + " permanece no original. Exemplo de tradução de números: ninety-nine → 99, four-zero-one → 401";
 			case "ru":
-				return ". Строго сохраняйте " + nounsStr + " эти позывные или имена в оригинале. Строго сохраняйте Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray в оригинале. Координаты сохраняют числа. Модель радара: " + radarStr + " сохраняется в оригинале. Пример перевода чисел: ninety-nine → 99, four-zero-one → 401";
+				return ". Строго сохраняйте " + nounsStr + " эти позывные или имена в оригинале. Строго сохраняйте Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo в оригинале. Координаты сохраняют числа. Модель радара: " + radarStr + " сохраняется в оригинале. Пример перевода чисел: ninety-nine → 99, four-zero-one → 401";
 			default:
-				return ". Strictly ensure that " + nounsStr + " these flight call signs or names remain in the original text. Strictly ensure Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray remain in original. Coordinates retain numbers. Radar model: " + radarStr + " remains in original. Number translation examples: ninety-nine → 99, four-zero-one → 401";
+				return ". Strictly ensure that " + nounsStr + " these flight call signs or names remain in the original text. Strictly ensure Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie remain in original. Coordinates retain numbers. Radar model: " + radarStr + " remains in original. Number translation examples: ninety-nine → 99, four-zero-one → 401";
 		}
 	}
 	
@@ -218,6 +218,7 @@ public class I18N {
 		switch (locale) {
 			case "zh":
 				return "。军事术语翻译例: [ " +
+						"Cleared Hot -> 允许开火, " +
 						"Hot -> 朝我方/进入攻击态势, " +
 						"Cold -> 远离态势/脱离航向, " +
 						"is cold -> 已失效/无活动迹象, " +
@@ -240,10 +241,11 @@ public class I18N {
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
 						"Feet dry -> 仍在陆地上空, " +
 						"Feet wet -> 已入海上空, " +
-						"Fence In -> 进入作战状态, " +
-						"Fence Out -> 退出作战状态, " +
+						"Fence In -> 进入作战状态(Fence不要翻译成围栏或栅栏), " +
+						"Fence Out -> 退出作战状态(Fence不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
-						"Tapes Off -> 录像关闭 ]";
+						"Tapes Off -> 录像关闭, " +
+						"CAT 4 -> 4号弹射器 ]";
 			
 			case "ja":
 				return "。軍事用語翻訳例: [ " +
