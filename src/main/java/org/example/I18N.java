@@ -239,12 +239,22 @@ public class I18N {
 						"Bullseye -> 靶眼(不要翻译成牛眼), " +
 						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
-						"Feet dry -> 仍在陆地上空, " +
-						"Feet wet -> 已入海上空, " +
+						"Feet dry -> 在陆地上空(不要翻译成干脚), " +
+						"Feet wet -> 已入海上空(不要翻译成脚湿), " +
 						"Fence In -> 进入作战状态(Fence不要翻译成围栏或栅栏), " +
 						"Fence Out -> 退出作战状态(Fence不要翻译成围栏或栅栏), " +
+						"Fenced In -> 已进入作战状态(Fenced不要翻译成围栏或栅栏), " +
+						"Fenced Out -> 已退出作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
 						"Tapes Off -> 录像关闭, " +
+						"on station -> 就位, " +
+						"playtime -> 任务时间, " +
+						"Tow copy -> 二号 收到(不要翻译成收到两份), " +
+						"Three copy -> 三号 收到(不要翻译成收到三份), " +
+						"Four copy -> 四号 收到(不要翻译成收到四份), " +
+						"Holding hands with XX -> 与XX紧密编队, " +
+						"XXX is clear -> XXX安全, " +
+						"CASE 1 Recovery -> CASE 1回收(Recovery一般翻译成回收), " +
 						"CAT 4 -> 4号弹射器 ]";
 			
 			case "ja":
