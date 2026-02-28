@@ -239,7 +239,13 @@ public class I18N {
 						"20 miles -> 20海里, " +
 						"Bullseye -> 靶眼, " +
 						"Bulls -> 靶眼, " +
-						"Bulls 270/20 -> 靶眼 270度 20海里 ]";
+						"Bulls 270/20 -> 靶眼 270度 20海里, " +
+						"Feet dry -> 仍在陆地上空, " +
+						"Feet wet -> 已入海上空, " +
+						"Fence In -> 进入作战状态, " +
+						"Fence Out -> 退出作战状态, " +
+						"Tapes On -> 录像开启, " +
+						"Tapes Off -> 录像关闭 ]";
 			
 			case "ja":
 				return "。軍事用語翻訳例: [ " +
@@ -262,7 +268,14 @@ public class I18N {
 						"20 miles -> 20海里, " +
 						"Bullseye -> ブルズアイ, " +
 						"Bulls -> ブルズアイ, " +
-						"Bulls 270/20 -> ブルズアイ 270度 20海里 ]";
+						"Bulls 270/20 -> ブルズアイ 270度 20海里, " +
+						"Feet dry -> 陸上, " +
+						"Feet wet -> 海上, " +
+						"Fence In -> 作戦状態に入る, " +
+						"Fence Out -> 作戦状態から退出, " +
+						"Tapes On -> 録画開始, " +
+						"Tapes Off -> 録画停止 ]";
+			
 			
 			case "ko":
 				return "。군사용어 번역 예: [ " +
@@ -285,7 +298,13 @@ public class I18N {
 						"20 miles -> 20해리, " +
 						"Bullseye -> 불아이, " +
 						"Bulls -> 불아이, " +
-						"Bulls 270/20 -> 불아이 270도 20해리 ]";
+						"Bulls 270/20 -> 불아이 270도 20해리, " +
+						"Feet dry -> 육상, " +
+						"Feet wet -> 해상, " +
+						"Fence In -> 작전 상태 진입, " +
+						"Fence Out -> 작전 상태 해제, " +
+						"Tapes On -> 녹화 시작, " +
+						"Tapes Off -> 녹화 종료 ]";
 			
 			case "es":
 				return ". Ejemplos de traducción de jerga militar: [ " +
@@ -308,7 +327,13 @@ public class I18N {
 						"20 miles -> 20 millas náuticas, " +
 						"Bullseye -> punto de referencia, " +
 						"Bulls -> punto de referencia, " +
-						"Bulls 270/20 -> punto de referencia 270° 20 millas ]";
+						"Bulls 270/20 -> punto de referencia 270° 20 millas, " +
+						"Feet dry -> sobre tierra, " +
+						"Feet wet -> sobre agua, " +
+						"Fence In -> entrar en estado de combate, " +
+						"Fence Out -> salir del estado de combate, " +
+						"Tapes On -> iniciar grabación, " +
+						"Tapes Off -> detener grabación ]";
 			
 			case "fr":
 				return ". Exemples de traduction de jargon militaire: [ " +
@@ -331,7 +356,13 @@ public class I18N {
 						"20 miles -> 20 milles nautiques, " +
 						"Bullseye -> point de référence, " +
 						"Bulls -> point de référence, " +
-						"Bulls 270/20 -> point de référence 270° 20 milles ]";
+						"Bulls 270/20 -> point de référence 270° 20 milles, " +
+						"Feet dry -> au-dessus de terre, " +
+						"Feet wet -> au-dessus de l'eau, " +
+						"Fence In -> entrer en posture de combat, " +
+						"Fence Out -> sortir de la posture de combat, " +
+						"Tapes On -> début enregistrement, " +
+						"Tapes Off -> fin enregistrement ]";
 			
 			case "de":
 				return ". Beispiele für militärische Umgangssprache: [ " +
@@ -354,7 +385,13 @@ public class I18N {
 						"20 miles -> 20 Seemeilen, " +
 						"Bullseye -> Referenzpunkt, " +
 						"Bulls -> Referenzpunkt, " +
-						"Bulls 270/20 -> Referenzpunkt 270° 20 Seemeilen ]";
+						"Bulls 270/20 -> Referenzpunkt 270° 20 Seemeilen, " +
+						"Feet dry -> über Land, " +
+						"Feet wet -> über Wasser, " +
+						"Fence In -> Kampfstufe aktiv, " +
+						"Fence Out -> Kampfstufe deaktiviert, " +
+						"Tapes On -> Aufnahme starten, " +
+						"Tapes Off -> Aufnahme stoppen ]";
 			
 			case "pt":
 				return ". Exemplos de tradução de gíria militar: [ " +
@@ -377,7 +414,13 @@ public class I18N {
 						"20 miles -> 20 milhas náuticas, " +
 						"Bullseye -> ponto de referência, " +
 						"Bulls -> ponto de referência, " +
-						"Bulls 270/20 -> ponto de referência 270° 20 milhas ]";
+						"Bulls 270/20 -> ponto de referência 270° 20 milhas, " +
+						"Feet dry -> sobre terra, " +
+						"Feet wet -> sobre água, " +
+						"Fence In -> entrar em estado de combate, " +
+						"Fence Out -> sair do estado de combate, " +
+						"Tapes On -> iniciar gravação, " +
+						"Tapes Off -> parar gravação ]";
 			
 			case "ru":
 				return ". Примеры перевода военного сленга: [ " +
@@ -400,7 +443,13 @@ public class I18N {
 						"20 miles -> 20 морских миль, " +
 						"Bullseye -> опорная точка, " +
 						"Bulls -> опорная точка, " +
-						"Bulls 270/20 -> опорная точка 270° 20 морских миль ]";
+						"Bulls 270/20 -> опорная точка 270° 20 морских миль, " +
+						"Feet dry -> над сушей, " +
+						"Feet wet -> над водой, " +
+						"Fence In -> вход в боевой режим, " +
+						"Fence Out -> выход из боевого режима, " +
+						"Tapes On -> запись включена, " +
+						"Tapes Off -> запись выключена ]";
 			
 			default:
 				return ". Military slang translation examples: [ " +
@@ -423,7 +472,14 @@ public class I18N {
 						"20 miles -> 20 nautical miles, " +
 						"Bullseye -> reference point, " +
 						"Bulls -> reference point, " +
-						"Bulls 270/20 -> reference point 270° 20 nm ]";
+						"Bulls 270/20 -> reference point 270° 20 nm, " +
+						"Feet dry -> over land, " +
+						"Feet dry -> over land, " +
+						"Feet wet -> over water, " +
+						"Fence In -> enter combat state, " +
+						"Fence Out -> exit combat state, " +
+						"Tapes On -> start recording, " +
+						"Tapes Off -> stop recording ]";
 		}
 	}
 	
