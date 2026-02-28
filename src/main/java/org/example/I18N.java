@@ -49,8 +49,6 @@ public class I18N {
 		PROTECTED_TERMS.add("SABER");
 		PROTECTED_TERMS.add("EAGLE");
 		PROTECTED_TERMS.add("VIKING");
-		PROTECTED_TERMS.add("BULLS");
-		PROTECTED_TERMS.add("BULLSEYE");
 		PROTECTED_TERMS.add("CASE 1");
 		PROTECTED_TERMS.add("CASE 2");
 		PROTECTED_TERMS.add("CASE 3");
@@ -237,8 +235,8 @@ public class I18N {
 						"Winchester -> 弹药耗尽, " +
 						"Anchor at 3000 -> 在3000英尺建立盘旋待命, " +
 						"20 miles -> 20海里, " +
-						"Bullseye -> 靶眼, " +
-						"Bulls -> 靶眼, " +
+						"Bullseye -> 靶眼(不要翻译成牛眼), " +
+						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
 						"Feet dry -> 仍在陆地上空, " +
 						"Feet wet -> 已入海上空, " +
