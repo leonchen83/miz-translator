@@ -247,7 +247,7 @@ public class I18N {
 						"Fenced Out -> 已退出作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
 						"Tapes Off -> 录像关闭, " +
-						"on station -> 就位, " +
+						"on station in XX ->  在XX就位, " +
 						"playtime -> 任务时间, " +
 						"Tow copy -> 二号 收到(不要翻译成收到两份), " +
 						"Three copy -> 三号 收到(不要翻译成收到三份), " +
