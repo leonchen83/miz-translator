@@ -215,6 +215,218 @@ public class I18N {
 		}
 	}
 	
+	public static String militarySlang(Configure configure) {
+		String locale = configure.getLanguageCode();
+		switch (locale) {
+			case "zh":
+				return "。军事术语翻译例: [ " +
+						"Hot -> 朝我方/进入攻击态势, " +
+						"Cold -> 远离态势/脱离航向, " +
+						"is cold -> 已失效/无活动迹象, " +
+						"Break left -> 左转规避, " +
+						"Break right -> 右转规避, " +
+						"Bandit -> 敌机（确认敌对）, " +
+						"Bogey -> 不明空中目标, " +
+						"Splash one -> 击落一架, " +
+						"Splash two -> 击落两架, " +
+						"Angels 25 -> 高度25000英尺, " +
+						"FL150 -> 高度15000英尺, " +
+						"Tally -> 目视确认, " +
+						"No joy -> 未目视到目标, " +
+						"In the pipe -> 导弹已发射/导弹飞行中, " +
+						"Winchester -> 弹药耗尽, " +
+						"Anchor at 3000 -> 在3000英尺建立盘旋待命, " +
+						"20 miles -> 20海里, " +
+						"Bullseye -> 靶眼, " +
+						"Bulls -> 靶眼, " +
+						"Bulls 270/20 -> 靶眼 270度 20海里 ]";
+			
+			case "ja":
+				return "。軍事用語翻訳例: [ " +
+						"Hot -> 朝自機/攻撃態勢, " +
+						"Cold -> 遠ざかる/接触なし, " +
+						"is cold -> 無効化済み, " +
+						"Break left -> 左に回避, " +
+						"Break right -> 右に回避, " +
+						"Bandit -> 敵機（確認済み）, " +
+						"Bogey -> 未確認機, " +
+						"Splash one -> 1機撃墜, " +
+						"Splash two -> 2機撃墜, " +
+						"Angels 25 -> 高度25000フィート, " +
+						"FL150 -> 高度15000フィート, " +
+						"Tally -> 視認, " +
+						"No joy -> 視認不可, " +
+						"In the pipe -> ミサイル飛行中, " +
+						"Winchester -> 弾薬切れ, " +
+						"Anchor at 3000 -> 高度3000フィートで待機旋回, " +
+						"20 miles -> 20海里, " +
+						"Bullseye -> ブルズアイ, " +
+						"Bulls -> ブルズアイ, " +
+						"Bulls 270/20 -> ブルズアイ 270度 20海里 ]";
+			
+			case "ko":
+				return "。군사용어 번역 예: [ " +
+						"Hot -> 우리 쪽으로/공격 태세, " +
+						"Cold -> 멀어짐/접촉 없음, " +
+						"is cold -> 무력화됨, " +
+						"Break left -> 좌측 회피, " +
+						"Break right -> 우측 회피, " +
+						"Bandit -> 적기(확인됨), " +
+						"Bogey -> 미확인기, " +
+						"Splash one -> 1기 격추, " +
+						"Splash two -> 2기 격추, " +
+						"Angels 25 -> 고도 25000피트, " +
+						"FL150 -> 고도 15000피트, " +
+						"Tally -> 육안 확인, " +
+						"No joy -> 시각 확인 불가, " +
+						"In the pipe -> 미사일 비행 중, " +
+						"Winchester -> 탄약 소진, " +
+						"Anchor at 3000 -> 3000피트에서 선회 대기, " +
+						"20 miles -> 20해리, " +
+						"Bullseye -> 불아이, " +
+						"Bulls -> 불아이, " +
+						"Bulls 270/20 -> 불아이 270도 20해리 ]";
+			
+			case "es":
+				return ". Ejemplos de traducción de jerga militar: [ " +
+						"Hot -> hacia nosotros/en actitud de ataque, " +
+						"Cold -> alejándose/de contacto perdido, " +
+						"is cold -> neutralizado, " +
+						"Break left -> virar a la izquierda, " +
+						"Break right -> virar a la derecha, " +
+						"Bandit -> avión enemigo (confirmado), " +
+						"Bogey -> contacto no identificado, " +
+						"Splash one -> un derribo, " +
+						"Splash two -> dos derribos, " +
+						"Angels 25 -> altitud 25000 pies, " +
+						"FL150 -> nivel de vuelo 150, " +
+						"Tally -> contacto visual, " +
+						"No joy -> sin contacto visual, " +
+						"In the pipe -> misil en vuelo, " +
+						"Winchester -> sin munición, " +
+						"Anchor at 3000 -> órbita a 3000 pies, " +
+						"20 miles -> 20 millas náuticas, " +
+						"Bullseye -> punto de referencia, " +
+						"Bulls -> punto de referencia, " +
+						"Bulls 270/20 -> punto de referencia 270° 20 millas ]";
+			
+			case "fr":
+				return ". Exemples de traduction de jargon militaire: [ " +
+						"Hot -> vers nous/en posture d'attaque, " +
+						"Cold -> s'éloigne/pas de contact, " +
+						"is cold -> neutralisé, " +
+						"Break left -> virage à gauche, " +
+						"Break right -> virage à droite, " +
+						"Bandit -> avion ennemi (confirmé), " +
+						"Bogey -> contact non identifié, " +
+						"Splash one -> un abattu, " +
+						"Splash two -> deux abattus, " +
+						"Angels 25 -> altitude 25000 pieds, " +
+						"FL150 -> niveau de vol 150, " +
+						"Tally -> contact visuel, " +
+						"No joy -> pas de contact visuel, " +
+						"In the pipe -> missile en vol, " +
+						"Winchester -> plus de munitions, " +
+						"Anchor at 3000 -> orbite à 3000 pieds, " +
+						"20 miles -> 20 milles nautiques, " +
+						"Bullseye -> point de référence, " +
+						"Bulls -> point de référence, " +
+						"Bulls 270/20 -> point de référence 270° 20 milles ]";
+			
+			case "de":
+				return ". Beispiele für militärische Umgangssprache: [ " +
+						"Hot -> auf uns/Angriffsbereitschaft, " +
+						"Cold -> entfernt/kein Kontakt, " +
+						"is cold -> neutralisiert, " +
+						"Break left -> scharf links abdrehen, " +
+						"Break right -> scharf rechts abdrehen, " +
+						"Bandit -> feindliches Flugzeug (bestätigt), " +
+						"Bogey -> unbekanntes Ziel, " +
+						"Splash one -> ein Abschuss, " +
+						"Splash two -> zwei Abschüsse, " +
+						"Angels 25 -> Höhe 25000 Fuß, " +
+						"FL150 -> Flugfläche 150, " +
+						"Tally -> Sichtkontakt, " +
+						"No joy -> kein Sichtkontakt, " +
+						"In the pipe -> Rakete unterwegs, " +
+						"Winchester -> keine Munition, " +
+						"Anchor at 3000 -> Warteschleife auf 3000 Fuß, " +
+						"20 miles -> 20 Seemeilen, " +
+						"Bullseye -> Referenzpunkt, " +
+						"Bulls -> Referenzpunkt, " +
+						"Bulls 270/20 -> Referenzpunkt 270° 20 Seemeilen ]";
+			
+			case "pt":
+				return ". Exemplos de tradução de gíria militar: [ " +
+						"Hot -> em direção a nós/ataque, " +
+						"Cold -> afastando-se/sem contato, " +
+						"is cold -> neutralizado, " +
+						"Break left -> virar à esquerda, " +
+						"Break right -> virar à direita, " +
+						"Bandit -> aeronave inimiga (confirmada), " +
+						"Bogey -> contato não identificado, " +
+						"Splash one -> um abatido, " +
+						"Splash two -> dois abatidos, " +
+						"Angels 25 -> altitude 25000 pés, " +
+						"FL150 -> nível de voo 150, " +
+						"Tally -> contato visual, " +
+						"No joy -> sem contato visual, " +
+						"In the pipe -> míssil em voo, " +
+						"Winchester -> sem munição, " +
+						"Anchor at 3000 -> órbita a 3000 pés, " +
+						"20 miles -> 20 milhas náuticas, " +
+						"Bullseye -> ponto de referência, " +
+						"Bulls -> ponto de referência, " +
+						"Bulls 270/20 -> ponto de referência 270° 20 milhas ]";
+			
+			case "ru":
+				return ". Примеры перевода военного сленга: [ " +
+						"Hot -> на нас/в боевой готовности, " +
+						"Cold -> удаляется/нет контакта, " +
+						"is cold -> нейтрализован, " +
+						"Break left -> резкий левый поворот, " +
+						"Break right -> резкий правый поворот, " +
+						"Bandit -> вражеский самолёт (подтверждён), " +
+						"Bogey -> неопознанная цель, " +
+						"Splash one -> один сбит, " +
+						"Splash two -> два сбито, " +
+						"Angels 25 -> высота 25000 футов, " +
+						"FL150 -> эшелон 150, " +
+						"Tally -> визуальный контакт, " +
+						"No joy -> визуального контакта нет, " +
+						"In the pipe -> ракета в полёте, " +
+						"Winchester -> боекомплект израсходован, " +
+						"Anchor at 3000 -> барражирование на 3000 футов, " +
+						"20 miles -> 20 морских миль, " +
+						"Bullseye -> опорная точка, " +
+						"Bulls -> опорная точка, " +
+						"Bulls 270/20 -> опорная точка 270° 20 морских миль ]";
+			
+			default:
+				return ". Military slang translation examples: [ " +
+						"Hot -> head-on/engaging, " +
+						"Cold -> moving away/disengaged, " +
+						"is cold -> neutralized, " +
+						"Break left -> break left, " +
+						"Break right -> break right, " +
+						"Bandit -> confirmed enemy, " +
+						"Bogey -> unidentified contact, " +
+						"Splash one -> one kill, " +
+						"Splash two -> two kills, " +
+						"Angels 25 -> altitude 25000 feet, " +
+						"FL150 -> flight level 150, " +
+						"Tally -> visual contact, " +
+						"No joy -> no visual contact, " +
+						"In the pipe -> missile in flight, " +
+						"Winchester -> out of ammo, " +
+						"Anchor at 3000 -> orbit at 3000 feet, " +
+						"20 miles -> 20 nautical miles, " +
+						"Bullseye -> reference point, " +
+						"Bulls -> reference point, " +
+						"Bulls 270/20 -> reference point 270° 20 nm ]";
+		}
+	}
+	
 	private static String radarModels() {
 		return "Guideline, Goa, Gammon, Grumble, Gainful, Gecko, Gadfly, Grison, Flat Face, Spoon Rest, Low Blow, Fan Song, Land Roll, Snow Drift, Gun Dish, Hot Shot, Dog Ear, Grouse";
 	}

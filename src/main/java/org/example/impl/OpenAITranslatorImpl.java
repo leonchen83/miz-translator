@@ -1,6 +1,7 @@
 package org.example.impl;
 
 import static org.example.I18N.localeLanguage;
+import static org.example.I18N.militarySlang;
 import static org.example.I18N.nounsHint;
 
 import java.time.Duration;
@@ -53,14 +54,14 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public String translate(String text, Map<String, String> options) {
 		if (!logged) {
-			String hintText = hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet);
+			String hintText = hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet) + militarySlang(configure);
 			logger.info("hints: {}", hintText);
 			this.size = hintText.length();
 			logged = true;
 		}
 		rateLimit.acquire();
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
-				.addSystemMessage(hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet))
+				.addSystemMessage(hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet) + militarySlang(configure))
 				.addUserMessage(text)
 				.model(model)
 				.maxCompletionTokens(maxTokens);
