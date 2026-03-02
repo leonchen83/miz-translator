@@ -219,9 +219,9 @@ public class I18N {
 			case "zh":
 				return "。军事术语翻译例: [ " +
 						"Cleared Hot -> 允许开火, " +
-						"Hot -> 朝我方/进入攻击态势, " +
-						"Cold -> 远离态势/脱离航向, " +
-						"is cold -> 已失效/无活动迹象, " +
+						"Hot -> 朝我方 或 进入攻击态势, " +
+						"Cold -> 远离态势 或 脱离航向, " +
+						"is cold -> 已失效 或 无活动迹象, " +
 						"Break left -> 左转规避, " +
 						"Break right -> 右转规避, " +
 						"Bandit -> 敌机（确认敌对）, " +
@@ -232,7 +232,7 @@ public class I18N {
 						"FL150 -> 高度15000英尺, " +
 						"Tally -> 目视确认, " +
 						"No joy -> 未目视到目标, " +
-						"In the pipe -> 导弹已发射/导弹飞行中, " +
+						"In the pipe -> 导弹已发射 或 导弹飞行中, " +
 						"Winchester -> 弹药耗尽, " +
 						"Anchor at 3000 -> 在3000英尺建立盘旋待命, " +
 						"20 miles -> 20海里, " +
@@ -246,8 +246,19 @@ public class I18N {
 						"Fenced In -> 已进入作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Fenced Out -> 已退出作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
+						"Venom -> Venom(一般是呼号,不要翻译成猛毒或毒液), " +
 						"Tapes Off -> 录像关闭, " +
+						"corridor -> 飞行走廊, " +
+						"AUX -> 辅助通信频率, " +
+						"check in 9-line -> 准备接收九行简报(这里不要翻译成报到), " +
+						"check in with XX -> 向XX报到(不要翻译成核对或者检查), " +
+						"check out -> 报到退出(大多数场景), " +
+						"checked in -> 已报到, " +
+						"checked out -> 已报到退出(大多数场景), " +
+						"your element -> 你的编队(不要翻译成你的元素), " +
+						"checking out of corridor for XX -> 离开飞行走廊前往XX, " +
 						"on station in XX ->  在XX就位, " +
+						"off station -> 离开战位(station不要翻译成车站)" +
 						"playtime -> 任务时间, " +
 						"Tow copy -> 二号 收到(不要翻译成收到两份), " +
 						"Three copy -> 三号 收到(不要翻译成收到三份), " +
@@ -259,7 +270,8 @@ public class I18N {
 			
 			case "ja":
 				return "。軍事用語翻訳例: [ " +
-						"Hot -> 朝自機/攻撃態勢, " +
+						"Cleared Hot -> 発射許可, " +
+						"Hot -> 自機方向/攻撃態勢, " +
 						"Cold -> 遠ざかる/接触なし, " +
 						"is cold -> 無効化済み, " +
 						"Break left -> 左に回避, " +
@@ -283,13 +295,35 @@ public class I18N {
 						"Feet wet -> 海上, " +
 						"Fence In -> 作戦状態に入る, " +
 						"Fence Out -> 作戦状態から退出, " +
+						"Fenced In -> 作戦状態に入った, " +
+						"Fenced Out -> 作戦状態から退出済み, " +
 						"Tapes On -> 録画開始, " +
-						"Tapes Off -> 録画停止 ]";
-			
+						"Tapes Off -> 録画停止, " +
+						"Venom -> Venom(コールサイン), " +
+						"corridor -> 飛行走廊, " +
+						"AUX -> 補助通信周波数, " +
+						"check in 9-line -> 9ライン受信準備, " +
+						"check in with XX -> XXに報告, " +
+						"check out -> 退出報告, " +
+						"checked in -> 報告済み, " +
+						"checked out -> 退出報告済み, " +
+						"your element -> 自分の編隊, " +
+						"checking out of corridor for XX -> 飛行走廊からXXへ退出, " +
+						"on station in XX -> XXで配置完了, " +
+						"off station -> 配置解除, " +
+						"playtime -> ミッション時間, " +
+						"Two copy -> 2番受領, " +
+						"Three copy -> 3番受領, " +
+						"Four copy -> 4番受領, " +
+						"Holding hands with XX -> XXと密接編隊, " +
+						"XXX is clear -> XXX安全, " +
+						"CASE 1 Recovery -> CASE 1回収, " +
+						"CAT 4 -> 4番射出装置 ]";
 			
 			case "ko":
 				return "。군사용어 번역 예: [ " +
-						"Hot -> 우리 쪽으로/공격 태세, " +
+						"Cleared Hot -> 발사 허가, " +
+						"Hot -> 우리 쪽/공격 태세, " +
 						"Cold -> 멀어짐/접촉 없음, " +
 						"is cold -> 무력화됨, " +
 						"Break left -> 좌측 회피, " +
@@ -313,11 +347,34 @@ public class I18N {
 						"Feet wet -> 해상, " +
 						"Fence In -> 작전 상태 진입, " +
 						"Fence Out -> 작전 상태 해제, " +
+						"Fenced In -> 작전 상태 진입 완료, " +
+						"Fenced Out -> 작전 상태 종료, " +
 						"Tapes On -> 녹화 시작, " +
-						"Tapes Off -> 녹화 종료 ]";
+						"Tapes Off -> 녹화 종료, " +
+						"Venom -> Venom(호출부호), " +
+						"corridor -> 비행 통로, " +
+						"AUX -> 보조 통신 주파수, " +
+						"check in 9-line -> 9라인 수신 준비, " +
+						"check in with XX -> XX에 보고, " +
+						"check out -> 보고 후 퇴장, " +
+						"checked in -> 보고 완료, " +
+						"checked out -> 퇴장 보고 완료, " +
+						"your element -> 자기 편대, " +
+						"checking out of corridor for XX -> 통로에서 XX로 이동, " +
+						"on station in XX -> XX에 배치, " +
+						"off station -> 배치 해제, " +
+						"playtime -> 임무 시간, " +
+						"Two copy -> 2번 수신, " +
+						"Three copy -> 3번 수신, " +
+						"Four copy -> 4번 수신, " +
+						"Holding hands with XX -> XX와 긴밀 편대, " +
+						"XXX is clear -> XXX 안전, " +
+						"CASE 1 Recovery -> CASE 1 회수, " +
+						"CAT 4 -> 4번 사출기 ]";
 			
 			case "es":
 				return ". Ejemplos de traducción de jerga militar: [ " +
+						"Cleared Hot -> permiso de fuego, " +
 						"Hot -> hacia nosotros/en actitud de ataque, " +
 						"Cold -> alejándose/de contacto perdido, " +
 						"is cold -> neutralizado, " +
@@ -342,11 +399,34 @@ public class I18N {
 						"Feet wet -> sobre agua, " +
 						"Fence In -> entrar en estado de combate, " +
 						"Fence Out -> salir del estado de combate, " +
+						"Fenced In -> ya en estado de combate, " +
+						"Fenced Out -> ya salido del estado de combate, " +
 						"Tapes On -> iniciar grabación, " +
-						"Tapes Off -> detener grabación ]";
+						"Tapes Off -> detener grabación, " +
+						"Venom -> Venom (indicativo), " +
+						"corridor -> corredor de vuelo, " +
+						"AUX -> frecuencia auxiliar, " +
+						"check in 9-line -> preparado para 9 líneas, " +
+						"check in with XX -> reportarse a XX, " +
+						"check out -> salida/reportar salida, " +
+						"checked in -> reportado, " +
+						"checked out -> reportado salida, " +
+						"your element -> tu escuadrón, " +
+						"checking out of corridor for XX -> salir del corredor hacia XX, " +
+						"on station in XX -> en posición en XX, " +
+						"off station -> fuera de posición, " +
+						"playtime -> tiempo de misión, " +
+						"Two copy -> dos recibí, " +
+						"Three copy -> tres recibí, " +
+						"Four copy -> cuatro recibí, " +
+						"Holding hands with XX -> formación cerrada con XX, " +
+						"XXX is clear -> XXX seguro, " +
+						"CASE 1 Recovery -> CASE 1 recuperación, " +
+						"CAT 4 -> catapulta 4 ]";
 			
 			case "fr":
 				return ". Exemples de traduction de jargon militaire: [ " +
+						"Cleared Hot -> tir autorisé, " +
 						"Hot -> vers nous/en posture d'attaque, " +
 						"Cold -> s'éloigne/pas de contact, " +
 						"is cold -> neutralisé, " +
@@ -371,11 +451,34 @@ public class I18N {
 						"Feet wet -> au-dessus de l'eau, " +
 						"Fence In -> entrer en posture de combat, " +
 						"Fence Out -> sortir de la posture de combat, " +
+						"Fenced In -> déjà en posture de combat, " +
+						"Fenced Out -> déjà sorti de la posture de combat, " +
 						"Tapes On -> début enregistrement, " +
-						"Tapes Off -> fin enregistrement ]";
+						"Tapes Off -> fin enregistrement, " +
+						"Venom -> Venom (indicatif), " +
+						"corridor -> couloir de vol, " +
+						"AUX -> fréquence auxiliaire, " +
+						"check in 9-line -> prêt pour 9 lignes, " +
+						"check in with XX -> se signaler à XX, " +
+						"check out -> signaler sortie, " +
+						"checked in -> signalé, " +
+						"checked out -> signalé sortie, " +
+						"your element -> votre escadron, " +
+						"checking out of corridor for XX -> sortir du couloir vers XX, " +
+						"on station in XX -> en position à XX, " +
+						"off station -> hors position, " +
+						"playtime -> temps de mission, " +
+						"Two copy -> reçu 2, " +
+						"Three copy -> reçu 3, " +
+						"Four copy -> reçu 4, " +
+						"Holding hands with XX -> formation serrée avec XX, " +
+						"XXX is clear -> XXX sécurisé, " +
+						"CASE 1 Recovery -> CASE 1 récupération, " +
+						"CAT 4 -> catapulte 4 ]";
 			
 			case "de":
 				return ". Beispiele für militärische Umgangssprache: [ " +
+						"Cleared Hot -> Feuer freigegeben, " +
 						"Hot -> auf uns/Angriffsbereitschaft, " +
 						"Cold -> entfernt/kein Kontakt, " +
 						"is cold -> neutralisiert, " +
@@ -400,11 +503,34 @@ public class I18N {
 						"Feet wet -> über Wasser, " +
 						"Fence In -> Kampfstufe aktiv, " +
 						"Fence Out -> Kampfstufe deaktiviert, " +
+						"Fenced In -> bereits Kampfstufe aktiv, " +
+						"Fenced Out -> bereits Kampfstufe deaktiviert, " +
 						"Tapes On -> Aufnahme starten, " +
-						"Tapes Off -> Aufnahme stoppen ]";
+						"Tapes Off -> Aufnahme stoppen, " +
+						"Venom -> Venom (Kennung), " +
+						"corridor -> Flugkorridor, " +
+						"AUX -> Zusatzfunkfrequenz, " +
+						"check in 9-line -> bereit für 9-Line, " +
+						"check in with XX -> bei XX melden, " +
+						"check out -> Meldung verlassen, " +
+						"checked in -> gemeldet, " +
+						"checked out -> Meldung verlassen erledigt, " +
+						"your element -> dein Verband, " +
+						"checking out of corridor for XX -> Flugkorridor verlassen Richtung XX, " +
+						"on station in XX -> in XX positioniert, " +
+						"off station -> Position verlassen, " +
+						"playtime -> Missionszeit, " +
+						"Two copy -> Zwei empfangen, " +
+						"Three copy -> Drei empfangen, " +
+						"Four copy -> Vier empfangen, " +
+						"Holding hands with XX -> enge Formation mit XX, " +
+						"XXX is clear -> XXX sicher, " +
+						"CASE 1 Recovery -> CASE 1 Rückholung, " +
+						"CAT 4 -> Katapult 4 ]";
 			
 			case "pt":
 				return ". Exemplos de tradução de gíria militar: [ " +
+						"Cleared Hot -> permissão de tiro, " +
 						"Hot -> em direção a nós/ataque, " +
 						"Cold -> afastando-se/sem contato, " +
 						"is cold -> neutralizado, " +
@@ -429,11 +555,34 @@ public class I18N {
 						"Feet wet -> sobre água, " +
 						"Fence In -> entrar em estado de combate, " +
 						"Fence Out -> sair do estado de combate, " +
+						"Fenced In -> já em estado de combate, " +
+						"Fenced Out -> já saiu do estado de combate, " +
 						"Tapes On -> iniciar gravação, " +
-						"Tapes Off -> parar gravação ]";
+						"Tapes Off -> parar gravação, " +
+						"Venom -> Venom (indicativo), " +
+						"corridor -> corredor de voo, " +
+						"AUX -> frequência auxiliar, " +
+						"check in 9-line -> pronto para 9 linhas, " +
+						"check in with XX -> reportar-se a XX, " +
+						"check out -> reportar saída, " +
+						"checked in -> reportado, " +
+						"checked out -> reportado saída, " +
+						"your element -> seu esquadrão, " +
+						"checking out of corridor for XX -> sair do corredor para XX, " +
+						"on station in XX -> em posição em XX, " +
+						"off station -> fora de posição, " +
+						"playtime -> tempo de missão, " +
+						"Two copy -> dois recebido, " +
+						"Three copy -> três recebido, " +
+						"Four copy -> quatro recebido, " +
+						"Holding hands with XX -> formação fechada com XX, " +
+						"XXX is clear -> XXX seguro, " +
+						"CASE 1 Recovery -> CASE 1 recuperação, " +
+						"CAT 4 -> catapulta 4 ]";
 			
 			case "ru":
 				return ". Примеры перевода военного сленга: [ " +
+						"Cleared Hot -> разрешено открывать огонь, " +
 						"Hot -> на нас/в боевой готовности, " +
 						"Cold -> удаляется/нет контакта, " +
 						"is cold -> нейтрализован, " +
@@ -458,14 +607,37 @@ public class I18N {
 						"Feet wet -> над водой, " +
 						"Fence In -> вход в боевой режим, " +
 						"Fence Out -> выход из боевого режима, " +
+						"Fenced In -> уже в боевом режиме, " +
+						"Fenced Out -> уже вышел из боевого режима, " +
 						"Tapes On -> запись включена, " +
-						"Tapes Off -> запись выключена ]";
+						"Tapes Off -> запись выключена, " +
+						"Venom -> Venom (позывной), " +
+						"corridor -> авиационный коридор, " +
+						"AUX -> вспомогательная частота, " +
+						"check in 9-line -> готов к 9-Line, " +
+						"check in with XX -> доложить XX, " +
+						"check out -> доклад об уходе, " +
+						"checked in -> доложено, " +
+						"checked out -> доложено об уходе, " +
+						"your element -> ваш звено/эскадрон, " +
+						"checking out of corridor for XX -> выход из коридора к XX, " +
+						"on station in XX -> на позиции в XX, " +
+						"off station -> покинул позицию, " +
+						"playtime -> время миссии, " +
+						"Two copy -> второй принял, " +
+						"Three copy -> третий принял, " +
+						"Four copy -> четвёртый принял, " +
+						"Holding hands with XX -> плотная формация с XX, " +
+						"XXX is clear -> XXX безопасно, " +
+						"CASE 1 Recovery -> CASE 1 возврат, " +
+						"CAT 4 -> катапульта 4 ]";
 			
 			default:
 				return ". Military slang translation examples: [ " +
-						"Hot -> head-on/engaging, " +
-						"Cold -> moving away/disengaged, " +
-						"is cold -> neutralized, " +
+						"Cleared Hot -> cleared hot, " +
+						"Hot -> engaging / head-on, " +
+						"Cold -> disengaged / moving away, " +
+						"is cold -> neutralized / inactive, " +
 						"Break left -> break left, " +
 						"Break right -> break right, " +
 						"Bandit -> confirmed enemy, " +
@@ -484,12 +656,33 @@ public class I18N {
 						"Bulls -> reference point, " +
 						"Bulls 270/20 -> reference point 270° 20 nm, " +
 						"Feet dry -> over land, " +
-						"Feet dry -> over land, " +
 						"Feet wet -> over water, " +
 						"Fence In -> enter combat state, " +
 						"Fence Out -> exit combat state, " +
+						"Fenced In -> entered combat state, " +
+						"Fenced Out -> exited combat state, " +
 						"Tapes On -> start recording, " +
-						"Tapes Off -> stop recording ]";
+						"Tapes Off -> stop recording, " +
+						"Venom -> Venom (callsign), " +
+						"corridor -> flight corridor, " +
+						"AUX -> auxiliary frequency, " +
+						"check in 9-line -> ready for 9-line, " +
+						"check in with XX -> report to XX, " +
+						"check out -> checkout / exit report, " +
+						"checked in -> checked in, " +
+						"checked out -> checked out, " +
+						"your element -> your flight, " +
+						"checking out of corridor for XX -> leaving corridor to XX, " +
+						"on station in XX -> on station at XX, " +
+						"off station -> off station, " +
+						"playtime -> mission time, " +
+						"Two copy -> Two copy, " +
+						"Three copy -> Three copy, " +
+						"Four copy -> Four copy, " +
+						"Holding hands with XX -> tight formation with XX, " +
+						"XXX is clear -> XXX is clear, " +
+						"CASE 1 Recovery -> CASE 1 recovery, " +
+						"CAT 4 -> CAT 4 ]";
 		}
 	}
 	

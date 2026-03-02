@@ -365,4 +365,22 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		}
 		return value;
 	}
+	
+	public void backupFile(File file) {
+		try {
+			Path backupDir = file.toPath().getParent().resolve("backup");
+			if (!Files.exists(backupDir)) {
+				Files.createDirectory(backupDir);
+				Path backupFile = backupDir.resolve(file.getName());
+				Files.copy(file.toPath(), backupFile);
+			} else {
+				// already exists, do not overwrite
+				Path backupFile = backupDir.resolve(file.getName());
+				if (!Files.exists(backupFile)) {
+					Files.copy(file.toPath(), backupFile);
+				}
+			}
+		} catch (IOException e) {
+		}
+	}
 }

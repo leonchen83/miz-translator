@@ -100,6 +100,7 @@ public class Main implements Callable<Integer> {
 		
 		if (mizFiles != null && mizFiles.length > 0) {
 			for (File file : mizFiles) {
+				mission.backupFile(file);
 				mission.convertMizToJson(file);
 			}
 		} else {
