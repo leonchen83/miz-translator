@@ -265,6 +265,8 @@ public class I18N {
 						"Four copy -> 四号 收到(不要翻译成收到四份), " +
 						"Holding hands with XX -> 与XX紧密编队, " +
 						"XXX is clear -> XXX安全, " +
+						"dismounted insurgents -> 步兵武装分子(dismounted不要翻译成下马的), " +
+						"technicals destroyed -> 武装皮卡已被摧毁(technicals翻译成武装皮卡), " +
 						"CASE 1 Recovery -> CASE 1回收(Recovery一般翻译成回收), " +
 						"CAT 4 -> 4号弹射器 ]";
 			
