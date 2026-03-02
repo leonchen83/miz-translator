@@ -261,6 +261,31 @@ public class Configure {
         }
     }
     
+    public static Configure copy(Configure conf) {
+        Configure copy = new Configure();
+        copy.properties.putAll(conf.properties);
+        copy.hint = conf.hint;
+        copy.language = conf.language;
+        copy.languageCode = conf.languageCode;
+        copy.countryCode = conf.countryCode;
+        copy.baseURL = conf.baseURL;
+        copy.apiKey = conf.apiKey;
+        copy.model = conf.model;
+        copy.translator = conf.translator;
+        copy.original = conf.original;
+        copy.temperature = conf.temperature;
+        copy.maxTokens = conf.maxTokens;
+        copy.minimumLength = conf.minimumLength;
+        copy.batchSize = conf.batchSize;
+        copy.rateLimitPerMinute = conf.rateLimitPerMinute;
+        copy.filters = Arrays.copyOf(conf.filters, conf.filters.length);
+        copy.keyFilters = Arrays.copyOf(conf.keyFilters, conf.keyFilters.length);
+        copy.fixed = new HashMap<>(conf.fixed);
+        copy.ttsProxy = conf.ttsProxy;
+        copy.ttsService = conf.ttsService;
+        return copy;
+    }
+    
     public static Configure bind(Properties properties) {
         Configure conf = new Configure(properties);
         conf.hint = getString(conf, "hint", null, false);

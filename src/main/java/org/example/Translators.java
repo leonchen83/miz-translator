@@ -98,6 +98,11 @@ public class Translators {
 		}
 		
 		@Override
+		public String proofread(Map<String, String> map, Map<String, String> options) {
+			return translator.proofread(map, options);
+		}
+		
+		@Override
 		public void setApiKey(String apiKey) {
 			translator.setApiKey(apiKey);
 		}

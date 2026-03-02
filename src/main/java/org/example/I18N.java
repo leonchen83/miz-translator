@@ -228,8 +228,8 @@ public class I18N {
 						"Bogey -> 不明空中目标, " +
 						"Splash one -> 击落一架, " +
 						"Splash two -> 击落两架, " +
-						"Angels 25 -> 高度25000英尺, " +
-						"FL150 -> 高度15000英尺, " +
+						"Angels 25 -> 高度25000英尺(25*1000 换算), " +
+						"FL150 -> 高度15000英尺(150*100 换算), " +
 						"Tally -> 目视确认, " +
 						"No joy -> 未目视到目标, " +
 						"In the pipe -> 导弹已发射 或 导弹飞行中, " +
@@ -242,9 +242,9 @@ public class I18N {
 						"Feet dry -> 在陆地上空(不要翻译成干脚), " +
 						"Feet wet -> 已入海上空(不要翻译成脚湿), " +
 						"Fence In -> 进入作战状态(Fence不要翻译成围栏或栅栏), " +
-						"Fence Out -> 退出作战状态(Fence不要翻译成围栏或栅栏), " +
+						"Fence Out -> 解除作战状态(Fence不要翻译成围栏或栅栏), " +
 						"Fenced In -> 已进入作战状态(Fenced不要翻译成围栏或栅栏), " +
-						"Fenced Out -> 已退出作战状态(Fenced不要翻译成围栏或栅栏), " +
+						"Fenced Out -> 已解除作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
 						"Venom -> Venom(一般是呼号,不要翻译成猛毒或毒液), " +
 						"Tapes Off -> 录像关闭, " +
@@ -257,8 +257,8 @@ public class I18N {
 						"checked out -> 已报到退出(大多数场景), " +
 						"your element -> 你的编队(不要翻译成你的元素), " +
 						"checking out of corridor for XX -> 离开飞行走廊前往XX, " +
-						"on station in XX ->  在XX就位, " +
-						"off station -> 离开战位(station不要翻译成车站)" +
+						"on station in XX ->  在XX就位(station不要翻译成站岗或车站), " +
+						"off station -> 离开战位(station不要翻译成站岗或车站)" +
 						"playtime -> 任务时间, " +
 						"Tow copy -> 二号 收到(不要翻译成收到两份), " +
 						"Three copy -> 三号 收到(不要翻译成收到三份), " +

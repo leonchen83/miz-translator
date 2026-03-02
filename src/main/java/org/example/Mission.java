@@ -383,4 +383,32 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		} catch (IOException e) {
 		}
 	}
+	
+	public void proofReadJsonFiles() {
+		Configure copy = Configure.copy(configure);
+		copy.setHint("你是一名专业的军事翻译校对及润色人员, 下面给出的是一份翻译后的对话或者文本json文件, 这个json文件的key是原文, value是翻译后的文本, 请你帮我校对和润色这个json文件, 使其更符合中文习惯, 更加通顺自然, 同时请保持军事术语的准确性和专业性. 并且检查是否符合术语表的要求返回给我一份修改后的json文件(返回的 json 里 key 是原来的值, value是校对后的值, 一定返回合法json,否则程序解析不了). 下面是术语表规则:");
+		Translator translator = new Translators(copy, nounsSet).getTranslator();
+		translator.start();
+		try {
+			Map<String, String> proofreadMap = new LinkedHashMap<>();
+			Map<String, String> translatedMapCopy = new HashMap<>(translatedMap);
+			for (var kv : translatedMapCopy.entrySet()) {
+				if (!kv.getKey().equals(kv.getValue())) {
+					proofreadMap.put(kv.getKey(), kv.getValue());
+					if (proofreadMap.size() >= copy.getBatchSize()) {
+						translator.proofread(proofreadMap, translatedMap);
+						proofreadMap.clear();
+						saveTranslatedMap();
+					}
+				}
+			}
+			if (!proofreadMap.isEmpty()) {
+				translator.proofread(proofreadMap, translatedMap);
+				proofreadMap.clear();
+				saveTranslatedMap();
+			}
+		} finally {
+			translator.stop();
+		}
+	}
 }

@@ -41,6 +41,9 @@ public class Main implements Callable<Integer> {
 	@CommandLine.Option(names = {"-o", "--original"}, description = {"with original language"})
 	private boolean original;
 	
+	@CommandLine.Option(names = {"-p", "--proofread"}, description = {"cross-check the translations against the original text."})
+	private boolean proofread;
+	
 	@CommandLine.Option(names = {"-c", "--compress"}, description = {"compress json file to miz file"})
 	private boolean compress;
 	
@@ -73,6 +76,11 @@ public class Main implements Callable<Integer> {
 			if (reformat) {
 				step1(mission, folder, configure);
 				mission.reformatJsonFiles();
+				return 0;
+			}
+			if (proofread) {
+				step2(mission, folder, configure);
+				mission.proofReadJsonFiles();
 				return 0;
 			}
 			if (!decompress && !translate && !compress) {

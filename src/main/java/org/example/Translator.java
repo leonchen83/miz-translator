@@ -28,5 +28,7 @@ public interface Translator {
 	
 	String translate(String text, Map<String, String> options);
 	
+	public String proofread(Map<String, String> map, Map<String, String> options);
+	
 	List<Map.Entry<String, String>> translates(List<Map.Entry<String, String>> texts, Map<String, String> options);
 }

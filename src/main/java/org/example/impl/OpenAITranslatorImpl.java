@@ -16,6 +16,9 @@ import org.example.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.ChatCompletion;
@@ -30,6 +33,10 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	private Set<String> nounsSet;
 	private boolean logged;
 	private int size;
+	protected static ObjectMapper mapper = new ObjectMapper();
+	static {
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+	}
 	
 	public OpenAITranslatorImpl(Configure configure, Set<String> nounsSet) {
 		super(configure);
@@ -49,6 +56,47 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public void stop() {
 		if (client != null) client.close();
+	}
+	
+	@Override
+	public String proofread(Map<String, String> map, Map<String, String> options) {
+		if (!logged) {
+			String hintText = hints + nounsHint(configure, nounsSet) + militarySlang(configure);
+			logger.info("proofread hints: {}", hintText);
+			this.size = hintText.length();
+			logged = true;
+		}
+		rateLimit.acquire();
+		String r = null;
+		try {
+			ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
+					.addSystemMessage(hints + nounsHint(configure, nounsSet) + militarySlang(configure))
+					.addUserMessage(mapper.writeValueAsString(map))
+					.model(model)
+					.maxCompletionTokens(maxTokens);
+			if (temperature >= 0) {
+				builder.temperature(temperature);
+			}
+			ChatCompletionCreateParams params = builder.build();
+			ChatCompletion response = client.chat().completions().create(params);
+			r = response.choices().get(0).message().content().orElseThrow();
+			
+			
+			Map<String, String> correction = mapper.readValue(r, new TypeReference<Map<String, String>>() {
+			});
+			
+			if (options != null && correction != null) {
+				for (var kv : correction.entrySet()) {
+					if (options.containsKey(kv.getKey())) {
+						options.put(kv.getKey(), kv.getValue());
+					}
+				}
+			}
+			return r;
+		} catch (Throwable e) {
+			logger.warn("Failed to parse proofread response, return original. response: {}, error: {}", r, e.getMessage());
+		}
+		return null;
 	}
 	
 	@Override
