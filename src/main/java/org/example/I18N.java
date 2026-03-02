@@ -193,7 +193,7 @@ public class I18N {
 		String radarStr = radarModels();
 		switch (locale) {
 			case "zh":
-				return "。严格保证" + nounsStr + "这些飞行呼号或人名保留原文。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie保留原文。坐标保留数字。雷达型号：" + radarStr + "保留原文。数字翻译例：ninety-nine翻译为99，four-zero-one翻译为401";
+				return "。严格保证" + nounsStr + "等这些飞行呼号或人名保留原文。严格保证Fox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlie保留原文。坐标保留数字。雷达型号：" + radarStr + "保留原文。数字翻译例：ninety-nine翻译为99，four-zero-one翻译为401";
 			case "ja":
 				return "。厳格に保証します" + nounsStr + "これらの飛行コールサインや人名は原文のままです。厳格に保証しますFox-[1-3], Maverick, Magnum, Rifle, Mud, X-Ray, Alpha, Bravo, Charlieは原文のままです。座標は数字を保持します。レーダーモデル：" + radarStr + "は原文のままです。数字の翻訳例：ninety-nineは99に、four-zero-oneは401に翻訳されます";
 			case "ko":

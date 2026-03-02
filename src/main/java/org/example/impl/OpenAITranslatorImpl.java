@@ -69,9 +69,11 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 		rateLimit.acquire();
 		String r = null;
 		try {
+			String text = mapper.writeValueAsString(map);
+			logger.info("[PROOFREAD]request: {}", text);
 			ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
 					.addSystemMessage(hints + nounsHint(configure, nounsSet) + militarySlang(configure))
-					.addUserMessage(mapper.writeValueAsString(map))
+					.addUserMessage(text)
 					.model(model)
 					.maxCompletionTokens(maxTokens);
 			if (temperature >= 0) {
@@ -92,6 +94,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 					}
 				}
 			}
+			logger.info("[PROOFREAD]response: {}", r);
 			return r;
 		} catch (Throwable e) {
 			logger.warn("Failed to parse proofread response, return original. response: {}, error: {}", r, e.getMessage());
