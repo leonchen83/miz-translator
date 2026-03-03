@@ -218,9 +218,19 @@ public class I18N {
 		switch (locale) {
 			case "zh":
 				return "。军事术语翻译例: [ " +
+						"PRI -> PRI(可以不翻译或翻译成主频), " +
+						"AUX -> AUX(可以不翻译或翻译成辅助主频), " +
+						"UHF -> UHF(可以不翻译), " +
+						"VHF -> VHF(可以不翻译), " +
+						"Orbit/holding pattern -> 盘旋待命, " +
+						"Egress/ingress -> 退出/进入航线, " +
 						"Cleared Hot -> 允许开火, " +
-						"Hot -> 朝我方 或 进入攻击态势, " +
-						"Cold -> 远离态势 或 脱离航向, " +
+						"dirty up -> 着陆构型, " +
+						"with you -> 加入, " +
+						"clean -> 干净构型(单个单词clean一般翻译成干净构型), " +
+						"Hot -> 迎头(单个单词Hot一般翻译成迎头)" +
+						"Cold -> 远离(单个单词Cold一般翻译成远离), " +
+						"is hot -> 有活动迹象, " +
 						"is cold -> 已失效 或 无活动迹象, " +
 						"Break left -> 左转规避, " +
 						"Break right -> 右转规避, " +
@@ -228,6 +238,7 @@ public class I18N {
 						"Bogey -> 不明空中目标, " +
 						"Splash one -> 击落一架, " +
 						"Splash two -> 击落两架, " +
+						"Air Boss -> 航空长, " +
 						"Angels 25 -> 高度25000英尺(25*1000 换算), " +
 						"FL150 -> 高度15000英尺(150*100 换算), " +
 						"Tally -> 目视确认, " +
