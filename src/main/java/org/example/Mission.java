@@ -386,7 +386,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 	
 	public void proofReadJsonFiles() {
 		Configure copy = Configure.copy(configure);
-		copy.setHint("你是一名专业的军事翻译校对及润色人员, 下面给出的是一份翻译后的对话或者文本json文件, 这个json文件的key是原文, value是翻译后的文本, 请你帮我校对和润色这个json文件, 使其更符合中文习惯, 更加通顺自然, 同时请保持军事术语的准确性和专业性. 并且检查是否符合术语表的要求返回给我一份修改后的json文件(要求: 1.不要用markdown包裹这个返回json 2.返回的 json 里 key 是原来的值, value是校对后的值 3.一定返回合法json,否则程序解析不了 4.校对后的换行之类的符号要与原文一致 5. 如果使用了原文,检查是否与原文位置的大小写是否一致). 下面是术语表规则:");
+		copy.setHint("你是一名专业的军事翻译校对及润色人员, 下面给出的是一份翻译后的对话或者文本json文件, 这个json文件的key是原文, value是翻译后的文本, 请你帮我校对和润色这个json文件, 使其更符合中文习惯, 更加通顺自然, 同时请保持军事术语的准确性和专业性. 并且检查是否符合术语表的要求返回给我一份修改后的json文件(要求: 1.不要用markdown包裹这个返回json 2.返回的 json 里 key 是原来的值, value是校对后的值 3.一定返回合法json,否则程序解析不了 4.校对后的换行之类的符号要与原文一致 5.只修改不符合术语表的内容并润色,如果符合术语表并且改动微小就保持原翻译). 下面是术语表规则:");
 		Translator translator = new Translators(copy, nounsSet).getTranslator();
 		translator.start();
 		try {
