@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.nio.file.Path;
 import java.util.concurrent.Callable;
 
 import org.example.version.XVersionProvider;
@@ -59,7 +60,8 @@ public class Main implements Callable<Integer> {
 		if (settingFile != null && settingFile.exists()) {
 			configure = Configure.bind(settingFile);
 		} else {
-			configure = Configure.bind();
+			Path path = folder.toPath().resolve("trans.conf");
+			configure = Configure.bind(path);
 		}
 		configure.setOriginal(original);
 		try(Mission mission = new Mission(configure, folder)) {

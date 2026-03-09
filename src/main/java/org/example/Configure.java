@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -244,6 +246,13 @@ public class Configure {
     
     public static Configure bind() {
         return bind((Properties) null);
+    }
+    
+    public static Configure bind(Path path) {
+        if (path != null && Files.exists(path)) {
+            return bind(path.toFile());
+        }
+        return bind();
     }
     
     public static Configure bind(File file) {
