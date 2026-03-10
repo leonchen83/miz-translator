@@ -222,19 +222,18 @@ public class I18N {
 						"AUX -> AUX(可以不翻译或翻译成辅助主频), " +
 						"UHF -> UHF(可以不翻译), " +
 						"VHF -> VHF(可以不翻译), " +
+						"Strike -> Strike(严格保持原文), " +
+						"XX control -> XX管制(XX一般是地名, 不要翻译成XX控制台), " +
 						"good readback -> 复诵正确(9行简报相关), " +
 						"Orbit/holding pattern -> 盘旋待命, " +
 						"Egress/ingress -> 退出/进入航线, " +
 						"Cleared Hot -> 允许开火, " +
-						"off dry -> 未投弹脱离, " +
-						"off hot -> 投弹脱离, " +
 						"dirty up -> 着陆构型, " +
 						"with you -> 加入, " +
 						"Hot -> 迎头(单个单词Hot一般翻译成迎头)" +
 						"Cold -> 远离(单个单词Cold一般翻译成远离), " +
 						"is hot -> 有活动迹象, " +
 						"is cold -> 已失效 或 无活动迹象, " +
-						"homeplate -> 基地, " +
 						"Break left -> 左转规避, " +
 						"Break right -> 右转规避, " +
 						"Bandit -> 敌机（确认敌对）, " +
@@ -252,7 +251,7 @@ public class I18N {
 						"neutralised -> 被压制(不要翻译成被中和), " +
 						"anchor -> 盘旋待命(不要出现锚定俩字), " +
 						"Anchor at 3000 -> 在3000英尺建立盘旋待命, " +
-						"20 miles -> 20海里, " +
+						"miles -> 海里, " +
 						"Bullseye -> 靶眼(不要翻译成牛眼), " +
 						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
@@ -264,10 +263,20 @@ public class I18N {
 						"Fenced Out -> 已解除作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
 						"nails -> 雷达照射, " +
-						"spikes -> 雷达锁定, " +
+						"spikes -> 雷达锁定, " + 
+						"Marshal -> Marshal(维持原文不要翻译成塔台管制), " +
+						"sinker -> 潜艇(军事俚语一般翻译成潜艇,有时也指沉船), " +
+						"wilco -> 收到照办(如果前文有copy就只翻译成照办), " +
 						"Venom -> Venom(一般是呼号,不要翻译成猛毒或毒液), " +
 						"Tapes Off -> 录像关闭, " +
 						"corridor -> 飞行走廊, " +
+						"chaff -> 箔条, " +
+						"flare -> 热诱弹, " +
+						"Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ), " +
+						"airborne -> 起飞(不要翻译成空中), " +
+						"Two is blind -> 二号失去目标(注意blind的翻译), " +
+						"Redland -> 红方(不要翻译成红地,红国), " +
+						"Blueland -> 蓝方(不要翻译成蓝地,蓝国), " +
 						"AUX -> 辅助通信频率, " +
 						"check in 9-line -> 准备接收九行简报(这里不要翻译成报到), " +
 						"check in with XX -> 向XX报到(不要翻译成核对或者检查), " +
@@ -295,6 +304,9 @@ public class I18N {
 						"dismounted insurgents -> 步兵武装分子(dismounted不要翻译成下马的), " +
 						"technicals destroyed -> 武装皮卡已被摧毁(technicals翻译成武装皮卡), " +
 						"CASE 1 Recovery -> CASE 1回收(Recovery一般翻译成回收), " +
+						"homeplate -> 基地, " +
+						"off dry -> 未投弹脱离, " +
+						"off hot -> 投弹脱离, " +
 						"CAT 4 -> 4号弹射器 ]";
 			
 			case "ja":
@@ -316,7 +328,7 @@ public class I18N {
 						"In the pipe -> ミサイル飛行中, " +
 						"Winchester -> 弾薬切れ, " +
 						"Anchor at 3000 -> 高度3000フィートで待機旋回, " +
-						"20 miles -> 20海里, " +
+						"miles -> 海里, " +
 						"Bullseye -> ブルズアイ, " +
 						"Bulls -> ブルズアイ, " +
 						"Bulls 270/20 -> ブルズアイ 270度 20海里, " +
@@ -368,7 +380,7 @@ public class I18N {
 						"In the pipe -> 미사일 비행 중, " +
 						"Winchester -> 탄약 소진, " +
 						"Anchor at 3000 -> 3000피트에서 선회 대기, " +
-						"20 miles -> 20해리, " +
+						"miles -> 해리, " +
 						"Bullseye -> 불아이, " +
 						"Bulls -> 불아이, " +
 						"Bulls 270/20 -> 불아이 270도 20해리, " +
@@ -420,7 +432,7 @@ public class I18N {
 						"In the pipe -> misil en vuelo, " +
 						"Winchester -> sin munición, " +
 						"Anchor at 3000 -> órbita a 3000 pies, " +
-						"20 miles -> 20 millas náuticas, " +
+						"miles -> millas náuticas, " +
 						"Bullseye -> punto de referencia, " +
 						"Bulls -> punto de referencia, " +
 						"Bulls 270/20 -> punto de referencia 270° 20 millas, " +
@@ -472,7 +484,7 @@ public class I18N {
 						"In the pipe -> missile en vol, " +
 						"Winchester -> plus de munitions, " +
 						"Anchor at 3000 -> orbite à 3000 pieds, " +
-						"20 miles -> 20 milles nautiques, " +
+						"miles -> milles nautiques, " +
 						"Bullseye -> point de référence, " +
 						"Bulls -> point de référence, " +
 						"Bulls 270/20 -> point de référence 270° 20 milles, " +
@@ -524,7 +536,7 @@ public class I18N {
 						"In the pipe -> Rakete unterwegs, " +
 						"Winchester -> keine Munition, " +
 						"Anchor at 3000 -> Warteschleife auf 3000 Fuß, " +
-						"20 miles -> 20 Seemeilen, " +
+						"miles -> Seemeilen, " +
 						"Bullseye -> Referenzpunkt, " +
 						"Bulls -> Referenzpunkt, " +
 						"Bulls 270/20 -> Referenzpunkt 270° 20 Seemeilen, " +
@@ -576,7 +588,7 @@ public class I18N {
 						"In the pipe -> míssil em voo, " +
 						"Winchester -> sem munição, " +
 						"Anchor at 3000 -> órbita a 3000 pés, " +
-						"20 miles -> 20 milhas náuticas, " +
+						"miles -> milhas náuticas, " +
 						"Bullseye -> ponto de referência, " +
 						"Bulls -> ponto de referência, " +
 						"Bulls 270/20 -> ponto de referência 270° 20 milhas, " +
@@ -628,7 +640,7 @@ public class I18N {
 						"In the pipe -> ракета в полёте, " +
 						"Winchester -> боекомплект израсходован, " +
 						"Anchor at 3000 -> барражирование на 3000 футов, " +
-						"20 miles -> 20 морских миль, " +
+						"miles -> морских миль, " +
 						"Bullseye -> опорная точка, " +
 						"Bulls -> опорная точка, " +
 						"Bulls 270/20 -> опорная точка 270° 20 морских миль, " +
@@ -680,7 +692,7 @@ public class I18N {
 						"In the pipe -> missile in flight, " +
 						"Winchester -> out of ammo, " +
 						"Anchor at 3000 -> orbit at 3000 feet, " +
-						"20 miles -> 20 nautical miles, " +
+						"miles -> nautical miles, " +
 						"Bullseye -> reference point, " +
 						"Bulls -> reference point, " +
 						"Bulls 270/20 -> reference point 270° 20 nm, " +
