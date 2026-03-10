@@ -230,7 +230,6 @@ public class I18N {
 						"off hot -> 投弹脱离, " +
 						"dirty up -> 着陆构型, " +
 						"with you -> 加入, " +
-						"clean -> 干净构型(单个单词clean一般翻译成干净构型), " +
 						"Hot -> 迎头(单个单词Hot一般翻译成迎头)" +
 						"Cold -> 远离(单个单词Cold一般翻译成远离), " +
 						"is hot -> 有活动迹象, " +
@@ -258,7 +257,7 @@ public class I18N {
 						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
 						"Feet dry -> 在陆地上空(不要翻译成干脚), " +
-						"Feet wet -> 已入海上空(不要翻译成脚湿), " +
+						"Feet wet -> 在海面上空(不要翻译成脚湿或湿脚), " +
 						"Fence In -> 进入作战状态(Fence不要翻译成围栏或栅栏), " +
 						"Fence Out -> 解除作战状态(Fence不要翻译成围栏或栅栏), " +
 						"Fenced In -> 已进入作战状态(Fenced不要翻译成围栏或栅栏), " +
@@ -279,6 +278,9 @@ public class I18N {
 						"checking out of corridor for XX -> 离开飞行走廊前往XX, " +
 						"on station in XX ->  在XX就位(station不要翻译成站岗或车站), " +
 						"off station -> 离开战位(station不要翻译成站岗或车站)" +
+						"Initial Point (IP) -> IP(要么不翻译要么翻译成起始点), " +
+						"waypoint -> 航路点, " +
+						"Contract Point (CP) -> CP(要么不翻译要么翻译成联络点), " +
 						"playtime -> 任务时间, " +
 						"Tow copy -> 二号 收到(不要翻译成收到两份), " +
 						"Three copy -> 三号 收到(不要翻译成收到三份), " +
