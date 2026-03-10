@@ -3778,5 +3778,12 @@
   "PLAYER:  Me neither." : "玩家: 我也没看见。",
   "PLAYER:  Sword flight, lead.  Checking out with Sentinel." : "玩家: Sword编队，长机。向Sentinel报到退出。",
   "SENTINEL:  Copy Sword 2, outstanding work.  You are cleared to RTB." : "SENTINEL: 收到Sword 2，表现优异。允许返回基地。",
-  "BUG:  Nope, never." : "BUG: 不，从来没有。"
+  "BUG:  Nope, never." : "BUG: 不，从来没有。",
+  "BOOMER:  2-2." : "BOOMER:  2-2.",
+  "ROTOR:  1-2." : "ROTOR:  1-2.",
+  "PLAYER:  2-1." : "PLAYER:  2-1.",
+  "ROTOR:  2-2." : "ROTOR:  2-2.",
+  "AC LIGHTS OFF!" : "AC LIGHTS OFF!",
+  "AC LIGHTS ON!" : "AC LIGHTS ON!",
+  "BOOMER:  2-4." : "BOOMER:  2-4."
 }
