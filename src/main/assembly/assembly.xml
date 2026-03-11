@@ -143,6 +143,16 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>FA-18C Operation Green Line</directory>
+            <outputDirectory>FA-18C Operation Green Line</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>FA-18C_The_Rampagers</directory>
             <outputDirectory>FA-18C_The_Rampagers</outputDirectory>
             <fileMode>0755</fileMode>
