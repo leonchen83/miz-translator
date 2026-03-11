@@ -1,6 +1,7 @@
 package org.example;
 
 import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
+import static org.example.I18N.bander;
 import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
 import static org.example.LuaStringExtractor.replaceInOutText;
@@ -206,6 +207,9 @@ public abstract class AbstractMission {
 	public Map<String, String> translate(Map<String, String> map, boolean force) {
 		List<Map.Entry<String, String>> entries = new ArrayList<>(configure.getBatchSize());
 		List<Map.Entry<String, String>> r = new ArrayList<>(map.size());
+		
+		var bander = bander(configure);
+		
 		loop:
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			String key = entry.getKey();
@@ -269,31 +273,15 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionText_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionText_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
+				setEntry(entry, value);
 			} else if (key.startsWith("DictKey_sortie_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_descriptionRedTask_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
+				setEntry(entry, value);
 			} else if (key.startsWith("DictKey_descriptionBlueTask_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
+				setEntry(entry, value);
 			} else if (key.startsWith("DictKey_descriptionNeutralsTask_")) {
-				if (translatedMap.containsKey(value)) {
-					entry.setValue(translatedMap.get(value));
-				} else {
-					entry.setValue(translator.translate(value, translatedMap));
-				}
+				setEntry(entry, value);
 			} else if (key.startsWith("DictKey_subtitle_")) {
 				needTranslate = true;
 			} else if (key.startsWith("DictKey_ActionRadioText_")) {
@@ -309,13 +297,9 @@ public abstract class AbstractMission {
 			
 			if (needTranslate || force) {
 				if (value.length() > 1024) {
-					if (translatedMap.containsKey(value)) {
-						entry.setValue(translatedMap.get(value));
-					} else {
-						entry.setValue(translator.translate(value, translatedMap));
-					}
+					setEntry(entry, value);
 				} else {
-					translates(entry, entries, r, force);
+					translates(entry, entries, r, force, bander);
 				}
 			}
 		}
@@ -342,6 +326,8 @@ public abstract class AbstractMission {
 				} else {
 					map.replace(key, value);
 				}
+			} else if (raw.length() > 1024) {
+				map.replace(key, bander + value);
 			} else {
 				map.replace(key, value);
 			}
@@ -350,7 +336,19 @@ public abstract class AbstractMission {
 		return map;
 	}
 	
-	protected void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list, boolean force) {
+	private void setEntry(Map.Entry<String, String> entry, String value) {
+		String bander = "";
+		if (value.length() > 1024) {
+			bander = bander(configure);
+		}
+		if (translatedMap.containsKey(value)) {
+			entry.setValue(bander + translatedMap.get(value));
+		} else {
+			entry.setValue(bander + translator.translate(value, translatedMap));
+		}
+	}
+	
+	protected void translates(Map.Entry<String, String> entry, List<Map.Entry<String, String>> entries, List<Map.Entry<String, String>> list, boolean force, String bander) {
 		String key = entry.getKey();
 		String value = entry.getValue();
 		if (translatedMap.containsKey(value)) {
@@ -363,6 +361,8 @@ public abstract class AbstractMission {
 				} else {
 					entry.setValue(translatedMap.get(value));
 				}
+			} else if (value.length() > 1024) {
+				entry.setValue(bander + translatedMap.get(value));
 			} else {
 				entry.setValue(translatedMap.get(value));
 			}

@@ -12,6 +12,8 @@ public class I18N {
 	
 	public static final Set<String> PROTECTED_TERMS = new HashSet<>();
 	
+	public static final String BANDER = "_____________________________________________________________\n更多中文战役请加群:861989877 或 关注 https://space.bilibili.com/96483315\n_____________________________________________________________\n";
+	
 	static {
 		PROTECTED_TERMS.add("STRIKE");
 		PROTECTED_TERMS.add("VIPER");
@@ -210,6 +212,16 @@ public class I18N {
 				return ". Строго сохраняйте " + nounsStr + " эти позывные или имена в оригинале. Строго сохраняйте Fox-[1-3], Maverick, Magnum, Rifle, Dirt, Dart, Mud, X-Ray, Alpha, Bravo в оригинале. Координаты сохраняют числа. Модель радара: " + radarStr + " сохраняется в оригинале. Пример перевода чисел: ninety-nine → 99, four-zero-one → 401";
 			default:
 				return ". Strictly ensure that " + nounsStr + " these flight call signs or names remain in the original text. Strictly ensure Fox-[1-3], Maverick, Magnum, Rifle, Dirt, Dart, Mud, X-Ray, Alpha, Bravo, Charlie remain in original. Coordinates retain numbers. Radar model: " + radarStr + " remains in original. Number translation examples: ninety-nine → 99, four-zero-one → 401";
+		}
+	}
+	
+	public static String bander(Configure configure) {
+		String locale = configure.getLanguageCode();
+		switch (locale) {
+			case "zh":
+				return BANDER;
+			default:
+				return "";
 		}
 	}
 	
