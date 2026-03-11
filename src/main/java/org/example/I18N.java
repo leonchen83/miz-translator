@@ -12,7 +12,7 @@ public class I18N {
 	
 	public static final Set<String> PROTECTED_TERMS = new HashSet<>();
 	
-	public static final String BANDER = "_____________________________________________________________\n更多中文战役请加群:861989877 或 关注 https://space.bilibili.com/96483315\n_____________________________________________________________\n";
+	public static final String BANDER = "_____________________________________________________________\n\n更多中文战役请加群:861989877 或 关注 https://space.bilibili.com/96483315\n_____________________________________________________________\n";
 	
 	static {
 		PROTECTED_TERMS.add("STRIKE");
