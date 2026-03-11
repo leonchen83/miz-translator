@@ -1,5 +1,6 @@
 package org.example;
 
+import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
 import static org.example.Compressor.unzip;
 import static org.example.Compressor.zip;
 import static org.example.I18N.addNouns;
@@ -253,6 +254,10 @@ public class Mission extends AbstractMission implements AutoCloseable {
 			}
 			
 			if (isNumberOrPunctuation(value)) {
+				continue;
+			}
+			
+			if (isAllUpperCase(value)) {
 				continue;
 			}
 			

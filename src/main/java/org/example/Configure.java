@@ -71,6 +71,7 @@ public class Configure {
     private String model = null;
     private String translator = null;
     private String ttsProxy = null;
+    private boolean ignoreUppercase = false;
     private boolean original = false;
     private double temperature = 0d;
     private int maxTokens = 4096;
@@ -130,6 +131,14 @@ public class Configure {
     
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+    
+    public boolean getIgnoreUppercase() {
+        return ignoreUppercase;
+    }
+    
+    public void setIgnoreUppercase(boolean ignoreUppercase) {
+        this.ignoreUppercase = ignoreUppercase;
     }
     
     public String getTranslator() {
@@ -324,6 +333,7 @@ public class Configure {
         conf.fixed = getMap(conf, "source", "target");
         conf.ttsProxy = getString(conf, "ttsProxy", null, true);
         conf.ttsService = getString(conf, "ttsService", "edge-tts", true);
+        conf.ignoreUppercase = getBool(conf, "ignoreUppercase", false, true);
         return conf;
     }
 

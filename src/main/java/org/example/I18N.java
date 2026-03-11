@@ -226,8 +226,8 @@ public class I18N {
 						"XX control -> XX管制(XX一般是地名, 不要翻译成XX控制台), " +
 						"good readback -> 复诵正确(9行简报相关), " +
 						"Orbit/holding pattern -> 盘旋待命, " +
-						"Egress/ingress -> 退出/进入航线, " +
-						"Cleared Hot -> 允许开火, " +
+						"egress/ingress -> 退出/进入航线, " +
+						"cleared hot -> 允许开火, " +
 						"dirty up -> 着陆构型, " +
 						"with you -> 加入, " +
 						"Hot -> 迎头(单个单词Hot一般翻译成迎头)" +
@@ -240,6 +240,9 @@ public class I18N {
 						"Bogey -> 不明空中目标, " +
 						"Splash one -> 击落一架, " +
 						"Splash two -> 击落两架, " +
+						"music on/off -> 干扰开启/关闭, " +
+						"weapons hold -> 限制开火, " +
+						"weapons hot/free -> 自由开火, " +
 						"Air Boss -> 航空长, " +
 						"Angels 25 -> 高度25000英尺(25*1000 换算), " +
 						"FL150 -> 高度15000英尺(150*100 换算), " +
@@ -265,13 +268,15 @@ public class I18N {
 						"nails -> 雷达照射, " +
 						"spikes -> 雷达锁定, " + 
 						"Marshal -> Marshal(维持原文不要翻译成塔台管制), " +
-						"sinker -> 潜艇(军事俚语一般翻译成潜艇,有时也指沉船), " +
+						"sinker -> 潜艇(军事俚语翻译成潜艇,有时也指沉船), " +
 						"wilco -> 收到照办(如果前文有copy就只翻译成照办), " +
 						"Venom -> Venom(一般是呼号,不要翻译成猛毒或毒液), " +
 						"Tapes Off -> 录像关闭, " +
 						"corridor -> 飞行走廊, " +
 						"chaff -> 箔条, " +
 						"flare -> 热诱弹, " +
+						"as fragged -> 按预定计划(fragged 不要翻译成碎片), " +
+						"at fragged altitude -> 在预定高度(fragged 不要翻译成碎片), " +
 						"Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ), " +
 						"airborne -> 起飞(不要翻译成空中), " +
 						"Two is blind -> 二号失去目标(注意blind的翻译), " +

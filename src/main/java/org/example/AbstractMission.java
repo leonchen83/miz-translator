@@ -1,9 +1,11 @@
 package org.example;
 
+import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
 import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
 import static org.example.LuaStringExtractor.replaceInOutText;
 import static org.example.LuaStringExtractor.replaceInSubtitle;
+import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.isLikelyLua;
 import static org.example.Strings.isNumberOrPunctuation;
@@ -221,6 +223,10 @@ public abstract class AbstractMission {
 			}
 			
 			if (isNumberOrPunctuation(value)) {
+				continue;
+			}
+			
+			if (configure.getIgnoreUppercase() && (isAllUpperCase(value) || !containsLowerCase(value))) {
 				continue;
 			}
 			
