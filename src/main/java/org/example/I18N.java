@@ -230,13 +230,13 @@ public class I18N {
 		switch (locale) {
 			case "zh":
 				return "。军事术语翻译例: [ " +
-						"PRI -> PRI(可以不翻译或翻译成主频), " +
-						"AUX -> AUX(可以不翻译或翻译成辅助主频), " +
-						"UHF -> UHF(可以不翻译), " +
-						"VHF -> VHF(可以不翻译), " +
+						"PRI -> PRI(不翻译或翻译成主频), " +
+						"AUX -> AUX(不翻译或翻译成辅助主频), " +
+						"UHF -> UHF(不翻译), " +
+						"VHF -> VHF(不翻译), " +
 						"Strike -> Strike(严格保持原文), " +
 						"XX control -> XX管制(XX一般是地名, 不要翻译成XX控制台), " +
-						"good readback -> 复诵正确(9行简报相关), " +
+						"good readback -> 复诵正确, " +
 						"Orbit/holding pattern -> 盘旋待命, " +
 						"egress/ingress -> 退出/进入航线, " +
 						"cleared hot -> 允许开火, " +
@@ -246,12 +246,10 @@ public class I18N {
 						"Cold -> 远离(单个单词Cold一般翻译成远离), " +
 						"is hot -> 有活动迹象, " +
 						"is cold -> 已失效 或 无活动迹象, " +
-						"Break left -> 左转规避, " +
-						"Break right -> 右转规避, " +
+						"Break left/right -> 左/右转规避, " +
 						"Bandit -> 敌机（确认敌对）, " +
 						"Bogey -> 不明空中目标, " +
-						"Splash one -> 击落一架, " +
-						"Splash two -> 击落两架, " +
+						"Splash one/two -> 击落一/两架, " +
 						"music on/off -> 干扰开启/关闭, " +
 						"weapons hold -> 限制开火, " +
 						"weapons hot/free -> 自由开火, " +
@@ -262,24 +260,23 @@ public class I18N {
 						"No joy -> 未目视到目标, " +
 						"In the pipe -> 导弹已发射 或 导弹飞行中, " +
 						"Winchester -> 弹药耗尽, " +
-						"good hit -> 打得好(口语化翻译), " +
+						"good hit -> 打得好(要口语化), " +
 						"neutralised -> 被压制(不要翻译成被中和), " +
 						"anchor -> 盘旋待命(不要出现锚定俩字), " +
 						"Anchor at 3000 -> 在3000英尺建立盘旋待命, " +
 						"miles -> 海里, " +
+						"nose hot/cold -> 进入/离开攻击航向, " +
 						"Bullseye -> 靶眼(不要翻译成牛眼), " +
 						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
 						"Feet dry -> 在陆地上空(不要翻译成干脚), " +
 						"Feet wet -> 在海面上空(不要翻译成脚湿或湿脚), " +
-						"Fence In -> 进入作战状态(Fence不要翻译成围栏或栅栏), " +
-						"Fence Out -> 解除作战状态(Fence不要翻译成围栏或栅栏), " +
-						"Fenced In -> 已进入作战状态(Fenced不要翻译成围栏或栅栏), " +
-						"Fenced Out -> 已解除作战状态(Fenced不要翻译成围栏或栅栏), " +
+						"Fence In/Out -> 进入/解除作战状态(Fence不要翻译成围栏或栅栏), " +
+						"Fenced In/Out -> 已进入/已解除作战状态(Fenced不要翻译成围栏或栅栏), " +
 						"Tapes On -> 录像开启, " +
 						"nails -> 雷达照射, " +
 						"spikes -> 雷达锁定, " + 
-						"Marshal -> Marshal(维持原文不要翻译成塔台管制), " +
+						"Marshal -> Marshal(严格保持原文), " +
 						"sinker -> 潜艇(军事俚语翻译成潜艇,有时也指沉船), " +
 						"wilco -> 收到照办(如果前文有copy就只翻译成照办), " +
 						"Venom -> Venom(一般是呼号,不要翻译成猛毒或毒液), " +
@@ -287,8 +284,8 @@ public class I18N {
 						"corridor -> 飞行走廊, " +
 						"chaff -> 箔条, " +
 						"flare -> 热诱弹, " +
-						"as fragged -> 按预定计划(fragged 不要翻译成碎片), " +
-						"at fragged altitude -> 在预定高度(fragged 不要翻译成碎片), " +
+						"as fragged -> 按预定计划, " +
+						"at fragged altitude -> 在预定高度, " +
 						"Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ), " +
 						"airborne -> 起飞(不要翻译成空中), " +
 						"Two is blind -> 二号失去目标(注意blind的翻译), " +
@@ -308,9 +305,7 @@ public class I18N {
 						"waypoint -> 航路点, " +
 						"Contract Point (CP) -> CP(要么不翻译要么翻译成联络点), " +
 						"playtime -> 任务时间, " +
-						"Tow copy -> 二号 收到(不要翻译成收到两份), " +
-						"Three copy -> 三号 收到(不要翻译成收到三份), " +
-						"Four copy -> 四号 收到(不要翻译成收到四份), " +
+						"Tow/Three/Four copy -> 二号/三号/四号 收到(不要翻译成收到两份/三份/四份), " +
 						"Holding hands with XX -> 与XX紧密编队, " +
 						"XXX is clear -> XXX安全, " +
 						"shelter 7-> 7号停机位(加编号一般翻译成停机位), " +
