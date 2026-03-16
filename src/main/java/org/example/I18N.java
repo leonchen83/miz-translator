@@ -288,7 +288,7 @@ public class I18N {
 						"at fragged altitude -> 在预定高度, " +
 						"Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ), " +
 						"airborne -> 起飞(不要翻译成空中), " +
-						"Two is blind -> 二号失去目标(注意blind的翻译), " +
+						"XX is blind -> XX失去目标(注意blind的翻译), " +
 						"Redland -> 红方(不要翻译成红地,红国), " +
 						"Blueland -> 蓝方(不要翻译成蓝地,蓝国), " +
 						"AUX -> 辅助通信频率, " +
@@ -302,12 +302,13 @@ public class I18N {
 						"on station in XX ->  在XX就位(station不要翻译成站岗或车站), " +
 						"off station -> 离开战位(station不要翻译成站岗或车站)" +
 						"Initial Point (IP) -> IP(要么不翻译要么翻译成起始点), " +
+						"clear the area -> 脱离该区域, " + 
 						"waypoint -> 航路点, " +
 						"Contract Point (CP) -> CP(要么不翻译要么翻译成联络点), " +
 						"playtime -> 任务时间, " +
 						"Tow/Three/Four copy -> 二号/三号/四号 收到(不要翻译成收到两份/三份/四份), " +
 						"Holding hands with XX -> 与XX紧密编队, " +
-						"XXX is clear -> XXX安全, " +
+						"XX is clear -> XX安全, " +
 						"shelter 7-> 7号停机位(加编号一般翻译成停机位), " +
 						"intercept vector -> 拦截航向(不要翻译成拦截向量), " +
 						"the battery -> 防空阵地(不要翻译成电池), " +
