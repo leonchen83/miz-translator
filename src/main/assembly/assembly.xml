@@ -162,6 +162,47 @@
                 <include>*.conf</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>FA-18C Operation Cerberus North</directory>
+            <outputDirectory>FA-18C Operation Cerberus North</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>FA-18C Operation Cerberus North 2</directory>
+            <outputDirectory>FA-18C Operation Cerberus North 2</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>F-14A Fear the Bones Campaign</directory>
+            <outputDirectory>F-14A Fear the Bones Campaign</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>AH-64D-Training</directory>
+            <outputDirectory>AH-64D-Training</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        
     </fileSets>
 
     <files>
