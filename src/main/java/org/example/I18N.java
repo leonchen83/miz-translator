@@ -215,7 +215,8 @@ public class I18N {
 		}
 	}
 	
-	public static String bander(Configure configure) {
+	public static String bander(Configure configure, boolean voice) {
+		if (voice) return "";
 		String locale = configure.getLanguageCode();
 		switch (locale) {
 			case "zh":
@@ -234,6 +235,7 @@ public class I18N {
 						"AUX -> AUX(不翻译或翻译成辅助主频), " +
 						"UHF -> UHF(不翻译), " +
 						"VHF -> VHF(不翻译), " +
+						"BRC -> BRC(不翻译), " +
 						"Strike -> Strike(严格保持原文), " +
 						"XX control -> XX管制(XX一般是地名, 不要翻译成XX控制台), " +
 						"good readback -> 复诵正确, " +
@@ -286,6 +288,7 @@ public class I18N {
 						"flare -> 热诱弹, " +
 						"as fragged -> 按预定计划, " +
 						"at fragged altitude -> 在预定高度, " +
+						"altimeter 2991 -> 修正海压 2991(不要翻译成高度表拨正值), " +
 						"Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ), " +
 						"airborne -> 起飞(不要翻译成空中), " +
 						"XX is blind -> XX失去目标(注意blind的翻译), " +

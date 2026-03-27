@@ -96,7 +96,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		System.out.println("translating : " + file);
 		Path json = file.toPath().getParent().resolve(i18n(file.getName(), "json", configure));
 		Map<String, String> map = readToMap(json);
-		map = translate(map, false);
+		map = translate(map, false, false);
 		saveToJson(map, file.getName(), file.toPath().getParent());
 		
 		// voice
@@ -121,7 +121,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
 		if (Files.exists(luaJson)) {
 			Map<String, String> luaMap = readToMap(luaJson);
-			luaMap = translate(luaMap, true);
+			luaMap = translate(luaMap, true, false);
 			saveToJson(luaMap, file.getName() + ".lua", file.toPath().getParent());
 		}
 	}
@@ -202,6 +202,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 	}
 	
 	public void parseAction(LuaValue lua, Map<String, String> resource, Map<String, String> out) {
+		// printLuaTable(lua, "");
 		try {
 			if (lua.type() == 5 /*Table*/) {
 				String textValue = null;
@@ -214,13 +215,23 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					if (k.isnil()) break;
 					if (v.type() == 5 /*Table*/) {
 						var predicate = v.get("predicate").tojstring();
-						if (predicate.equals("a_out_text_delay_u") || predicate.equals("a_out_text_delay")) {
-							textValue = v.get("text").tojstring();
-						} else if (predicate.equals("a_out_sound_u") || predicate.equals("a_out_sound")) {
-							textKey = v.get("file").tojstring();
-						} else {
-							textKey = v.get("file").tojstring();
-							textValue = v.get("subtitle").tojstring();
+						if (textValue == null) {
+							if (predicate.equals("a_out_text_delay_u") || predicate.equals("a_out_text_delay")) {
+								var x = v.get("text").tojstring();
+								if (!x.equals("nil")) textValue = x;
+							} else {
+								var x = v.get("subtitle").tojstring();;
+								if (!x.equals("nil")) textValue = x;
+							}
+						}
+						if (textKey == null) {
+							if (predicate.equals("a_out_sound_u") || predicate.equals("a_out_sound")) {
+								var x = v.get("file").tojstring();
+								if (!x.equals("nil")) textKey = x;
+							} else {
+								var x = v.get("file").tojstring();
+								if (!x.equals("nil")) textKey = x;
+							}
 						}
 					}
 				}
@@ -234,6 +245,36 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		} catch (Throwable ignore) {
 			// do nothing
 		}
+	}
+	
+	public static void printLuaTable(LuaValue table, String indent) {
+		if (!table.istable()) {
+			System.out.println(indent + table);
+			return;
+		}
+		
+		System.out.println(indent + "{");
+		
+		LuaValue k = LuaValue.NIL;
+		while (true) {
+			Varargs n = table.next(k);
+			k = n.arg1();
+			if (k.isnil()) break;
+			
+			LuaValue v = n.arg(2);
+			
+			System.out.print(indent + "  [" + k + "] = ");
+			
+			if (v.istable()) {
+				printLuaTable(v, indent + "  ");
+			} else if (v.isstring()) {
+				System.out.println("\"" + v.tojstring() + "\",");
+			} else {
+				System.out.println(v + ",");
+			}
+		}
+		
+		System.out.println(indent + "}");
 	}
 	
 	public void retrieveProperNounsSet(Map<String, String> map, Set<String> nounsSet) {
