@@ -4,6 +4,7 @@ import static org.apache.commons.lang3.StringUtils.isAllUpperCase;
 import static org.example.Compressor.unzip;
 import static org.example.Compressor.zip;
 import static org.example.I18N.addNouns;
+import static org.example.I18N.bander;
 import static org.example.I18N.containsTranslatedLanguage;
 import static org.example.I18N.i18n;
 import static org.example.LuaStringExtractor.extractOutTextStrings;
@@ -110,6 +111,9 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					if (text.contains(SPLITTER)) {
 						int idx = text.indexOf(SPLITTER, 0);
 						text = text.substring(0, idx);
+					}
+					if (text.contains(bander(configure, false))) {
+						text = text.replace(bander(configure, false), "");
 					}
 					entry.setValue(text);
 				}
