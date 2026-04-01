@@ -63,9 +63,11 @@ public class Mission extends AbstractMission implements AutoCloseable {
 			saveToJson(voice, file.getName() + ".voice", file.toPath().getParent());
 		}
 		
-		Map<String, String> subtitles = convertLuaToJson(tempDir, configure);
-		if (!subtitles.isEmpty()) {
-			saveToJson(subtitles, file.getName() + ".lua", file.toPath().getParent());
+		if (configure.getLua()) {
+			Map<String, String> subtitles = convertLuaToJson(tempDir, configure);
+			if (!subtitles.isEmpty()) {
+				saveToJson(subtitles, file.getName() + ".lua", file.toPath().getParent());
+			}
 		}
 		deleteDirectory(tempDir);
 	}
@@ -122,11 +124,13 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		}
 		
 		// lua
-		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
-		if (Files.exists(luaJson)) {
-			Map<String, String> luaMap = readToMap(luaJson);
-			luaMap = translate(luaMap, true, false);
-			saveToJson(luaMap, file.getName() + ".lua", file.toPath().getParent());
+		if (configure.getLua()) {
+			Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
+			if (Files.exists(luaJson)) {
+				Map<String, String> luaMap = readToMap(luaJson);
+				luaMap = translate(luaMap, true, false);
+				saveToJson(luaMap, file.getName() + ".lua", file.toPath().getParent());
+			}
 		}
 	}
 	
@@ -138,10 +142,12 @@ public class Mission extends AbstractMission implements AutoCloseable {
 		Map<String, String> map = readToMap(json);
 		saveToFile(map, tempDir);
 		
-		Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
-		if (Files.exists(luaJson)) {
-			Map<String, String> luaMap = readToMap(luaJson);
-			saveToLuaFile(luaMap, tempDir);
+		if (configure.getLua()) {
+			Path luaJson = file.toPath().getParent().resolve(i18n(file.getName() + ".lua", "json", configure));
+			if (Files.exists(luaJson)) {
+				Map<String, String> luaMap = readToMap(luaJson);
+				saveToLuaFile(luaMap, tempDir);
+			}
 		}
 		
 		Path dest = file.toPath().getParent().resolve(file.getName());
