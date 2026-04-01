@@ -72,6 +72,7 @@ public class Configure {
     private String translator = null;
     private String ttsProxy = null;
     private boolean ignoreUppercase = false;
+    private boolean lua = false;
     private boolean original = false;
     private double temperature = 0d;
     private int maxTokens = 4096;
@@ -139,6 +140,14 @@ public class Configure {
     
     public void setIgnoreUppercase(boolean ignoreUppercase) {
         this.ignoreUppercase = ignoreUppercase;
+    }
+    
+    public boolean getLua() {
+        return lua;
+    }
+    
+    public void setLua(boolean lua) {
+        this.lua = lua;
     }
     
     public String getTranslator() {
@@ -334,6 +343,7 @@ public class Configure {
         conf.ttsProxy = getString(conf, "ttsProxy", null, true);
         conf.ttsService = getString(conf, "ttsService", "edge-tts", true);
         conf.ignoreUppercase = getBool(conf, "ignoreUppercase", false, true);
+        conf.lua = getBool(conf, "lua", false, true);
         return conf;
     }
 
@@ -479,6 +489,8 @@ public class Configure {
                 ", ttsProxy='" + ttsProxy + '\'' +
                 ", voice='" + voice + '\'' +
                 ", ttsService='" + ttsService + '\'' +
+                ", ignoreUppercase" + ignoreUppercase +
+                ", lua" + lua +
                 '}';
     }
 }

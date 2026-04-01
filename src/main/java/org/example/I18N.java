@@ -236,6 +236,7 @@ public class I18N {
 						"UHF -> UHF(不翻译), " +
 						"VHF -> VHF(不翻译), " +
 						"BRC -> BRC(不翻译), " +
+						"GUARD -> GUARD(不翻译), " +
 						"Strike -> Strike(严格保持原文), " +
 						"XX control -> XX管制(XX一般是地名, 不要翻译成XX控制台), " +
 						"good readback -> 复诵正确, " +
@@ -286,6 +287,7 @@ public class I18N {
 						"corridor -> 飞行走廊, " +
 						"chaff -> 箔条, " +
 						"flare -> 热诱弹, " +
+						"all players -> 所有单位(不要翻译成所有玩家), " +
 						"as fragged -> 按预定计划, " +
 						"at fragged altitude -> 在预定高度, " +
 						"altimeter 2991 -> 修正海压 2991(不要翻译成高度表拨正值), " +

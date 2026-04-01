@@ -319,7 +319,7 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				map.replace(key, value);
 			} else if (configure.getOriginal() && raw.length() <= 1024) {
-				if (!force) {
+				if (!force && !raw.equals(value)) {
 					map.replace(key, raw + SPLITTER + value);
 				} else {
 					map.replace(key, value);
@@ -354,10 +354,11 @@ public abstract class AbstractMission {
 			if (key.startsWith("DictKey_ActionRadioText_")) {
 				entry.setValue(translatedMap.get(value));
 			} else if (configure.getOriginal() && value.length() <= 1024) {
-				if (!force) {
-					entry.setValue(value + SPLITTER + translatedMap.get(value));
+				String v = translatedMap.get(value);
+				if (!force && !value.equals(v)) {
+					entry.setValue(value + SPLITTER + v);
 				} else {
-					entry.setValue(translatedMap.get(value));
+					entry.setValue(v);
 				}
 			} else if (value.length() > 1024) {
 				entry.setValue(bander(configure, voice) + translatedMap.get(value));
