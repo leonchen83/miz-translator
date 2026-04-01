@@ -180,11 +180,13 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	}
 	
 	private static String format(String before, String after) {
-		if (before.charAt(0) != '\n' && after.charAt(0) == '\n') {
-			after = Strings.ltrim(after, '\n');
-		}
-		if (before.charAt(before.length() - 1) != '\n' && after.charAt(after.length() - 1) == '\n') {
-			after = Strings.rtrim(after, '\n');
+		if (before.length() > 0 && after.length() > 0) {
+			if (before.charAt(0) != '\n' && after.charAt(0) == '\n') {
+				after = Strings.ltrim(after, '\n');
+			}
+			if (before.charAt(before.length() - 1) != '\n' && after.charAt(after.length() - 1) == '\n') {
+				after = Strings.rtrim(after, '\n');
+			}
 		}
 		return after;
 	}
