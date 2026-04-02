@@ -13,7 +13,7 @@ import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.getFileExt;
 import static org.example.Strings.isLikelyLua;
-import static org.example.Strings.isNumberOrPunctuation;
+import static org.example.Strings.isNotLetter;
 
 import java.io.File;
 import java.io.IOException;
@@ -304,7 +304,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 				continue;
 			}
 			
-			if (isNumberOrPunctuation(value)) {
+			if (isNotLetter(value, configure)) {
 				continue;
 			}
 			

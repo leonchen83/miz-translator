@@ -80,33 +80,37 @@ public class Strings {
 		return code.matches("(?s).*\\b(function|local|if|then|end|return|print|for|while|do)\\b.*") || code.matches("(?s).*[=(){};].*");
 	}
 	
-	public static boolean isNumberOrPunctuation(String str) {
+	public static boolean isNotLetter(String str, Configure configure) {
 		if (str == null || str.isEmpty()) {
 			return false;
 		}
-		
+		int t = 0;
 		for (int i = 0; i < str.length(); i++) {
 			char ch = str.charAt(i);
-			
-			if (Character.isDigit(ch)) {
-				continue;
+			if (Character.isLetter(ch)) {
+				if (!isNumberOrPunctuation(ch)) {
+					t++;
+				}
 			}
-			
-			int type = Character.getType(ch);
-			if (type == Character.CONNECTOR_PUNCTUATION ||
-					type == Character.DASH_PUNCTUATION ||
-					type == Character.START_PUNCTUATION ||
-					type == Character.END_PUNCTUATION ||
-					type == Character.OTHER_PUNCTUATION ||
-					type == Character.INITIAL_QUOTE_PUNCTUATION ||
-					type == Character.FINAL_QUOTE_PUNCTUATION) {
-				continue;
-			}
-			
-			return false;
 		}
-		
-		return true;
+		return t < configure.getMinimumLength() / 2;
+	}
+	
+	public static boolean isNumberOrPunctuation(char ch) {
+		if (Character.isDigit(ch)) {
+			return true;
+		}
+		int type = Character.getType(ch);
+		if (type == Character.CONNECTOR_PUNCTUATION ||
+				type == Character.DASH_PUNCTUATION ||
+				type == Character.START_PUNCTUATION ||
+				type == Character.END_PUNCTUATION ||
+				type == Character.OTHER_PUNCTUATION ||
+				type == Character.INITIAL_QUOTE_PUNCTUATION ||
+				type == Character.FINAL_QUOTE_PUNCTUATION) {
+			return true;
+		}
+		return false;
 	}
 	
 	public static String getFileExt(String file) {
@@ -132,6 +136,7 @@ public class Strings {
 			} else if (UNICODE_TO_ASCII_MAP.containsKey(c)) {
 				asciiString.append(UNICODE_TO_ASCII_MAP.get(c));
 			} else {
+				asciiString.append(c);
 			}
 		}
 		

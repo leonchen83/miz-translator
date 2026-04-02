@@ -183,6 +183,16 @@
             </includes>
         </fileSet>
         <fileSet>
+            <directory>FA-18C - Bold Cheetah - Supercarrier</directory>
+            <outputDirectory>FA-18C - Bold Cheetah - Supercarrier</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>F-14A Fear the Bones Campaign</directory>
             <outputDirectory>F-14A Fear the Bones Campaign</outputDirectory>
             <fileMode>0755</fileMode>
@@ -202,7 +212,16 @@
                 <include>*.conf</include>
             </includes>
         </fileSet>
-        
+        <fileSet>
+            <directory>L-39 Kursant</directory>
+            <outputDirectory>L-39 Kursant</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>

@@ -9,7 +9,7 @@ import static org.example.LuaStringExtractor.replaceInSubtitle;
 import static org.example.Strings.containsLowerCase;
 import static org.example.Strings.convertToAscii;
 import static org.example.Strings.isLikelyLua;
-import static org.example.Strings.isNumberOrPunctuation;
+import static org.example.Strings.isNotLetter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -224,7 +224,7 @@ public abstract class AbstractMission {
 				continue;
 			}
 			
-			if (isNumberOrPunctuation(value)) {
+			if (isNotLetter(value, configure)) {
 				continue;
 			}
 			
