@@ -3809,5 +3809,13 @@
   "UPDATE: UZI IS TRACKING SUPPLY TRUCKS TO THEIR DESTINATION" : "更新: UZI正在跟踪补给卡车到它们的目的地",
   "USE NORMAL RADIO OPTIONS WITH INCIRLIK ATC TO REQUEST LANDING." : "使用正常无线电选项向因吉尔利克（INCIRLIK）空中交通管制请求着陆。",
   "UPDATE: BOATS WITH SUPPLIES HAVE BEACHED NEAR THE DAM (DV 781 709)" : "更新: 携带补给的船只在坝附近搁浅（DV 781 709）",
-  "FOR A DIFFERENT ENDING TO THIS FINAL MISSION, REPLAY AND SEE IF YOU CAN ASSIST JUBILEE IN REACHING THE EXTRACTION POINT." : "要体验此最终任务的不同结局，请重新游玩，看看你能否协助JUBILEE到达撤离点。"
+  "FOR A DIFFERENT ENDING TO THIS FINAL MISSION, REPLAY AND SEE IF YOU CAN ASSIST JUBILEE IN REACHING THE EXTRACTION POINT." : "要体验此最终任务的不同结局，请重新游玩，看看你能否协助JUBILEE到达撤离点。",
+  "IS reinforcing unit (T-55, BTR and technicals) not destroyed (0/5)" : "IS增援部队 (T-55, BTR及武装皮卡) 未被摧毁 (0/5)",
+  "IS attacking unit (T-55) not destroyed (0/5)" : "IS进攻部队 (T-55) 未被摧毁 (0/5)",
+  "SAA BTR section lost (0/1)" : "SAA BTR小队损失 (0/1)",
+  "IS dismounted insurgents assaulting position not destroyed (0/5)" : "IS步兵武装分子攻击阵地未被摧毁 (0/5)",
+  "IS attacking unit (BTR and technicals) not destroyed (0/5)" : "IS进攻部队 (BTR及武装皮卡) 未被摧毁 (0/5)",
+  "SAA infantry squad 1 lost (0/2)" : "SAA步兵班1损失 (0/2)",
+  "IS attacking unit air defense (ZSU-23-4 and AA truck) not destroyed (0/5)" : "IS进攻部队防空单位 (ZSU-23-4及防空卡车) 未被摧毁 (0/5)",
+  "SAA infantry squad 2 lost (0/2)" : "SAA步兵班2损失 (0/2)"
 }
