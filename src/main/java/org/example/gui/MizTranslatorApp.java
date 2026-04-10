@@ -49,10 +49,6 @@ public class MizTranslatorApp extends Application {
 	
 	static final String FIWOS = "F-16C First in Weasels Over Syria";
 	
-	static {
-		System.setProperty("cli.log.path", "./log");
-	}
-	
 	@Override
 	public void start(Stage stage) {
 		folderField = new TextField();
