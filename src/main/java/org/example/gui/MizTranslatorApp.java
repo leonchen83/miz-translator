@@ -179,7 +179,7 @@ public class MizTranslatorApp extends Application {
 		Path targetDir = Paths.get(folderStr).toAbsolutePath().normalize();
 		
 		String home = System.getProperty("trans.home");
-		Path sourceDir = Paths.get(home).resolve(targetDir.getFileName().toString());
+		Path sourceDir = Paths.get(home).resolve("campaigns").resolve(targetDir.getFileName().toString());
 		
 		if (Files.isDirectory(sourceDir)) {
 			try {
@@ -269,7 +269,7 @@ public class MizTranslatorApp extends Application {
 		String folderName = dir.getFileName().toString();
 		
 		String home = System.getProperty("trans.home");
-		Path p = Path.of(home).resolve(folderName).resolve("translated_map.zh.json");
+		Path p = Path.of(home).resolve("campaigns").resolve(folderName).resolve("translated_map.zh.json");
 		
 		if (!localPatch && !Files.exists(p) && !folderName.equals(FIWOS)) {
 			return new PathValidateResult(false, "No translated_map.zh.json found (local or classpath)");

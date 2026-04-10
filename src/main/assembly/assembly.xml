@@ -38,7 +38,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-16C First in Weasels Over Syria</directory>
-            <outputDirectory>F-16C First in Weasels Over Syria</outputDirectory>
+            <outputDirectory>campaigns/F-16C First in Weasels Over Syria</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -48,7 +48,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-16C Last Out Weasels over Syria II</directory>
-            <outputDirectory>F-16C Last Out Weasels over Syria II</outputDirectory>
+            <outputDirectory>campaigns/F-16C Last Out Weasels over Syria II</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -58,7 +58,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Raven One</directory>
-            <outputDirectory>FA-18C Raven One</outputDirectory>
+            <outputDirectory>campaigns/FA-18C Raven One</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -68,7 +68,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Raven One Dominant Fury</directory>
-            <outputDirectory>FA-18C Raven One Dominant Fury</outputDirectory>
+            <outputDirectory>campaigns/FA-18C Raven One Dominant Fury</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -78,7 +78,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-16C The Gamblers Campaign</directory>
-            <outputDirectory>F-16C The Gamblers Campaign</outputDirectory>
+            <outputDirectory>campaigns/F-16C The Gamblers Campaign</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -88,7 +88,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-16C Dragon's Fury</directory>
-            <outputDirectory>F-16C Dragon's Fury</outputDirectory>
+            <outputDirectory>campaigns/F-16C Dragon's Fury</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -98,7 +98,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-16C Red Flag 21-1</directory>
-            <outputDirectory>F-16C Red Flag 21-1</outputDirectory>
+            <outputDirectory>campaigns/F-16C Red Flag 21-1</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -108,7 +108,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-16C Sentry Pacific 2025</directory>
-            <outputDirectory>F-16C Sentry Pacific 2025</outputDirectory>
+            <outputDirectory>campaigns/F-16C Sentry Pacific 2025</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -118,7 +118,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Rise of the Persian Lion</directory>
-            <outputDirectory>FA-18C_Rise_of_the_Persian_Lion</outputDirectory>
+            <outputDirectory>campaigns/FA-18C_Rise_of_the_Persian_Lion</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -128,7 +128,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Rise of the Persian Lion II</directory>
-            <outputDirectory>FA-18C Rise of the Persian Lion II</outputDirectory>
+            <outputDirectory>campaigns/FA-18C Rise of the Persian Lion II</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -138,7 +138,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Operation Green Line</directory>
-            <outputDirectory>FA-18C Operation Green Line</outputDirectory>
+            <outputDirectory>campaigns/FA-18C Operation Green Line</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -148,7 +148,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C The Rampagers</directory>
-            <outputDirectory>FA-18C The Rampagers</outputDirectory>
+            <outputDirectory>campaigns/FA-18C The Rampagers</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -158,7 +158,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Operation Cerberus North</directory>
-            <outputDirectory>FA-18C Operation Cerberus North</outputDirectory>
+            <outputDirectory>campaigns/FA-18C Operation Cerberus North</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -168,7 +168,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C Operation Cerberus North 2</directory>
-            <outputDirectory>FA-18C Operation Cerberus North 2</outputDirectory>
+            <outputDirectory>campaigns/FA-18C Operation Cerberus North 2</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -178,7 +178,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/FA-18C - Bold Cheetah - Supercarrier</directory>
-            <outputDirectory>FA-18C - Bold Cheetah - Supercarrier</outputDirectory>
+            <outputDirectory>campaigns/FA-18C - Bold Cheetah - Supercarrier</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -188,7 +188,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/F-14A Fear the Bones Campaign</directory>
-            <outputDirectory>F-14A Fear the Bones Campaign</outputDirectory>
+            <outputDirectory>campaigns/F-14A Fear the Bones Campaign</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -198,7 +198,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/AH-64D-Training</directory>
-            <outputDirectory>AH-64D-Training</outputDirectory>
+            <outputDirectory>campaigns/AH-64D-Training</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -208,7 +208,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/L-39 Kursant</directory>
-            <outputDirectory>L-39 Kursant</outputDirectory>
+            <outputDirectory>campaigns/L-39 Kursant</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -218,7 +218,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/AH-64D The Four Horsemen</directory>
-            <outputDirectory>AH-64D The Four Horsemen</outputDirectory>
+            <outputDirectory>campaigns/AH-64D The Four Horsemen</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -228,7 +228,7 @@
         </fileSet>
         <fileSet>
             <directory>src/main/resources/Mi-24P Outpost</directory>
-            <outputDirectory>Mi-24P Outpost</outputDirectory>
+            <outputDirectory>campaigns/Mi-24P Outpost</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
