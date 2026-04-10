@@ -9,12 +9,6 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
-    <dependencySets>
-        <dependencySet>
-            <useProjectArtifact>true</useProjectArtifact>
-            <outputDirectory>lib</outputDirectory>
-        </dependencySet>
-    </dependencySets>
     <fileSets>
         <fileSet>
             <directory>src/main/assembly/bin</directory>
@@ -43,7 +37,7 @@
             <directoryMode>0755</directoryMode>
         </fileSet>
         <fileSet>
-            <directory>F-16C First in Weasels Over Syria</directory>
+            <directory>src/main/resources/F-16C First in Weasels Over Syria</directory>
             <outputDirectory>F-16C First in Weasels Over Syria</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -53,7 +47,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>F-16C Last Out Weasels over Syria II</directory>
+            <directory>src/main/resources/F-16C Last Out Weasels over Syria II</directory>
             <outputDirectory>F-16C Last Out Weasels over Syria II</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -63,7 +57,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C Raven One</directory>
+            <directory>src/main/resources/FA-18C Raven One</directory>
             <outputDirectory>FA-18C Raven One</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -73,7 +67,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C Raven One Dominant Fury</directory>
+            <directory>src/main/resources/FA-18C Raven One Dominant Fury</directory>
             <outputDirectory>FA-18C Raven One Dominant Fury</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -83,7 +77,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>F-16C The Gamblers Campaign</directory>
+            <directory>src/main/resources/F-16C The Gamblers Campaign</directory>
             <outputDirectory>F-16C The Gamblers Campaign</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -93,7 +87,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>F-16C Dragon's Fury</directory>
+            <directory>src/main/resources/F-16C Dragon's Fury</directory>
             <outputDirectory>F-16C Dragon's Fury</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -103,7 +97,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>F-16C Red Flag 21-1</directory>
+            <directory>src/main/resources/F-16C Red Flag 21-1</directory>
             <outputDirectory>F-16C Red Flag 21-1</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -113,7 +107,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>F-16C Sentry Pacific 2025</directory>
+            <directory>src/main/resources/F-16C Sentry Pacific 2025</directory>
             <outputDirectory>F-16C Sentry Pacific 2025</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -123,7 +117,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C_Rise_of_the_Persian_Lion</directory>
+            <directory>src/main/resources/FA-18C Rise of the Persian Lion</directory>
             <outputDirectory>FA-18C_Rise_of_the_Persian_Lion</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -133,8 +127,8 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C_Rise_of_the_Persian_Lion_II</directory>
-            <outputDirectory>FA-18C_Rise_of_the_Persian_Lion_II</outputDirectory>
+            <directory>src/main/resources/FA-18C Rise of the Persian Lion II</directory>
+            <outputDirectory>FA-18C Rise of the Persian Lion II</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -143,7 +137,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C Operation Green Line</directory>
+            <directory>src/main/resources/FA-18C Operation Green Line</directory>
             <outputDirectory>FA-18C Operation Green Line</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -153,8 +147,8 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C_The_Rampagers</directory>
-            <outputDirectory>FA-18C_The_Rampagers</outputDirectory>
+            <directory>src/main/resources/FA-18C The Rampagers</directory>
+            <outputDirectory>FA-18C The Rampagers</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
@@ -163,7 +157,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C Operation Cerberus North</directory>
+            <directory>src/main/resources/FA-18C Operation Cerberus North</directory>
             <outputDirectory>FA-18C Operation Cerberus North</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -173,7 +167,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C Operation Cerberus North 2</directory>
+            <directory>src/main/resources/FA-18C Operation Cerberus North 2</directory>
             <outputDirectory>FA-18C Operation Cerberus North 2</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -183,7 +177,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>FA-18C - Bold Cheetah - Supercarrier</directory>
+            <directory>src/main/resources/FA-18C - Bold Cheetah - Supercarrier</directory>
             <outputDirectory>FA-18C - Bold Cheetah - Supercarrier</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -193,7 +187,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>F-14A Fear the Bones Campaign</directory>
+            <directory>src/main/resources/F-14A Fear the Bones Campaign</directory>
             <outputDirectory>F-14A Fear the Bones Campaign</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -203,7 +197,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>AH-64D-Training</directory>
+            <directory>src/main/resources/AH-64D-Training</directory>
             <outputDirectory>AH-64D-Training</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -213,7 +207,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>L-39 Kursant</directory>
+            <directory>src/main/resources/L-39 Kursant</directory>
             <outputDirectory>L-39 Kursant</outputDirectory>
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
@@ -252,6 +246,11 @@
         <file>
             <source>requirements.txt</source>
             <destName>requirements.txt</destName>
+        </file>
+        <file>
+            <source>${project.build.directory}/${project.artifactId}-fat.jar</source>
+            <outputDirectory>lib</outputDirectory>
+            <fileMode>0755</fileMode>
         </file>
     </files>
 </assembly>
