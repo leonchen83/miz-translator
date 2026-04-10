@@ -5,34 +5,37 @@ import static org.example.Main.step2;
 import static org.example.Main.step3;
 import static org.example.Main.step4;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.example.Configure;
 import org.example.Mission;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class MizTranslatorApp extends Application {
 	
@@ -42,6 +45,9 @@ public class MizTranslatorApp extends Application {
 	private RadioButton keepOriginalYes;
 	private RadioButton keepOriginalNo;
 	private Button patchBtn;
+	private Button translateBtn;
+	
+	static final String FIWOS = "F-16C First in Weasels Over Syria";
 	
 	static {
 		System.setProperty("cli.log.path", "./log");
@@ -62,6 +68,7 @@ public class MizTranslatorApp extends Application {
 					() -> validateFolder(folderField.getText()),
 					result -> {
 						patchBtn.setDisable(!result.valid);
+						translateBtn.setDisable(result.valid);
 						log(result.message);
 					}
 			);
@@ -82,7 +89,7 @@ public class MizTranslatorApp extends Application {
 		
 		HBox keepBox = new HBox(15, keepOriginalYes, keepOriginalNo);
 		
-		Button translateBtn = new Button("Translate");
+		translateBtn = new Button("Translate");
 		patchBtn = new Button("Patch");
 		
 		translateBtn.setPrefWidth(120);
@@ -127,6 +134,7 @@ public class MizTranslatorApp extends Application {
 				() -> validateFolder(folderField.getText()),
 				result -> {
 					patchBtn.setDisable(!result.valid);
+					translateBtn.setDisable(result.valid);
 					log(result.message);
 				}
 		);
@@ -167,38 +175,43 @@ public class MizTranslatorApp extends Application {
 		log("[Patch]");
 		log("Folder: " + folderStr);
 		log("API Key: " + mask(api));
-		var folder = new File(folderStr);
 		
-		Path dir = Paths.get(folderStr).normalize();
-		String folderName = dir.getFileName().toString();
+		Path targetDir = Paths.get(folderStr).toAbsolutePath().normalize();
 		
-		URL url = getClass().getClassLoader().getResource(folderName);
+		String home = System.getProperty("trans.home");
+		Path sourceDir = Paths.get(home).resolve(targetDir.getFileName().toString());
 		
-		if (url != null) {
+		if (Files.isDirectory(sourceDir)) {
 			try {
 				log("[Patch] applying resources...");
-				List<String> files = listResourceFiles(folderName);
 				
-				for (String f : files) {
-					if (f.endsWith(".json") || f.endsWith(".conf")) {
-						log("copy: " + f);
-						copyResourceFile(folderName, f, folder.toPath());
-					}
+				Set<Path> files = listResourceFiles(sourceDir);
+				
+				Files.createDirectories(targetDir);
+				
+				for (Path sourceFile : files) {
+					Path targetFile = targetDir.resolve(sourceFile.getFileName());
+					Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
 				}
+				
 			} catch (IOException e) {
 				logException(e);
 			}
 		}
 		
-		Path path = folder.toPath().resolve("trans.conf");
+		Path path = targetDir.resolve("trans.conf");
 		Configure configure = Configure.bind(path);
 		configure.setApiKey(api);
 		configure.setOriginal(original);
-		try (Mission mission = new Mission(configure, folder)) {
-			step1(mission, folder, configure);
-			step2(mission, folder, configure);
-			step3(mission, folder, configure);
-			step4(mission, folder, configure);
+		try (Mission mission = new Mission(configure, targetDir.toFile())) {
+			if (targetDir.getFileName().equals(FIWOS)) {
+				step4(mission, targetDir.toFile(), configure);
+			} else {
+				step1(mission, targetDir.toFile(), configure);
+				step2(mission, targetDir.toFile(), configure);
+				step3(mission, targetDir.toFile(), configure);
+				step4(mission, targetDir.toFile(), configure);
+			}
 		} catch (Exception e) {
 			logException(e);
 		}
@@ -255,9 +268,10 @@ public class MizTranslatorApp extends Application {
 		Path dir = Paths.get(path).normalize();
 		String folderName = dir.getFileName().toString();
 		
-		boolean classpathPatch = getClass().getClassLoader().getResource(folderName + "/translated_map.zh.json") != null;
+		String home = System.getProperty("trans.home");
+		Path p = Path.of(home).resolve(folderName).resolve("translated_map.zh.json");
 		
-		if (!localPatch && !classpathPatch && !folderName.equals("F-16C First in Weasels Over Syria")) {
+		if (!localPatch && !Files.exists(p) && !folderName.equals(FIWOS)) {
 			return new PathValidateResult(false, "No translated_map.zh.json found (local or classpath)");
 		}
 		
@@ -328,53 +342,22 @@ public class MizTranslatorApp extends Application {
 		launch(args);
 	}
 	
-	private List<String> listResourceFiles(String basePath) throws IOException {
-		List<String> files = new ArrayList<>();
+	private Set<Path> listResourceFiles(Path path) throws IOException {
+		Set<Path> files = new LinkedHashSet<>();
 		
-		URL url = getClass().getClassLoader().getResource(basePath);
-		if (url == null) return files;
-		
-		String protocol = url.getProtocol();
-		
-		if ("file".equals(protocol)) {
-			try (Stream<Path> stream = Files.list(Paths.get(url.toURI()))) {
-				stream.filter(Files::isRegularFile)
-						.forEach(p -> {
-							String name = p.getFileName().toString();
-							files.add(name);
-							log("resource file: " + name);
-						});
-			} catch (URISyntaxException e) {
-				throw new RuntimeException(e);
-			}
+		try (Stream<Path> stream = Files.list(path)) {
+			stream.filter(Files::isRegularFile)
+					.forEach(p -> {
+						files.add(p);
+						log("resource file: " + p);
+					});
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
-		
-		if ("jar".equals(protocol)) {
-			String path = url.getPath();
-			String jarPath = path.substring(5, path.indexOf("!"));
-			
-			try (java.util.jar.JarFile jar = new java.util.jar.JarFile(jarPath)) {
-				jar.stream()
-						.filter(e -> e.getName().startsWith(basePath))
-						.filter(e -> !e.isDirectory())
-						.forEach(e -> {
-							String name = e.getName().substring(basePath.length() + 1);
-							files.add(name);
-							log("resource file: " + name);
-						});
-			}
-		}
-		
 		return files;
 	}
 	
-	private void copyResourceFile(String basePath, String fileName, Path targetDir) throws IOException {
-		String fullPath = basePath + "/" + fileName;
-		try (InputStream in = getClass().getClassLoader().getResourceAsStream(fullPath)) {
-			if (in == null) return;
-			Files.createDirectories(targetDir);
-			Path target = targetDir.resolve(fileName);
-			Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
-		}
+	private void copyResourceFile(Path sourcePath, Path targetPath) throws IOException {
+		Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
 	}
 }

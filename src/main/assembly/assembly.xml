@@ -216,6 +216,26 @@
                 <include>*.conf</include>
             </includes>
         </fileSet>
+        <fileSet>
+            <directory>src/main/resources/AH-64D The Four Horsemen</directory>
+            <outputDirectory>AH-64D The Four Horsemen</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources/Mi-24P Outpost</directory>
+            <outputDirectory>Mi-24P Outpost</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.json</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
     </fileSets>
 
     <files>
