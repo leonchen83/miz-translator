@@ -20,16 +20,13 @@ set "RCT_HOME=%RCT_HOME:~0,-1%"
 goto stripMHome
 
 :setJava
-rem ==== 优先使用内置 JDK ====
 set "JAVACMD=%RCT_HOME%\jdk\bin\java.exe"
 
 if exist "%JAVACMD%" goto checkMCmd
 
-rem ==== fallback 到 PATH 中的 java ====
 for %%i in (java.exe) do set "JAVACMD=%%~$PATH:i"
 if not "%JAVACMD%"=="" goto checkMCmd
 
-rem ==== fallback 到 JAVA_HOME ====
 if not "%JAVA_HOME%"=="" (
     if exist "%JAVA_HOME%\bin\java.exe" (
         set "JAVACMD=%JAVA_HOME%\bin\java.exe"

@@ -20,10 +20,8 @@ case "$(uname -s)" in
   *MSYS*) base_dir=$(cygpath -w "$base_dir");;
 esac
 
-# ==== 优先使用内置 JDK ====
 if [[ -x "$base_dir/jdk/bin/java" ]]; then
     _java="$base_dir/jdk/bin/java"
-# ==== fallback 到系统 Java ====
 elif type -P java &>/dev/null; then
     _java=java
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
@@ -33,7 +31,6 @@ else
     exit 1
 fi
 
-# ==== Java 版本检查 ====
 version=$("$_java" -version 2>&1 | awk -F '"' '/version/ {print $2}')
 version1=$(echo "$version" | awk -F. '{printf("%03d%03d",$1,$2);}')
 

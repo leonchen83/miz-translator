@@ -20,10 +20,8 @@ case "$(uname -s)" in
   *MSYS*) base_dir=$(cygpath -w "$base_dir");;
 esac
 
-# ==== 优先使用内置 JDK ====
 if [[ -x "$base_dir/jdk/bin/java" ]]; then
     _java="$base_dir/jdk/bin/java"
-# ==== fallback 到系统 Java ====
 elif type -P java &>/dev/null; then
     _java=java
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
