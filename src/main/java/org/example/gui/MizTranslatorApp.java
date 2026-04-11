@@ -64,7 +64,6 @@ public class MizTranslatorApp extends Application {
 					() -> validateFolder(folderField.getText()),
 					result -> {
 						patchBtn.setDisable(!result.valid);
-						translateBtn.setDisable(result.valid);
 						log(result.message);
 					}
 			);
@@ -129,7 +128,6 @@ public class MizTranslatorApp extends Application {
 				() -> validateFolder(folderField.getText()),
 				result -> {
 					patchBtn.setDisable(!result.valid);
-					translateBtn.setDisable(result.valid);
 					log(result.message);
 				}
 		);
