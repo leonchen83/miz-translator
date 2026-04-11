@@ -65,6 +65,7 @@ RUN mkdir -p /root/.m2 && \
 RUN mvn clean install -Dmaven.test.skip=true
 
 RUN unzip -o /app/target/miz-translator-release.zip -d /app \
+ && rm -rf /app/miz-translator/jdk \
  && ln -sf /app/miz-translator/bin/trans /usr/local/bin/trans \
  && ln -sf /app/miz-translator/bin/trans-voice /usr/local/bin/trans-voice
  
