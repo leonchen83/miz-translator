@@ -1,10 +1,10 @@
 @echo off
-
 @setlocal
 
 set ERROR_CODE=0
 
 @REM ==== START VALIDATION ====
+
 :chkMHome
 rem Get directory of this script, then go one level up
 pushd "%~dp0\.." >nul
@@ -45,11 +45,12 @@ if exist "%RCT_HOME%\bin\trans-voice.cmd" goto chkVersion
 goto error
 
 :chkVersion
-for /f tokens^=2-5^ delims^=.-+_^" %%j in ('java -fullversion 2^>^&1') do @set "JVER=%%j%%k%%l"
+for /f tokens^=2-5^ delims^=.-+_^" %%j in ('"%JAVACMD%" -fullversion 2^>^&1') do @set "JVER=%%j%%k%%l"
 
 if %JVER% GEQ 180 goto init
-echo java -version is less than 1.8
+echo java version is less than 1.8
 goto error
+
 @REM ==== END JAVA VALIDATION ====
 
 :checkTools
