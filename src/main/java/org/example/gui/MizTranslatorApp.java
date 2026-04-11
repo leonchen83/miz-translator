@@ -50,7 +50,7 @@ public class MizTranslatorApp extends Application {
 	private Button patchBtn;
 	private Button translateBtn;
 	
-	static final String FIWOS = "F-16C First in Weasels Over Syria";
+	static final String FIWOS = "campaigns/F-16C First in Weasels Over Syria";
 	
 	@Override
 	public void start(Stage stage) {
