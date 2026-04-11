@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.example.impl.OpenAITranslatorImpl;
+import org.example.impl.PatchTranslatorImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,7 @@ public class Translators {
 	
 	private Configure configure;
 	private Set<String> nounsSet;
+	private PatchTranslatorImpl patch;
 	
 	public Translators(Configure configure) {
 		this(configure, new HashSet<>());
@@ -28,10 +30,16 @@ public class Translators {
 	public Translators(Configure configure, Set<String> nounsSet) {
 		this.configure = configure;
 		this.nounsSet = nounsSet;
+		patch = new PatchTranslatorImpl(configure);
 	}
 	
 	public Translator getTranslator() {
 		Translator r = null;
+		if (configure.getPatch()) {
+			r = patch;
+			patch.start();
+			return new XTranslator(r);
+		}
 		switch (configure.getTranslator()) {
 			case "deepseek":
 			case "doubao":

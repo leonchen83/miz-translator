@@ -54,7 +54,7 @@ public class MizTranslatorApp extends Application {
 		folderField = new TextField();
 		folderField.setPrefWidth(400);
 		
-		Button browseBtn = new Button("Browse...");
+		Button browseBtn = new Button("浏览...");
 		browseBtn.setOnAction(e -> onBrowse(stage));
 		
 		HBox folderBox = new HBox(10, folderField, browseBtn);
@@ -75,18 +75,17 @@ public class MizTranslatorApp extends Application {
 		
 		ToggleGroup keepOriginalGroup = new ToggleGroup();
 		
-		keepOriginalYes = new RadioButton("Keep original text");
+		keepOriginalYes = new RadioButton("保留原文");
 		keepOriginalYes.setToggleGroup(keepOriginalGroup);
-		keepOriginalYes.setSelected(true);
 		
-		keepOriginalNo = new RadioButton("Do not keep original");
-		
+		keepOriginalNo = new RadioButton("不保留原文");
 		keepOriginalNo.setToggleGroup(keepOriginalGroup);
+		keepOriginalNo.setSelected(true);
 		
 		HBox keepBox = new HBox(15, keepOriginalYes, keepOriginalNo);
 		
-		translateBtn = new Button("Translate");
-		patchBtn = new Button("Patch");
+		translateBtn = new Button("翻译");
+		patchBtn = new Button("中文补丁");
 		
 		translateBtn.setPrefWidth(120);
 		patchBtn.setPrefWidth(120);
@@ -113,13 +112,13 @@ public class MizTranslatorApp extends Application {
 		initSystemRedirect();
 		
 		VBox root = new VBox(15,
-				new Label("MIZ Folder"),
+				new Label("MIZ 文件夹"),
 				folderBox,
-				new Label("API Key (required):"),
+				new Label("API Key:"),
 				apiKeyField,
 				keepBox,
 				buttonBox,
-				new Label("Log:"),
+				new Label("日志:"),
 				logArea
 		);
 		root.setPadding(new Insets(15));
@@ -197,6 +196,7 @@ public class MizTranslatorApp extends Application {
 		
 		Path path = targetDir.resolve("trans.conf");
 		Configure configure = Configure.bind(path);
+		configure.setPatch(true);
 		configure.setApiKey(api);
 		configure.setOriginal(original);
 		try (Mission mission = new Mission(configure, targetDir.toFile())) {

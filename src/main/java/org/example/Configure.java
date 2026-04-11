@@ -83,8 +83,17 @@ public class Configure {
     private String[] keyFilters = new String[0];
     private String voice;
     private String ttsService = "edge-tts";
+    private boolean patch = false;
     
     private Map<String, String> fixed = new HashMap<>();
+    
+    public boolean getPatch() {
+        return patch;
+    }
+    
+    public void setPatch(boolean patch) {
+        this.patch = patch;
+    }
     
     public String getVoice() {
         return voice;
