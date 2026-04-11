@@ -71,6 +71,7 @@ public class MizTranslatorApp extends Application {
 		
 		apiKeyField = new TextField();
 		apiKeyField.setPromptText("Required API Key");
+		apiKeyField.setText(Configure.bind().getApiKey());
 		
 		ToggleGroup keepOriginalGroup = new ToggleGroup();
 		
@@ -122,7 +123,7 @@ public class MizTranslatorApp extends Application {
 		);
 		root.setPadding(new Insets(15));
 		stage.setTitle("miz-translator GUI");
-		stage.setScene(new Scene(root, 650, 500));
+		stage.setScene(new Scene(root, 900, 600));
 		stage.show();
 		runAsync(
 				() -> validateFolder(folderField.getText()),
@@ -150,7 +151,9 @@ public class MizTranslatorApp extends Application {
 		var folder = new File(folderStr);
 		
 		Configure configure = Configure.bind();
-		configure.setApiKey(api);
+		if (api != null && !api.isBlank()) {
+			configure.setApiKey(api);
+		}
 		configure.setOriginal(original);
 		
 		try (Mission mission = new Mission(configure, folder)) {
@@ -195,7 +198,9 @@ public class MizTranslatorApp extends Application {
 		Path path = targetDir.resolve("trans.conf");
 		Configure configure = Configure.bind(path);
 		configure.setPatch(true);
-		configure.setApiKey(api);
+		if (api != null && !api.isBlank()) {
+			configure.setApiKey(api);
+		}
 		configure.setOriginal(original);
 		try (Mission mission = new Mission(configure, targetDir.toFile())) {
 			if (targetDir.getFileName().equals(FIWOS)) {
@@ -312,13 +317,11 @@ public class MizTranslatorApp extends Application {
 			
 			@Override
 			public void println(String x) {
-				super.println(x);
 				log(x);
 			}
 			
 			@Override
 			public void print(String s) {
-				super.print(s);
 				log(s);
 			}
 		};
