@@ -75,10 +75,6 @@ public class MizTranslatorApp extends Application {
 		TextField apiKeyVisible = new TextField();
 		apiKeyHidden = new PasswordField();
 
-		String apiKey = Configure.bind().getApiKey();
-		apiKeyVisible.setText(apiKey);
-		apiKeyHidden.setText(apiKey);
-
 		apiKeyVisible.setVisible(false);
 		apiKeyVisible.setManaged(false);
 		apiKeyHidden.setMaxWidth(400);
