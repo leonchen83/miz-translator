@@ -50,7 +50,7 @@ public class MizTranslatorApp extends Application {
 	private Button patchBtn;
 	private Button translateBtn;
 	
-	static final String FIWOS = "campaigns/F-16C First in Weasels Over Syria";
+	static final String FIWOS = "F-16C First in Weasels Over Syria";
 	
 	@Override
 	public void start(Stage stage) {
@@ -229,7 +229,7 @@ public class MizTranslatorApp extends Application {
 		}
 		configure.setOriginal(original);
 		try (Mission mission = new Mission(configure, targetDir.toFile())) {
-			if (targetDir.getFileName().equals(FIWOS)) {
+			if (targetDir.getFileName().toString().equals(FIWOS)) {
 				step4(mission, targetDir.toFile(), configure);
 			} else {
 				step1(mission, targetDir.toFile(), configure);
