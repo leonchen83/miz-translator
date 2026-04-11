@@ -113,7 +113,7 @@ public class MizTranslatorApp extends Application {
 		initSystemRedirect();
 		
 		VBox root = new VBox(15,
-				new Label("MIZ Translator GUI"),
+				new Label("MIZ Folder"),
 				folderBox,
 				new Label("API Key (required):"),
 				apiKeyField,

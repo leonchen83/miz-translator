@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-if type -P java &>/dev/null; then
+# ==== 优先使用内置 JDK ====
+if [[ -x "$base_dir/jdk/bin/java" ]]; then
+    _java="$base_dir/jdk/bin/java"
+# ==== fallback 到系统 Java ====
+elif type -P java &>/dev/null; then
     _java=java
 elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]]; then
     _java="$JAVA_HOME/bin/java"
 else
-    echo "no found java."
+    echo "No Java found (bundled JDK missing and system Java not available)."
+    exit 1
 fi
 
 if [[ "$_java" ]]; then

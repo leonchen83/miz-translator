@@ -5,23 +5,8 @@
 set ERROR_CODE=0
 
 @REM ==== START VALIDATION ====
-if not "%JAVA_HOME%"=="" goto OkJHome
-for %%i in (java.exe) do set "JAVACMD=%%~$PATH:i"
-goto checkJCmd
-
-:OkJHome
-set "JAVACMD=%JAVA_HOME%\bin\java.exe"
-
-:checkJCmd
-if exist "%JAVACMD%" goto chkMHome
-
-echo The JAVA_HOME environment variable is not defined correctly >&2
-echo This environment variable is needed to run this program >&2
-echo NB: JAVA_HOME should point to a JDK not a JRE >&2
-goto error
-
 :chkMHome
-rem Get directory of this script, then go one level up (redis-rdb-cli)
+rem Get directory of this script, then go one level up
 pushd "%~dp0\.." >nul
 set "RCT_HOME=%CD%"
 popd >nul
@@ -30,12 +15,33 @@ if not "%RCT_HOME%"=="" goto stripMHome
 goto error
 
 :stripMHome
-if not "_%RCT_HOME:~-1%"=="_\" goto checkMCmd
+if not "_%RCT_HOME:~-1%"=="_\" goto setJava
 set "RCT_HOME=%RCT_HOME:~0,-1%"
 goto stripMHome
 
+:setJava
+rem ==== 优先使用内置 JDK ====
+set "JAVACMD=%RCT_HOME%\jdk\bin\java.exe"
+
+if exist "%JAVACMD%" goto checkMCmd
+
+rem ==== fallback 到 PATH 中的 java ====
+for %%i in (java.exe) do set "JAVACMD=%%~$PATH:i"
+if not "%JAVACMD%"=="" goto checkMCmd
+
+rem ==== fallback 到 JAVA_HOME ====
+if not "%JAVA_HOME%"=="" (
+    if exist "%JAVA_HOME%\bin\java.exe" (
+        set "JAVACMD=%JAVA_HOME%\bin\java.exe"
+        goto checkMCmd
+    )
+)
+
+echo No Java found (bundled JDK missing and system Java not available). >&2
+goto error
+
 :checkMCmd
-if exist "%RCT_HOME%\bin\trans.cmd" goto chkVersion
+if exist "%RCT_HOME%\bin\trans-voice.cmd" goto chkVersion
 goto error
 
 :chkVersion
