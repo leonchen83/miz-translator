@@ -28,11 +28,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -40,7 +43,7 @@ import javafx.stage.Stage;
 public class MizTranslatorApp extends Application {
 	
 	private TextField folderField;
-	private TextField apiKeyField;
+	private PasswordField apiKeyHidden;
 	private TextArea logArea;
 	private RadioButton keepOriginalYes;
 	private RadioButton keepOriginalNo;
@@ -69,9 +72,36 @@ public class MizTranslatorApp extends Application {
 			);
 		});
 		
-		apiKeyField = new TextField();
-		apiKeyField.setPromptText("Required API Key");
-		apiKeyField.setText(Configure.bind().getApiKey());
+		TextField apiKeyVisible = new TextField();
+		apiKeyHidden = new PasswordField();
+
+		String apiKey = Configure.bind().getApiKey();
+		apiKeyVisible.setText(apiKey);
+		apiKeyHidden.setText(apiKey);
+
+		apiKeyVisible.setVisible(false);
+		apiKeyVisible.setManaged(false);
+		apiKeyHidden.setMaxWidth(400);
+		apiKeyVisible.setMaxWidth(400);
+		
+		HBox.setHgrow(apiKeyHidden, Priority.ALWAYS);
+		HBox.setHgrow(apiKeyVisible, Priority.ALWAYS);
+
+		apiKeyVisible.textProperty().bindBidirectional(apiKeyHidden.textProperty());
+
+		ToggleButton toggleBtn = new ToggleButton("👁");
+
+		toggleBtn.setOnAction(e -> {
+			boolean show = toggleBtn.isSelected();
+			
+			apiKeyVisible.setVisible(show);
+			apiKeyVisible.setManaged(show);
+			
+			apiKeyHidden.setVisible(!show);
+			apiKeyHidden.setManaged(!show);
+		});
+		
+		HBox apiBox = new HBox(10, apiKeyHidden, apiKeyVisible, toggleBtn);
 		
 		ToggleGroup keepOriginalGroup = new ToggleGroup();
 		
@@ -92,13 +122,13 @@ public class MizTranslatorApp extends Application {
 		
 		translateBtn.setOnAction(e -> {
 			runAsync(
-					() -> onTranslate(folderField.getText(), apiKeyField.getText(), keepOriginalYes.isSelected()),
+					() -> onTranslate(folderField.getText(), apiKeyHidden.getText(), keepOriginalYes.isSelected()),
 					res -> log("Translate done")
 			);
 		});
 		patchBtn.setOnAction(e -> {
 			runAsync(
-					() -> onPatch(folderField.getText(), apiKeyField.getText(), keepOriginalYes.isSelected()),
+					() -> onPatch(folderField.getText(), apiKeyHidden.getText(), keepOriginalYes.isSelected()),
 					res -> log("Patch done")
 			);
 		});
@@ -115,7 +145,7 @@ public class MizTranslatorApp extends Application {
 				new Label("MIZ 文件夹"),
 				folderBox,
 				new Label("API Key:"),
-				apiKeyField,
+				apiBox,
 				keepBox,
 				buttonBox,
 				new Label("日志:"),
