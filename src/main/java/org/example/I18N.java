@@ -311,6 +311,7 @@ public class I18N {
 						"waypoint -> 航路点, " +
 						"Contract Point (CP) -> CP(要么不翻译要么翻译成联络点), " +
 						"playtime -> 任务时间, " +
+						"Timber sweet -> Timber sweet(保持原文，不要翻译成树线甜/安全之类的), " +
 						"Tow/Three/Four copy -> 二号/三号/四号 收到(不要翻译成收到两份/三份/四份), " +
 						"Holding hands with XX -> 与XX紧密编队, " +
 						"XX is clear -> XX安全, " +
