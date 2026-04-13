@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -200,14 +199,14 @@ public class MizTranslatorApp extends Application {
 		log("Folder: " + folderStr);
 		log("API Key: " + mask(api));
 		
-		Path targetDir = Paths.get(folderStr).normalize();
+		Path targetDir = Path.of(folderStr).normalize();
 		
 		String home = System.getProperty("trans.home");
-		Path sourceDir = Paths.get(home).resolve("campaigns").resolve(targetDir.getFileName().toString());
+		Path sourceDir = Path.of(home).resolve("campaigns").resolve(targetDir.getFileName().toString());
 		
 		if (!Files.exists(sourceDir)) {
 			List<String> segments = extractParentSegments(targetDir);
-			sourceDir = Paths.get(home).resolve("campaigns");
+			sourceDir = Path.of(home).resolve("campaigns");
 			for (String s : segments) sourceDir = sourceDir.resolve(s);
 		}
 		
@@ -275,7 +274,7 @@ public class MizTranslatorApp extends Application {
 		}
 	}
 	
-	private PathValidateResult validateFolder(String path) {
+	private static PathValidateResult validateFolder(String path) {
 		if (path == null || path.isBlank()) {
 			return new PathValidateResult(false, "Path is empty");
 		}
@@ -298,7 +297,7 @@ public class MizTranslatorApp extends Application {
 		
 		boolean localPatch = new File(file, "translated_map.zh.json").exists();
 		
-		Path dir = Paths.get(path).normalize();
+		Path dir = Path.of(path).normalize();
 		Path namePath = dir.getFileName();
 		String folderName = namePath != null ? namePath.toString() : "";
 		
@@ -320,11 +319,11 @@ public class MizTranslatorApp extends Application {
 		return new PathValidateResult(true, "Patch available");
 	}
 	
-	private List<String> extractParentSegments(Path path) {
+	private static List<String> extractParentSegments(Path path) {
 		List<String> r = new ArrayList<>();
 		Path temp = path;
 		for (int i = 0; i < 3; i++) {
-			if (temp != null) {
+			if (temp != null && temp.getFileName() != null) {
 				r.add(0, temp.getFileName().toString());
 			}
 			temp = temp.getParent();
