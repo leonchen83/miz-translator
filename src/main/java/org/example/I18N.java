@@ -315,6 +315,7 @@ public class I18N {
 						"Tow/Three/Four copy -> 二号/三号/四号 收到(不要翻译成收到两份/三份/四份), " +
 						"Holding hands with XX -> 与XX紧密编队, " +
 						"XX is clear -> XX安全, " +
+						"see you at 10/ten -> 10 海里目视, " +
 						"shelter 7-> 7号停机位(加编号一般翻译成停机位), " +
 						"intercept vector -> 拦截航向(不要翻译成拦截向量), " +
 						"the battery -> 防空阵地(不要翻译成电池), " +
