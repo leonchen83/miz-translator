@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Docker check
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Create Tag
         run: |
           echo "RELEASE_TAG=`cat ./src/main/resources/.version`" >> $GITHUB_ENV
