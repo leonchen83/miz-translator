@@ -12,7 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -198,10 +200,16 @@ public class MizTranslatorApp extends Application {
 		log("Folder: " + folderStr);
 		log("API Key: " + mask(api));
 		
-		Path targetDir = Paths.get(folderStr).toAbsolutePath().normalize();
+		Path targetDir = Paths.get(folderStr).normalize();
 		
 		String home = System.getProperty("trans.home");
 		Path sourceDir = Paths.get(home).resolve("campaigns").resolve(targetDir.getFileName().toString());
+		
+		if (!Files.exists(sourceDir)) {
+			List<String> segments = extractParentSegments(targetDir);
+			sourceDir = Paths.get(home).resolve("campaigns");
+			for (String s : segments) sourceDir = sourceDir.resolve(s);
+		}
 		
 		if (Files.isDirectory(sourceDir)) {
 			try {
@@ -291,16 +299,37 @@ public class MizTranslatorApp extends Application {
 		boolean localPatch = new File(file, "translated_map.zh.json").exists();
 		
 		Path dir = Paths.get(path).normalize();
-		String folderName = dir.getFileName().toString();
+		Path namePath = dir.getFileName();
+		String folderName = namePath != null ? namePath.toString() : "";
 		
 		String home = System.getProperty("trans.home");
 		Path p = Path.of(home).resolve("campaigns").resolve(folderName).resolve("translated_map.zh.json");
 		
-		if (!localPatch && !Files.exists(p) && !folderName.equals(FIWOS)) {
+		// 训练任务或自带战役
+		List<String> segments = extractParentSegments(dir);
+		Path p1 = Path.of(home).resolve("campaigns");
+		for (String s : segments) p1 = p1.resolve(s);
+		p1 = p1.resolve("translated_map.zh.json");
+		
+		boolean foundPatch = localPatch || Files.exists(p) || Files.exists(p1) || folderName.equals(FIWOS);
+		
+		if (!foundPatch) {
 			return new PathValidateResult(false, "No translated_map.zh.json found (local or classpath)");
 		}
 		
 		return new PathValidateResult(true, "Patch available");
+	}
+	
+	private List<String> extractParentSegments(Path path) {
+		List<String> r = new ArrayList<>();
+		Path temp = path;
+		for (int i = 0; i < 3; i++) {
+			if (temp != null) {
+				r.add(0, temp.getFileName().toString());
+			}
+			temp = temp.getParent();
+		}
+		return r;
 	}
 	
 	private void updateValidateState(String path) {
