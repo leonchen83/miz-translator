@@ -268,7 +268,7 @@ public class I18N {
 						"anchor -> 盘旋待命(不要出现锚定俩字), " +
 						"Anchor at 3000 -> 在3000英尺建立盘旋待命, " +
 						"miles -> 海里, " +
-						"nose hot/cold -> 进入/离开攻击航向, " +
+						"nose hot/cold -> 雷达扫描/静默(和机头没关系), " +
 						"Bullseye -> 靶眼(不要翻译成牛眼), " +
 						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +
