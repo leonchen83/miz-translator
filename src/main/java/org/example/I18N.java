@@ -254,7 +254,7 @@ public class I18N {
 						"Bogey -> 不明空中目标, " +
 						"Splash one/two -> 击落一/两架, " +
 						"music on/off -> 干扰开启/关闭, " +
-						"weapons hold -> 限制开火, " +
+						"weapons hold/cold -> 限制开火, " +
 						"weapons hot/free -> 自由开火, " +
 						"Air Boss -> 航空长, " +
 						"Angels 25 -> 高度25000英尺(25*1000 换算), " +
@@ -324,7 +324,6 @@ public class I18N {
 						"dismounted insurgents -> 步兵武装分子(dismounted不要翻译成下马的), " +
 						"technicals destroyed -> 武装皮卡已被摧毁(technicals翻译成武装皮卡), " +
 						"CASE 1 Recovery -> CASE 1回收(Recovery一般翻译成回收), " +
-						"homeplate -> 基地, " +
 						"off dry -> 未投弹脱离, " +
 						"off hot -> 投弹脱离, " +
 						"CAT 4 -> 4号弹射器 ]";
