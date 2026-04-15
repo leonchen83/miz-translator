@@ -245,6 +245,7 @@ public class I18N {
 						"cleared hot -> 允许开火, " +
 						"dirty up -> 着陆构型, " +
 						"with you -> 加入, " +
+						"kiss off -> 脱离(或翻译成解散), " + 
 						"Hot -> 迎头(单个单词Hot一般翻译成迎头)" +
 						"Cold -> 远离(单个单词Cold一般翻译成远离), " +
 						"is hot -> 有活动迹象, " +
