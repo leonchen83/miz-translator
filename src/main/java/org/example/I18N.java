@@ -329,6 +329,7 @@ public class I18N {
 						"CASE 1 Recovery -> CASE 1回收(Recovery一般翻译成回收), " +
 						"off dry -> 未投弹脱离, " +
 						"off hot -> 投弹脱离, " +
+						"sorted lead/trailer/north/south -> 已接手领队/尾随/北侧/南侧目标(sorted一般翻译成接手), " +
 						"CAT 4 -> 4号弹射器 ]";
 			
 			case "ja":
