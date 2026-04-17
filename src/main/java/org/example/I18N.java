@@ -272,6 +272,7 @@ public class I18N {
 						"outlaw -> 敌对目标, " +
 						"SPACEBAR -> 空格键, " +
 						"nose hot/cold -> 雷达扫描/静默(和机头没关系), " +
+						"nose on XX -> 已指向 XX, " +
 						"Bullseye -> 靶眼(不要翻译成牛眼), " +
 						"Bulls -> 靶眼(不要翻译成公牛), " +
 						"Bulls 270/20 -> 靶眼 270度 20海里, " +

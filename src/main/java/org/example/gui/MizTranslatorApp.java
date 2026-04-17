@@ -230,9 +230,10 @@ public class MizTranslatorApp extends Application {
 		
 		Path path = targetDir.resolve("trans.conf");
 		Configure configure = Configure.bind(path);
-		configure.setPatch(true);
 		if (api != null && !api.isBlank()) {
 			configure.setApiKey(api);
+		} else {
+			configure.setPatch(true);
 		}
 		configure.setOriginal(original);
 		try (Mission mission = new Mission(configure, targetDir.toFile())) {

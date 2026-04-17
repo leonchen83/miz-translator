@@ -2532,7 +2532,7 @@
   "TWISTER 1-1 (RAKU): All flights push Ground and standby for taxi in fragged order." : "TWISTER 1-1 (RAKU): 所有飞行编队切换到地面频率并按预定顺序待命滑行。",
   "TWISTER 1-1 (RAKU): Good. Taxi in fragged order and timing: Twister 01 at 14:18, 02 at  14:19, 03 at 14:20, Chevy 01 at 14:22, all times Zulu. I will climb to flight level 180 and keep 270 knots ground speed untill all rejoin. Questions?" : "TWISTER 1-1 (RAKU): 好的。按预定顺序和时间滑行：Twister 01 在14:18，02在14:19，03在14:20，Chevy 01在14:22，所有时间Zulu。我将爬升至飞行高度层180并保持270节地速直到所有人重新加入。有问题吗？",
   "TWISTER 02 (SHAGRAT): Ground, Twister 2 with Tango, ready for taxi." : "TWISTER 02 (SHAGRAT): 地面，Twister 2，Tango，准备滑行。",
-  "MONSTER 1-1 (DARKFIRE): Monster 1-1, mud, Gadfly" : "MONSTER 1-1 (DARKFIRE): Monster 1-1，泥浆，Gadfly",
+  "MONSTER 1-1 (DARKFIRE): Monster 1-1, mud, Gadfly" : "MONSTER 1-1 (DARKFIRE): Monster 1-1，mud，Gadfly",
   "TWISTER 1-1 (RAKU): Baron Lead to package, check in by flights." : "TWISTER 1-1 (RAKU): Baron Lead 致编队，各飞行编队报到。",
   "TWISTER 2 bombs away" : "TWISTER 2 炸弹已投下",
   "Press SPACE BAR to report to Twister 1-1 that you are ready for briefing on Package Frequency. " : "按空格键向Twister 1-1报告你已准备好在编队频率接收简报。",
