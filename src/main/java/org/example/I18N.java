@@ -253,13 +253,15 @@ public class I18N {
 						"Break left/right -> 左/右转规避, " +
 						"Bandit -> 敌机（确认敌对）, " +
 						"Bogey -> 不明空中目标, " +
+						"naked -> 无告警, " + 
 						"Splash one/two -> 击落一/两架, " +
 						"music on/off -> 干扰开启/关闭, " +
 						"weapons hold/cold -> 限制开火, " +
 						"weapons hot/free -> 自由开火, " +
 						"Air Boss -> 航空长, " +
 						"Angels 25 -> 高度25000英尺(25*1000 换算), " +
-						"FL150 -> 高度15000英尺(150*100 换算), " +
+						"FL15 -> 高度1500英尺(15*100 换算, 实际这个数字可能不是15，也有可能是其他数字，都换算), " +
+						"FL 250 -> 高度25000英尺(250*100 换算, 实际这个数字可能不是250，也有可能是其他数字，都换算), " +
 						"Tally -> 目视确认, " +
 						"No joy -> 未目视到目标, " +
 						"In the pipe -> 导弹已发射 或 导弹飞行中, " +
@@ -312,9 +314,11 @@ public class I18N {
 						"off station -> 离开战位(station不要翻译成站岗或车站)" +
 						"Initial Point (IP) -> IP(要么不翻译要么翻译成起始点), " +
 						"clear the area -> 脱离该区域, " + 
-						"waypoint -> 航路点, " +
+						"waypoint/WP -> 航路点, " +
 						"Contract Point (CP) -> CP(要么不翻译要么翻译成联络点), " +
 						"playtime -> 任务时间, " +
+						"vul/vulnerability time -> 值班时间, " +
+						"Lima Charlie -> 信号清晰, " +
 						"Timber sweet -> Timber sweet(保持原文，不要翻译成树线甜/安全之类的), " +
 						"Tow/Three/Four copy -> 二号/三号/四号 收到(不要翻译成收到两份/三份/四份), " +
 						"Holding hands with XX -> 与XX紧密编队, " +

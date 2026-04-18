@@ -51,8 +51,6 @@ public class MizTranslatorApp extends Application {
 	private Button patchBtn;
 	private Button translateBtn;
 	
-	static final String FIWOS = "F-16C First in Weasels Over Syria";
-	
 	@Override
 	public void start(Stage stage) {
 		folderField = new TextField();
@@ -237,14 +235,10 @@ public class MizTranslatorApp extends Application {
 		}
 		configure.setOriginal(original);
 		try (Mission mission = new Mission(configure, targetDir.toFile())) {
-			if (targetDir.getFileName().toString().equals(FIWOS)) {
-				step4(mission, targetDir.toFile(), configure);
-			} else {
-				step1(mission, targetDir.toFile(), configure);
-				step2(mission, targetDir.toFile(), configure);
-				step3(mission, targetDir.toFile(), configure);
-				step4(mission, targetDir.toFile(), configure);
-			}
+			step1(mission, targetDir.toFile(), configure);
+			step2(mission, targetDir.toFile(), configure);
+			step3(mission, targetDir.toFile(), configure);
+			step4(mission, targetDir.toFile(), configure);
 		} catch (Exception e) {
 			logException(e);
 		}
@@ -311,7 +305,7 @@ public class MizTranslatorApp extends Application {
 		for (String s : segments) p1 = p1.resolve(s);
 		p1 = p1.resolve("translated_map.zh.json");
 		
-		boolean foundPatch = localPatch || Files.exists(p) || Files.exists(p1) || folderName.equals(FIWOS);
+		boolean foundPatch = localPatch || Files.exists(p) || Files.exists(p1);
 		
 		if (!foundPatch) {
 			return new PathValidateResult(false, "No translated_map.zh.json found (local or classpath)");
