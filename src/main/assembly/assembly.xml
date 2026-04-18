@@ -87,6 +87,10 @@
             <destName>requirements.txt</destName>
         </file>
         <file>
+            <source>miz_translator_使用说明.pdf</source>
+            <destName>miz_translator_使用说明.pdf</destName>
+        </file>
+        <file>
             <source>${project.build.directory}/${project.artifactId}-fat.jar</source>
             <outputDirectory>lib</outputDirectory>
             <fileMode>0755</fileMode>
