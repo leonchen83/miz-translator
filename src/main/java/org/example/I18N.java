@@ -232,7 +232,7 @@ public class I18N {
 			case "zh":
 				return "。军事术语翻译例: [ " +
 						"PRI -> PRI(不翻译或翻译成主频), " +
-						"AUX -> AUX(不翻译或翻译成辅助主频), " +
+						"AUX -> AUX(不翻译或翻译成辅助频率), " +
 						"UHF -> UHF(不翻译), " +
 						"VHF -> VHF(不翻译), " +
 						"BRC -> BRC(不翻译), " +
@@ -259,6 +259,7 @@ public class I18N {
 						"weapons hold/cold -> 限制开火, " +
 						"weapons hot/free -> 自由开火, " +
 						"Air Boss -> 航空长, " +
+						"CREW CHIEF -> 机组长," +
 						"Angels 25 -> 高度25000英尺(25*1000 换算), " +
 						"FL15 -> 高度1500英尺(15*100 换算, 实际这个数字可能不是15，比如FL150翻译成高度15000英尺), " +
 						"FL 250 -> 高度25000英尺(250*100 换算, 实际这个数字可能不是250，比如FL 060翻译成高度6000英尺), " +
@@ -293,6 +294,7 @@ public class I18N {
 						"corridor -> 飞行走廊, " +
 						"chaff -> 箔条, " +
 						"flare -> 热诱弹, " +
+						"merged -> 交汇（就单个词, 那就翻译成交汇）," +
 						"all players -> 所有单位(不要翻译成所有玩家), " +
 						"as fragged -> 按预定计划, " +
 						"at fragged altitude -> 在预定高度, " +
