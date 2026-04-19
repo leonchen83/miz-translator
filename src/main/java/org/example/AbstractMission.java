@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
+import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,12 +129,16 @@ public abstract class AbstractMission {
 			if (value == null || value.isEmpty() || value.isBlank()) {
 				builder.append("\"\"");
 			} else {
-				value = value.replaceAll("\n", "\\\\\n").replace("\"", "\\\"");
+				value = value
+						.replace("\\", "\\\\")
+						.replace("\"", "\\\"")
+						.replace("\n", "\\\n");
 				builder.append("\"").append(value).append("\"");
 			}
 			builder.append(",\n");
 		});
 		builder.append("}-- end of dictionary\n");
+		LuaValue value = globals.load(builder.toString());
 		try (FileWriter fileWriter = new FileWriter(countryPath.toFile())) {
 			fileWriter.write(builder.toString());
 		}
