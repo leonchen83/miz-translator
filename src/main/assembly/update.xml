@@ -1,0 +1,35 @@
+<assembly
+        xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+    <id>update</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>target/classes</directory>
+            <outputDirectory>conf</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>*.conf</include>
+                <include>log4j2.xml</include>
+                <include>*.py</include>
+                <include>military.*</include>
+                <include>.version</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>campaigns</directory>
+            <outputDirectory>campaigns</outputDirectory>
+            <fileMode>0755</fileMode>
+            <directoryMode>0755</directoryMode>
+            <includes>
+                <include>**/*</include>
+                <include>*.conf</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

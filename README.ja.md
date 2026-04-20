@@ -121,13 +121,11 @@ cd /path/to/miz-translator/bin
 brew install python
 brew install ffmpeg
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # Windows
 winget install Python.Python.3.11
 winget install -e --id BtbN.FFmpeg.LGPL.8.0
 pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
-uvicorn bin.main:app --host 0.0.0.0 --port 8000
 
 # verify install
 $ edge-tts --version
@@ -140,53 +138,4 @@ $ ffmpeg -version
 cd /path/to/miz-translator/bin
 ./trans -f /path/to/missions
 ./trans-voice -f /path/to/missions
-```
-### Docker
-
-```shell
-# pull docker image
-docker pull redisrdbcli/miz-translator:latest
-
-# run text translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-
-# run voice translation
-docker run --rm \
-  -v /path/to/trans.conf:/app/miz-translator/conf/trans.conf:ro \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use environment variables instead of a config file
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e LANG="ja-JP" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans -f /tmp/miz-uploaded
-  
-docker run --rm \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  -e API_KEY="${api-key}" \
-  -e LANG="ja-JP" \
-  -e BASE_URL="https://api.deepseek.com/v1" \
-  -e HINT="${hint}" \
-  -e PROXY="http://proxy.example.com:8080" \
-  miz-translator:latest \
-  trans-voice -f /tmp/miz-uploaded
-  
-# use local web service
-docker run -d \
-  --name miz-translator \
-  -p 8000:8000 \
-  -v /path/to/miz:/tmp/miz-uploaded \
-  miz-translator:latest \
-  uvicorn bin.main:app --host 0.0.0.0 --port 8000
 ```

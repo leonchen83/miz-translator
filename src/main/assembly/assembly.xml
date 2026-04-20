@@ -25,6 +25,8 @@
                 <include>*.conf</include>
                 <include>log4j2.xml</include>
                 <include>*.py</include>
+                <include>military.*</include>
+                <include>.version</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -77,10 +79,6 @@
         <file>
             <source>README.ko.md</source>
             <destName>README.ko.md</destName>
-        </file>
-        <file>
-            <source>Dockerfile</source>
-            <destName>Dockerfile</destName>
         </file>
         <file>
             <source>requirements.txt</source>

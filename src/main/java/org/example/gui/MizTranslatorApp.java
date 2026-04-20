@@ -49,6 +49,7 @@ public class MizTranslatorApp extends Application {
 	private RadioButton keepOriginalYes;
 	private RadioButton keepOriginalNo;
 	private Button patchBtn;
+	private Button upgradeBtn;
 	private Button translateBtn;
 	
 	@Override
@@ -73,7 +74,7 @@ public class MizTranslatorApp extends Application {
 		
 		TextField apiKeyVisible = new TextField();
 		apiKeyHidden = new PasswordField();
-
+		
 		apiKeyVisible.setVisible(false);
 		apiKeyVisible.setManaged(false);
 		apiKeyHidden.setMaxWidth(400);
@@ -81,11 +82,11 @@ public class MizTranslatorApp extends Application {
 		
 		HBox.setHgrow(apiKeyHidden, Priority.ALWAYS);
 		HBox.setHgrow(apiKeyVisible, Priority.ALWAYS);
-
+		
 		apiKeyVisible.textProperty().bindBidirectional(apiKeyHidden.textProperty());
-
+		
 		ToggleButton toggleBtn = new ToggleButton("👁");
-
+		
 		toggleBtn.setOnAction(e -> {
 			boolean show = toggleBtn.isSelected();
 			
@@ -111,24 +112,13 @@ public class MizTranslatorApp extends Application {
 		
 		translateBtn = new Button("翻译");
 		patchBtn = new Button("中文补丁");
+		upgradeBtn = new Button("更新版本");
 		
 		translateBtn.setPrefWidth(120);
 		patchBtn.setPrefWidth(120);
+		upgradeBtn.setPrefWidth(120);
 		
-		translateBtn.setOnAction(e -> {
-			runAsync(
-					() -> onTranslate(folderField.getText(), apiKeyHidden.getText(), keepOriginalYes.isSelected()),
-					res -> log("Translate done")
-			);
-		});
-		patchBtn.setOnAction(e -> {
-			runAsync(
-					() -> onPatch(folderField.getText(), apiKeyHidden.getText(), keepOriginalYes.isSelected()),
-					res -> log("Patch done")
-			);
-		});
-		
-		HBox buttonBox = new HBox(20, translateBtn, patchBtn);
+		HBox buttonBox = new HBox(20, translateBtn, patchBtn, upgradeBtn);
 		
 		logArea = new TextArea();
 		logArea.setEditable(false);
@@ -150,10 +140,57 @@ public class MizTranslatorApp extends Application {
 		stage.setTitle("miz-translator GUI");
 		stage.setScene(new Scene(root, 900, 600));
 		stage.show();
+		
+		translateBtn.setOnAction(e -> {
+			runAsync(
+					() -> onTranslate(folderField.getText(), apiKeyHidden.getText(), keepOriginalYes.isSelected()),
+					res -> log("Translate done")
+			);
+		});
+		patchBtn.setOnAction(e -> {
+			runAsync(
+					() -> onPatch(folderField.getText(), apiKeyHidden.getText(), keepOriginalYes.isSelected()),
+					res -> log("Patch done")
+			);
+		});
+		upgradeBtn.setOnAction(e -> {
+			upgradeBtn.setText("更新中...");
+			upgradeBtn.setDisable(true);
+			root.setDisable(true);
+			runAsync(() -> {
+				try {
+					boolean upgrade = onUpgrade();
+					if(upgrade) {
+						javafx.application.Platform.runLater(() -> {
+							log("Upgrade done");
+						});
+					} else {
+						javafx.application.Platform.runLater(() -> {
+							log("Upgrade failed.");
+						});
+					}
+					return upgrade;
+				} finally {
+					javafx.application.Platform.runLater(() -> {
+						upgradeBtn.setText("更新版本");
+						upgradeBtn.setDisable(false);
+						root.setDisable(false);
+					});
+				}
+			}, res -> {});
+		});
 		runAsync(
 				() -> validateFolder(folderField.getText()),
 				result -> {
 					patchBtn.setDisable(!result.valid);
+					log(result.message);
+				}
+		);
+		
+		runAsync(
+				() -> validateUpgrade(),
+				result -> {
+					upgradeBtn.setDisable(!result.valid);
 					log(result.message);
 				}
 		);
@@ -190,6 +227,19 @@ public class MizTranslatorApp extends Application {
 			logException(e);
 		}
 		return true;
+	}
+	
+	private boolean onUpgrade() {
+		String version = GitHubReleaseUpdater.latestVersion();
+		if (version == null) {
+			return false;
+		}
+		try {
+			GitHubReleaseUpdater.update(version);
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 	
 	private boolean onPatch(String folderStr, String api, boolean original) {
@@ -269,6 +319,24 @@ public class MizTranslatorApp extends Application {
 		}
 	}
 	
+	private static PathValidateResult validateUpgrade() {
+		try {
+			String latestVersion = GitHubReleaseUpdater.latestVersion();
+			if (latestVersion == null) {
+				return new PathValidateResult(false, "No Upgrade file found.");
+			}
+			String path = System.getProperty("conf");
+			String localVersion = Files.readString(Path.of(path).resolve(".version"));
+			
+			if (latestVersion.equals(localVersion)) {
+				return new PathValidateResult(false, "No Upgrade file found.");
+			}
+			return new PathValidateResult(true, "Upgrade available");
+		} catch (IOException e) {
+			return new PathValidateResult(false, "No Upgrade file found.");
+		}
+	}
+	
 	private static PathValidateResult validateFolder(String path) {
 		if (path == null || path.isBlank()) {
 			return new PathValidateResult(false, "Path is empty");
@@ -289,29 +357,35 @@ public class MizTranslatorApp extends Application {
 		if (mizFiles == null || mizFiles.length == 0) {
 			return new PathValidateResult(false, "No .miz files found");
 		}
-		
-		boolean localPatch = new File(file, "translated_map.zh.json").exists();
+		Configure configure = Configure.bind();
+		String fileName = fileName(configure);
+		boolean localPatch = new File(file, fileName).exists();
 		
 		Path dir = Path.of(path).normalize();
 		Path namePath = dir.getFileName();
 		String folderName = namePath != null ? namePath.toString() : "";
 		
 		String home = System.getProperty("trans.home");
-		Path p = Path.of(home).resolve("campaigns").resolve(folderName).resolve("translated_map.zh.json");
+		Path p = Path.of(home).resolve("campaigns").resolve(folderName).resolve(fileName);
 		
 		// 训练任务或自带战役
 		List<String> segments = extractParentSegments(dir);
 		Path p1 = Path.of(home).resolve("campaigns");
 		for (String s : segments) p1 = p1.resolve(s);
-		p1 = p1.resolve("translated_map.zh.json");
+		p1 = p1.resolve(fileName);
 		
 		boolean foundPatch = localPatch || Files.exists(p) || Files.exists(p1);
 		
 		if (!foundPatch) {
-			return new PathValidateResult(false, "No translated_map.zh.json found (local or classpath)");
+			return new PathValidateResult(false, "No " + fileName + " found (local or classpath)");
 		}
 		
 		return new PathValidateResult(true, "Patch available");
+	}
+	
+	private static String fileName(Configure configure) {
+		String locale = configure.getLanguageCode();
+		return "translated_map." + locale + ".json";
 	}
 	
 	private static List<String> extractParentSegments(Path path) {

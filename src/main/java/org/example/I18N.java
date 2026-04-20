@@ -1,5 +1,9 @@
 package org.example;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,6 +73,41 @@ public class I18N {
 	
 	public static String pi18n(String file, String suffix, Configure configure) {
 		return file + "-" + configure.getLanguageCode() + "-" + suffix;
+	}
+	
+	public static String hint(String hint, Configure configure) {
+		return hint.replace("{{lang}}", localeLang(configure));
+	}
+	
+	public static String localeLang(Configure configure) {
+		String locale = configure.getLanguageCode();
+		switch (locale) {
+			case "zh": return "简体中文";
+			case "ja": return "日语";
+			case "ko": return "韩语";
+			case "es": return "西班牙语";
+			case "fr": return "法语";
+			case "de": return "德语";
+			case "pt": return "葡萄牙语";
+			case "ru": return "俄语";
+			case "vi": return "越南语";
+			case "ms": return "马来语";
+			case "el": return "希腊语";
+			case "da": return "丹麦语";
+			case "nb": return "挪威语";
+			case "sv": return "瑞典语";
+			case "it": return "意大利语";
+			case "nl": return "荷兰语";
+			case "pl": return "波兰语";
+			case "ro": return "罗马尼亚语";
+			case "cs": return "捷克语";
+			case "hu": return "匈牙利语";
+			case "bg": return "保加利亚语";
+			case "uk": return "乌克兰语";
+			case "he": return "希伯来语";
+			case "ar": return "阿拉伯语";
+		}
+		throw new IllegalArgumentException("required option:<lang>");
 	}
 	
 	public static String localeVoice(Configure configure) {
@@ -227,6 +266,24 @@ public class I18N {
 	}
 	
 	public static String militarySlang(Configure configure) {
+		String locale = configure.getLanguageCode();
+		String file = "military." + locale;
+		try {
+			String path = System.getProperty("conf");
+			if (path != null && path.trim().length() != 0) {
+				return Files.readString(Path.of(path).resolve(file));
+			} else {
+				ClassLoader loader = Configure.class.getClassLoader();
+				try (InputStream in = loader.getResourceAsStream(file)) {
+					return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+				}
+			}
+		} catch (Throwable e) {
+			return militarySlangFallback(configure);
+		}
+	}
+	
+	public static String militarySlangFallback(Configure configure) {
 		String locale = configure.getLanguageCode();
 		switch (locale) {
 			case "zh":

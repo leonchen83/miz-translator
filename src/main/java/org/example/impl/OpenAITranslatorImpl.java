@@ -1,5 +1,6 @@
 package org.example.impl;
 
+import static org.example.I18N.hint;
 import static org.example.I18N.localeLanguage;
 import static org.example.I18N.militarySlang;
 import static org.example.I18N.nounsHint;
@@ -61,7 +62,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public String proofread(Map<String, String> map, Map<String, String> options) {
 		if (!logged) {
-			String hintText = hints + nounsHint(configure, nounsSet) + militarySlang(configure);
+			String hintText = hint(hints, configure) + nounsHint(configure, nounsSet) + militarySlang(configure);
 			logger.info("proofread hints: {}", hintText);
 			this.size = hintText.length();
 			logged = true;
@@ -72,7 +73,7 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			String text = mapper.writeValueAsString(map);
 			logger.info("[PROOFREAD]request: {}", text);
 			ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
-					.addSystemMessage(hints + nounsHint(configure, nounsSet) + militarySlang(configure))
+					.addSystemMessage(hint(hints, configure) + nounsHint(configure, nounsSet) + militarySlang(configure))
 					.addUserMessage(text)
 					.model(model)
 					.maxCompletionTokens(maxTokens);
@@ -105,14 +106,14 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	@Override
 	public String translate(String text, Map<String, String> options) {
 		if (!logged) {
-			String hintText = hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet) + militarySlang(configure);
+			String hintText = hint(hints, configure) + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet) + militarySlang(configure);
 			logger.info("hints: {}", hintText);
 			this.size = hintText.length();
 			logged = true;
 		}
 		rateLimit.acquire();
 		ChatCompletionCreateParams.Builder builder = ChatCompletionCreateParams.builder()
-				.addSystemMessage(hints + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet) + militarySlang(configure))
+				.addSystemMessage(hint(hints, configure) + localeLanguage(configure, SPLITER) + nounsHint(configure, nounsSet) + militarySlang(configure))
 				.addUserMessage(text)
 				.model(model)
 				.maxCompletionTokens(maxTokens);
