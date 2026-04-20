@@ -254,7 +254,13 @@ public class MizTranslatorApp extends Application {
 		Path sourceDir = Path.of(home).resolve("campaigns").resolve(targetDir.getFileName().toString());
 		
 		if (!Files.exists(sourceDir)) {
-			List<String> segments = extractParentSegments(targetDir);
+			List<String> segments = extractParentSegments(targetDir, 3);
+			sourceDir = Path.of(home).resolve("campaigns");
+			for (String s : segments) sourceDir = sourceDir.resolve(s);
+		}
+		
+		if (!Files.exists(sourceDir)) {
+			List<String> segments = extractParentSegments(targetDir, 4);
 			sourceDir = Path.of(home).resolve("campaigns");
 			for (String s : segments) sourceDir = sourceDir.resolve(s);
 		}
@@ -326,8 +332,8 @@ public class MizTranslatorApp extends Application {
 			if (latestVersion == null) {
 				return new PathValidateResult(false, "No Upgrade file found.");
 			}
-			String path = System.getProperty("conf");
-			String localVersion = Files.readString(Path.of(path).resolve(".version"));
+			String path = System.getProperty("trans.home");
+			String localVersion = Files.readString(Path.of(path).resolve("conf").resolve(".version"));
 			
 			if (latestVersion.equals(localVersion)) {
 				return new PathValidateResult(false, "No Upgrade file found.");
@@ -370,12 +376,18 @@ public class MizTranslatorApp extends Application {
 		Path p = Path.of(home).resolve("campaigns").resolve(folderName).resolve(fileName);
 		
 		// 训练任务或自带战役
-		List<String> segments = extractParentSegments(dir);
+		List<String> segments1 = extractParentSegments(dir, 3);
 		Path p1 = Path.of(home).resolve("campaigns");
-		for (String s : segments) p1 = p1.resolve(s);
+		for (String s : segments1) p1 = p1.resolve(s);
 		p1 = p1.resolve(fileName);
 		
-		boolean foundPatch = localPatch || Files.exists(p) || Files.exists(p1);
+		// WWII战役, SuperCarrier战役等
+		List<String> segments2 = extractParentSegments(dir, 4);
+		Path p2 = Path.of(home).resolve("campaigns");
+		for (String s : segments2) p2 = p2.resolve(s);
+		p2 = p2.resolve(fileName);
+		
+		boolean foundPatch = localPatch || Files.exists(p) || Files.exists(p1) || Files.exists(p2);
 		
 		if (!foundPatch) {
 			return new PathValidateResult(false, "No " + fileName + " found (local or classpath)");
@@ -389,10 +401,10 @@ public class MizTranslatorApp extends Application {
 		return "translated_map." + locale + ".json";
 	}
 	
-	private static List<String> extractParentSegments(Path path) {
+	private static List<String> extractParentSegments(Path path, int depth) {
 		List<String> r = new ArrayList<>();
 		Path temp = path;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < depth; i++) {
 			if (temp != null && temp.getFileName() != null) {
 				r.add(0, temp.getFileName().toString());
 			}

@@ -269,18 +269,132 @@ public class I18N {
 		String locale = configure.getLanguageCode();
 		String file = "military." + locale;
 		try {
-			String path = System.getProperty("conf");
+			String path = System.getProperty("trans.home");
 			if (path != null && path.trim().length() != 0) {
-				return Files.readString(Path.of(path).resolve(file));
+				return Files.readString(Path.of(path).resolve("conf").resolve(file)).replace("\r\n", " ").replace("\n", " ");
 			} else {
 				ClassLoader loader = Configure.class.getClassLoader();
 				try (InputStream in = loader.getResourceAsStream(file)) {
-					return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+					return new String(in.readAllBytes(), StandardCharsets.UTF_8).replace("\r\n", " ").replace("\n", " ");
 				}
 			}
 		} catch (Throwable e) {
+			e.printStackTrace();
 			return militarySlangFallback(configure);
 		}
+	}
+	
+	public static void main(String[] args) {
+		String s = "军事术语翻译例: [\n" +
+				"PRI -> PRI(不翻译或翻译成主频),\n" +
+				"AUX -> AUX(不翻译或翻译成辅助频率),\n" +
+				"UHF -> UHF(不翻译),\n" +
+				"VHF -> VHF(不翻译),\n" +
+				"BRC -> BRC(不翻译),\n" +
+				"GUARD -> GUARD(不翻译),\n" +
+				"Strike -> Strike(严格保持原文),\n" +
+				"XX control -> XX管制(XX一般是地名, 不要翻译成XX控制台),\n" +
+				"good readback -> 复诵正确,\n" +
+				"Orbit/holding pattern -> 盘旋待命,\n" +
+				"egress/ingress -> 退出/进入航线,\n" +
+				"cleared hot -> 允许开火,\n" +
+				"dirty up -> 着陆构型,\n" +
+				"with you -> 加入,\n" +
+				"kiss off -> 脱离(或翻译成解散), \n" +
+				"Hot -> 迎头(单个单词Hot一般翻译成迎头),\n" +
+				"Cold -> 远离(单个单词Cold一般翻译成远离),\n" +
+				"is hot -> 有活动迹象,\n" +
+				"is cold -> 已失效 或 无活动迹象,\n" +
+				"Break left/right -> 左/右转规避,\n" +
+				"Bandit -> 敌机(确认敌对),\n" +
+				"Bogey -> 不明空中目标,\n" +
+				"naked -> 无告警, \n" +
+				"Splash one/two -> 击落一/两架,\n" +
+				"music on/off -> 干扰开启/关闭,\n" +
+				"weapons hold/cold -> 限制开火,\n" +
+				"weapons hot/free -> 自由开火,\n" +
+				"Air Boss -> 航空长,\n" +
+				"CREW CHIEF -> 机组长,\n" +
+				"Angels 25 -> 高度25000英尺(25*1000 换算),\n" +
+				"FL15 -> 高度1500英尺(15*100 换算, 实际这个数字可能不是15，比如FL150翻译成高度15000英尺),\n" +
+				"FL 250 -> 高度25000英尺(250*100 换算, 实际这个数字可能不是250，比如FL 060翻译成高度6000英尺),\n" +
+				"Tally -> 目视确认,\n" +
+				"No joy -> 未目视到目标,\n" +
+				"In the pipe -> 导弹已发射 或 导弹飞行中,\n" +
+				"Winchester -> 弹药耗尽,\n" +
+				"good hit -> 打得好(要口语化),\n" +
+				"neutralised -> 被压制(不要翻译成被中和),\n" +
+				"anchor -> 盘旋待命(不要出现锚定俩字),\n" +
+				"Anchor at 3000 -> 在3000英尺建立盘旋待命,\n" +
+				"miles -> 海里,\n" +
+				"outlaw -> 敌对目标,\n" +
+				"SPACEBAR -> 空格键,\n" +
+				"nose hot/cold -> 雷达扫描/静默(和机头没关系),\n" +
+				"nose on XX -> 已指向 XX,\n" +
+				"Bullseye -> 靶眼(不要翻译成牛眼),\n" +
+				"Bulls -> 靶眼(不要翻译成公牛),\n" +
+				"Bulls 270/20 -> 靶眼 270度 20海里,\n" +
+				"Feet dry -> 在陆地上空(不要翻译成干脚),\n" +
+				"Feet wet -> 在海面上空(不要翻译成脚湿或湿脚),\n" +
+				"Fence In/Out -> 进入/解除作战状态(Fence不要翻译成围栏或栅栏),\n" +
+				"Fenced In/Out -> 已进入/已解除作战状态(Fenced不要翻译成围栏或栅栏),\n" +
+				"Tapes On -> 录像开启,\n" +
+				"nails -> 雷达照射,\n" +
+				"spikes -> 雷达锁定, \n" +
+				"Marshal -> Marshal(严格保持原文),\n" +
+				"sinker -> 潜艇(军事俚语翻译成潜艇,有时也指沉船),\n" +
+				"wilco -> 收到照办(如果前文有copy就只翻译成照办),\n" +
+				"Venom -> Venom(一般是呼号,不要翻译成猛毒或毒液),\n" +
+				"Tapes Off -> 录像关闭,\n" +
+				"corridor -> 飞行走廊,\n" +
+				"chaff -> 箔条,\n" +
+				"flare -> 热诱弹,\n" +
+				"merged -> 交汇(就单个词, 那就翻译成交汇),\n" +
+				"all players -> 所有单位(不要翻译成所有玩家),\n" +
+				"as fragged -> 按预定计划,\n" +
+				"at fragged altitude -> 在预定高度,\n" +
+				"altimeter 2991 -> 修正海压 2991(不要翻译成高度表拨正值),\n" +
+				"Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ),\n" +
+				"airborne -> 起飞(不要翻译成空中),\n" +
+				"XX is blind -> XX失去目标(注意blind的翻译),\n" +
+				"Redland -> 红方(不要翻译成红地,红国),\n" +
+				"Blueland -> 蓝方(不要翻译成蓝地,蓝国),\n" +
+				"AUX -> 辅助通信频率,\n" +
+				"check in 9-line -> 准备接收九行简报(这里不要翻译成报到),\n" +
+				"check in with XX -> 向XX报到(不要翻译成核对或者检查),\n" +
+				"check out -> 报到退出(大多数场景),\n" +
+				"checked in -> 已报到,\n" +
+				"checked out -> 已报到退出(大多数场景),\n" +
+				"your element -> 你的编队(不要翻译成你的元素),\n" +
+				"checking out of corridor for XX -> 离开飞行走廊前往XX,\n" +
+				"on station in XX ->  在XX就位(station不要翻译成站岗或车站),\n" +
+				"off station -> 离开战位(station不要翻译成站岗或车站),\n" +
+				"Initial Point (IP) -> IP(要么不翻译要么翻译成起始点),\n" +
+				"clear the area -> 脱离该区域, \n" +
+				"waypoint/WP -> 航路点,\n" +
+				"Contract Point (CP) -> CP(要么不翻译要么翻译成联络点),\n" +
+				"playtime -> 任务时间,\n" +
+				"vul/vulnerability time -> 值班时间,\n" +
+				"Lima Charlie -> 信号清晰,\n" +
+				"Timber sweet -> Timber sweet(保持原文，不要翻译成树线甜/安全之类的),\n" +
+				"Tow/Three/Four copy -> 二号/三号/四号 收到(不要翻译成收到两份/三份/四份),\n" +
+				"Holding hands with XX -> 与XX紧密编队,\n" +
+				"XX is clear -> XX安全,\n" +
+				"see you at 10/ten -> 10 海里目视,\n" +
+				"shelter 7-> 7号停机位(加编号一般翻译成停机位),\n" +
+				"intercept vector -> 拦截航向(不要翻译成拦截向量),\n" +
+				"the battery -> 防空阵地(不要翻译成电池),\n" +
+				"hard deck -> 最低安全高度(不要翻译成硬甲板),\n" +
+				"picture -> 空情(军事术语一般翻译成空情, 而不是画面或图片),\n" +
+				"dismounted insurgents -> 步兵武装分子(dismounted不要翻译成下马的),\n" +
+				"technicals destroyed -> 武装皮卡已被摧毁(technicals翻译成武装皮卡),\n" +
+				"CASE 1 Recovery -> CASE 1回收(Recovery一般翻译成回收),\n" +
+				"off dry -> 未投弹脱离,\n" +
+				"off hot -> 投弹脱离,\n" +
+				"sorted lead/trailer/north/south -> 已接手领队/尾随/北侧/南侧目标(sorted一般翻译成接手),\n" +
+				"CAT 4 -> 4号弹射器\n" +
+				"]";
+		System.out.println(s.replace("\n", " "));
 	}
 	
 	public static String militarySlangFallback(Configure configure) {
