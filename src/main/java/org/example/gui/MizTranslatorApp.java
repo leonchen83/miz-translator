@@ -113,6 +113,7 @@ public class MizTranslatorApp extends Application {
 		translateBtn = new Button("翻译");
 		patchBtn = new Button("中文补丁");
 		upgradeBtn = new Button("更新版本");
+		upgradeBtn.setDisable(true);
 		
 		translateBtn.setPrefWidth(120);
 		patchBtn.setPrefWidth(120);
