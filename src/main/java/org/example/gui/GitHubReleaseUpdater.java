@@ -3,15 +3,12 @@ package org.example.gui;
 import static org.apache.commons.io.file.PathUtils.deleteDirectory;
 import static org.example.Compressor.unzip;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.io.InputStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,18 +16,27 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * @author Baoyi Chen
  */
 public class GitHubReleaseUpdater {
 	
-	private static final HttpClient client = HttpClient.newHttpClient();
-	private static final ObjectMapper mapper = new ObjectMapper();
+	private final HttpClient client;
+	private final ObjectMapper mapper = new ObjectMapper();
 	
 	private static final String DOWNLOAD_URL = "https://github.com/leonchen83/miz-translator/releases/download/{version}/miz-translator-update.zip";
 	private static final String LATEST_VERSION_URL = "https://api.github.com/repos/leonchen83/miz-translator/releases/latest";
 	
-	public static String latestVersion() {
+	public GitHubReleaseUpdater() {
+		client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS)
+//				.proxy(ProxySelector.of(new InetSocketAddress("proxy.example.com", 8080)))
+				.build();
+	}
+	
+	public String latestVersion() {
 		try {
 			HttpRequest request = HttpRequest.newBuilder()
 					.uri(URI.create(LATEST_VERSION_URL))
@@ -46,7 +52,7 @@ public class GitHubReleaseUpdater {
 		}
 	}
 	
-	public static void update(String version) throws IOException {
+	public void update(String version) throws IOException {
 		Path tempDir = Files.createTempDirectory("DCS_TEMP_");
 		Path upgrade = tempDir.resolve("miz-translator-update.zip");
 		try {
@@ -55,7 +61,7 @@ public class GitHubReleaseUpdater {
 					.uri(URI.create(DOWNLOAD_URL.replace("{version}", version)))
 					.build();
 			HttpResponse<InputStream> zipResp = client.send(downloadReq, HttpResponse.BodyHandlers.ofInputStream());
-			Files.copy(zipResp.body(), upgrade);
+			Files.copy(zipResp.body(), upgrade, StandardCopyOption.REPLACE_EXISTING);
 		} catch (Throwable e) {
 			System.out.println("failed to download upgrade package.");
 			return;

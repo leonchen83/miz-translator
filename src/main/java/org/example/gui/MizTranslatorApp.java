@@ -51,6 +51,7 @@ public class MizTranslatorApp extends Application {
 	private Button patchBtn;
 	private Button upgradeBtn;
 	private Button translateBtn;
+	private GitHubReleaseUpdater updater = new GitHubReleaseUpdater();
 	
 	@Override
 	public void start(Stage stage) {
@@ -164,17 +165,18 @@ public class MizTranslatorApp extends Application {
 					if(upgrade) {
 						javafx.application.Platform.runLater(() -> {
 							log("Upgrade done");
+							upgradeBtn.setDisable(true);
 						});
 					} else {
 						javafx.application.Platform.runLater(() -> {
 							log("Upgrade failed.");
+							upgradeBtn.setDisable(false);
 						});
 					}
 					return upgrade;
 				} finally {
 					javafx.application.Platform.runLater(() -> {
 						upgradeBtn.setText("更新版本");
-						upgradeBtn.setDisable(false);
 						root.setDisable(false);
 					});
 				}
@@ -231,12 +233,12 @@ public class MizTranslatorApp extends Application {
 	}
 	
 	private boolean onUpgrade() {
-		String version = GitHubReleaseUpdater.latestVersion();
+		String version = updater.latestVersion();
 		if (version == null) {
 			return false;
 		}
 		try {
-			GitHubReleaseUpdater.update(version);
+			updater.update(version);
 			return true;
 		} catch (IOException e) {
 			return false;
@@ -326,9 +328,9 @@ public class MizTranslatorApp extends Application {
 		}
 	}
 	
-	private static PathValidateResult validateUpgrade() {
+	private PathValidateResult validateUpgrade() {
 		try {
-			String latestVersion = GitHubReleaseUpdater.latestVersion();
+			String latestVersion = updater.latestVersion();
 			if (latestVersion == null) {
 				return new PathValidateResult(false, "No Upgrade file found.");
 			}
@@ -344,7 +346,7 @@ public class MizTranslatorApp extends Application {
 		}
 	}
 	
-	private static PathValidateResult validateFolder(String path) {
+	private PathValidateResult validateFolder(String path) {
 		if (path == null || path.isBlank()) {
 			return new PathValidateResult(false, "Path is empty");
 		}
