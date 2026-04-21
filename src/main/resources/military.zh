@@ -122,7 +122,6 @@ form up -> 编队完成,
 军事术语翻译例[SOFT]: [
 good hit -> 打得好(要口语化),
 bug out -> 紧急撤离,
-push -> 推进/转频(和地点相关翻成推进,和频率相关翻成转频),
 outlaw -> 敌对目标,
 merged -> 交汇(就单个词, 那就翻译成交汇),
 burn through -> 突破干扰,
@@ -151,5 +150,7 @@ trail -> 单纵队,
 pancake -> 盘旋等待降落,
 ]
 我再给出容易错翻的几个实例
-[DANGER CLOSE: cleared to engage danger close -> 已获准在危险距离内交战, They're danger close but give 'em hell -> 目标距离很近，但狠狠干他们]
+[DANGER CLOSE: cleared to engage danger close -> 已获准在危险距离内交战, They're danger close but give 'em hell -> 目标距离很近，但狠狠干他们],
+[PUSH: All flight push -> 所有编队推进, push channel 3 on PRI -> 切换到PRI的3频道, Push to arrival at 50 -> 50海里切换到达管制],
+[ONE/TWO/THREE/FOUR: <REAPER 2-2> Two -> <REAPER 2-2> 二号, splash two vehicles -> 击毁两辆车]
  
