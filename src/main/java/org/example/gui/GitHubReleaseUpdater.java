@@ -27,8 +27,8 @@ public class GitHubReleaseUpdater {
 	private final HttpClient client;
 	private final ObjectMapper mapper = new ObjectMapper();
 	
-	private static final String DOWNLOAD_URL = "https://github.com/leonchen83/miz-translator/releases/download/{version}/miz-translator-update.zip";
-	private static final String LATEST_VERSION_URL = "https://api.github.com/repos/leonchen83/miz-translator/releases/latest";
+	private static final String DOWNLOAD_URL = "https://gh-proxy.org/github.com/leonchen83/miz-translator/releases/download/{version}/miz-translator-update.zip";
+	private static final String LATEST_VERSION_URL = "https://gh-proxy.org/https://api.github.com/repos/leonchen83/miz-translator/releases/latest";
 	
 	public GitHubReleaseUpdater() {
 		client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.ALWAYS)

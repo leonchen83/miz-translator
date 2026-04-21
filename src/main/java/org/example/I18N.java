@@ -279,7 +279,6 @@ public class I18N {
 				}
 			}
 		} catch (Throwable e) {
-			e.printStackTrace();
 			return militarySlangFallback(configure);
 		}
 	}
