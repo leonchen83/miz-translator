@@ -185,8 +185,18 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			if (before.charAt(0) != '\n' && after.charAt(0) == '\n') {
 				after = Strings.ltrim(after, '\n');
 			}
+			for (int i = 0; i < 6; i++) {
+				if (before.charAt(0) != '%' && after.charAt(0) == '%') {
+					after = Strings.ltrim(after, '%');
+				}
+			}
 			if (before.charAt(before.length() - 1) != '\n' && after.charAt(after.length() - 1) == '\n') {
 				after = Strings.rtrim(after, '\n');
+			}
+			for (int i = 0; i < 6; i++) {
+				if (before.charAt(before.length() - 1) != '%' && after.charAt(after.length() - 1) == '%') {
+					after = Strings.rtrim(after, '%');
+				}
 			}
 		}
 		return after;
