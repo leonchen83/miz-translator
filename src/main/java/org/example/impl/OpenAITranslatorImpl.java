@@ -181,24 +181,35 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 	}
 	
 	private static String format(String before, String after) {
-		if (before.length() > 0 && after.length() > 0) {
-			if (before.charAt(0) != '\n' && after.charAt(0) == '\n') {
-				after = Strings.ltrim(after, '\n');
-			}
-			for (int i = 0; i < 6; i++) {
-				if (before.charAt(0) != '%' && after.charAt(0) == '%') {
-					after = Strings.ltrim(after, '%');
-				}
-			}
-			if (before.charAt(before.length() - 1) != '\n' && after.charAt(after.length() - 1) == '\n') {
-				after = Strings.rtrim(after, '\n');
-			}
-			for (int i = 0; i < 6; i++) {
-				if (before.charAt(before.length() - 1) != '%' && after.charAt(after.length() - 1) == '%') {
-					after = Strings.rtrim(after, '%');
-				}
-			}
+		if (before.isEmpty() || after.isEmpty()) {
+			return after;
 		}
+		
+		char bStart = before.charAt(0);
+		char bEnd = before.charAt(before.length() - 1);
+		
+		if (after.charAt(0) == '%' && bStart != '%') {
+			after = Strings.ltrim(after, '%');
+		}
+		
+		if (after.isEmpty()) return after;
+		
+		if (after.charAt(0) == '\n' && bStart != '\n') {
+			after = Strings.ltrim(after, '\n');
+		}
+		
+		if (after.isEmpty()) return after;
+		
+		if (after.charAt(after.length() - 1) == '%' && bEnd != '%') {
+			after = Strings.rtrim(after, '%');
+		}
+		
+		if (after.isEmpty()) return after;
+		
+		if (after.charAt(after.length() - 1) == '\n' && bEnd != '\n') {
+			after = Strings.rtrim(after, '\n');
+		}
+		
 		return after;
 	}
 }
