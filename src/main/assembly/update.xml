@@ -14,7 +14,6 @@
             <fileMode>0755</fileMode>
             <directoryMode>0755</directoryMode>
             <includes>
-                <include>*.conf</include>
                 <include>log4j2.xml</include>
                 <include>*.py</include>
                 <include>military.*</include>
