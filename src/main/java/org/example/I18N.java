@@ -979,14 +979,23 @@ public class I18N {
 	
 	public static String retrieveProperNouns(String text) {
 		if (text.length() > 1024) return null;
+		int start = 0;
 		int index = text.indexOf(':');
 		if (index <= 0) {
 			index = text.indexOf('：');
 		}
 		if (index <= 0) {
-			return null;
+			if (text.startsWith("[")) {
+				start = 1;
+				index = text.indexOf("]");
+				if (index <= 0) {
+					return null;
+				}
+			} else {
+				return null;
+			}
 		}
-		String nouns = text.substring(0, index);
+		String nouns = text.substring(start, index);
 		nouns = nouns.replaceAll("\\r?\\n|\\r", "").trim();
 		
 		if (nouns.length() >= 16) {
@@ -1006,7 +1015,7 @@ public class I18N {
 		}
 		
 		nouns = nouns.toLowerCase();
-		if (nouns.equals("player")) {
+		if (nouns.equals("player") || nouns.equals("you")) {
 			return null;
 		}
 		if (nouns.length() <= 2) {

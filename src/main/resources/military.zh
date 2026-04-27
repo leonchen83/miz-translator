@@ -87,6 +87,7 @@ as fragged -> 按预定计划,
 at fragged altitude -> 在预定高度,
 altimeter 2991 -> 修正海压 2991(不要翻译成高度表拨正值),
 Bravo Zulu -> 干得好(军事用语, NATO 简写 BZ),
+Alpha/Bravo/Foxtrot/Golf -> Alpha/Bravo/Foxtrot/Golf(这26个NATO字母保持原文,有些固定搭配要翻译比如提到的 Bravo Zulu),
 airborne -> 起飞(不要翻译成空中),
 Redland -> 红方(不要翻译成红地,红国),
 Blueland -> 蓝方(不要翻译成蓝地,蓝国),
@@ -157,3 +158,4 @@ pancake -> 盘旋等待降落,
 [ONE/TWO/THREE/FOUR: <REAPER 2-2> Two -> <REAPER 2-2> 二号, splash two vehicles -> 击毁两辆车]
 [COPY: two copies -> 二号收到, copy two -> 收到二号, ready to copy -> 准备抄收]
 [BLUE/RED/ORANGE/GREEN/WHITE/ORANGE: Visual orange smoke -> 目视橙色烟雾, switch blue 2 on PRI -> 切换到PRI的Blue 2频道, Red flight push as fragged -> Red 编队 按预定计划推进 ]
+[行动代号保持原文: All players, Magic, Brazen bull, Say again, Brazen bull -> 所有单位, Magic, Brazen bull 重复 Brazen bull ]
