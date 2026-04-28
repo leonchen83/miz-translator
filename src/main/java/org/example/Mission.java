@@ -226,7 +226,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 					if (v.type() == 5 /*Table*/) {
 						var predicate = v.get("predicate").tojstring();
 						if (textValue == null) {
-							if (predicate.equals("a_out_text_delay_u") || predicate.equals("a_out_text_delay")) {
+							if (predicate.startsWith("a_out_text_delay")) {
 								var x = v.get("text").tojstring();
 								if (!x.equals("nil")) textValue = x;
 							} else {
@@ -235,7 +235,7 @@ public class Mission extends AbstractMission implements AutoCloseable {
 							}
 						}
 						if (textKey == null) {
-							if (predicate.equals("a_out_sound_u") || predicate.equals("a_out_sound")) {
+							if (predicate.startsWith("a_out_sound")) {
 								var x = v.get("file").tojstring();
 								if (!x.equals("nil")) textKey = x;
 							} else {
