@@ -75,6 +75,7 @@ public class Configure {
     private boolean lua = false;
     private boolean original = false;
     private double temperature = 0d;
+    private double topP = -1d;
     private int maxTokens = 4096;
     private int minimumLength = 12;
     private int batchSize = 48;
@@ -207,6 +208,14 @@ public class Configure {
         this.temperature = temperature;
     }
     
+    public double getTopP() {
+        return topP;
+    }
+    
+    public void setTopP(double topP) {
+        this.topP = topP;
+    }
+    
     public int getMaxTokens() {
         return maxTokens;
     }
@@ -310,6 +319,7 @@ public class Configure {
         copy.translator = conf.translator;
         copy.original = conf.original;
         copy.temperature = conf.temperature;
+        copy.topP = conf.topP;
         copy.maxTokens = conf.maxTokens;
         copy.minimumLength = conf.minimumLength;
         copy.batchSize = conf.batchSize;
@@ -342,6 +352,7 @@ public class Configure {
         conf.apiKey = getString(conf, "apiKey", null, false);
         conf.model = getString(conf, "model", null, false);
         conf.temperature = getDouble(conf, "temperature", 0.3d, true);
+        conf.topP = getDouble(conf, "topP", 0.95d, true);
         conf.maxTokens = getInt(conf, "maxTokens", 4096, true);
         conf.minimumLength = getInt(conf, "minimumLength", 12, true);
         conf.batchSize = getInt(conf, "batchSize", 32, false);
@@ -489,6 +500,7 @@ public class Configure {
                 ", translator='" + translator + '\'' +
                 ", original=" + original +
                 ", temperature=" + temperature +
+                ", topP=" + topP +
                 ", maxTokens=" + maxTokens +
                 ", minimumLength=" + minimumLength +
                 ", batchSize=" + batchSize +

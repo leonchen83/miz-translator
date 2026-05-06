@@ -80,6 +80,9 @@ public class OpenAITranslatorImpl extends AbstractTranslator {
 			if (temperature >= 0) {
 				builder.temperature(temperature);
 			}
+			if (topP >= 0) {
+				builder.topP(topP);
+			}
 			ChatCompletionCreateParams params = builder.build();
 			ChatCompletion response = client.chat().completions().create(params);
 			r = response.choices().get(0).message().content().orElseThrow();

@@ -56,6 +56,7 @@ public class Translators {
 		r.setApiKey(configure.getApiKey());
 		r.setMaxTokens(configure.getMaxTokens());
 		r.setTemperature(configure.getTemperature());
+		r.setTopP(configure.getTopP());
 		return new XTranslator(r);
 	}
 	
@@ -91,18 +92,20 @@ public class Translators {
 		public String translate(String text, Map<String, String> options) {
 			logger.info("[TRANSLATING] {}", text);
 			String r = null;
-			try {
-				r = translator.translate(text, null);
-			} catch (Exception e) {
-				logger.error("[FAILED] translate: {}, cause :{}", text, e.getMessage());
-				r = text;
+			for(int i = 0; i < 5; i++) {
+				try {
+					r = translator.translate(text, null);
+					logger.info("[TRANSLATED] {}", r);
+					r = trim(r, '\n');
+					if (options != null) {
+						options.put(text, r);
+					}
+					return r;
+				} catch (Exception e) {
+					logger.error("[FAILED] retry: {}, translate: {}, cause :{}", i, text, e.getMessage());
+				}
 			}
-			logger.info("[TRANSLATED] {}", r);
-			r = trim(r, '\n');
-			if (options != null) {
-				options.put(text, r);
-			}
-			return r;
+			throw new IllegalStateException("Failed to translate after 5 retries: " + text);
 		}
 		
 		@Override
@@ -133,6 +136,11 @@ public class Translators {
 		@Override
 		public void setTemperature(double temperature) {
 			translator.setTemperature(temperature);
+		}
+		
+		@Override
+		public void setTopP(double topP) {
+			translator.setTopP(topP);
 		}
 		
 		@Override

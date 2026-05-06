@@ -18,6 +18,7 @@ public abstract class AbstractTranslator implements Translator {
 	protected String model;
 	protected String baseUrl;
 	protected double temperature;
+	protected double topP = 0.95d;
 	protected Configure configure;
 	protected RateLimiter rateLimit;
 	
@@ -54,5 +55,10 @@ public abstract class AbstractTranslator implements Translator {
 	@Override
 	public void setTemperature(double temperature) {
 		this.temperature = temperature;
+	}
+	
+	@Override
+	public void setTopP(double topP) {
+		this.topP = topP;
 	}
 }

@@ -17,6 +17,7 @@
                 <include>log4j2.xml</include>
                 <include>*.py</include>
                 <include>military.*</include>
+                <include>trans.conf</include>
                 <include>.version</include>
             </includes>
         </fileSet>
